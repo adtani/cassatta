@@ -1,0 +1,1 @@
+configuration related stuff, across entire angular application

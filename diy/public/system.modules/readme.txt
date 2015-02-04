@@ -1,0 +1,1 @@
+This is where angular modules go along with their views

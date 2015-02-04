@@ -1,0 +1,1 @@
+starter templates for creating brand new module or service, or directive go here

@@ -1,0 +1,26 @@
+<div ng-controller="WelcomeController">
+	
+	<div ng-if="module == null">
+	
+		<h3>Available Modules:</h3>
+		
+		<button class="col-md-2" style="margin:25px" type="button" class="btn btn-primary btn-lg btn-block" 
+			ng-repeat="module in modules" 
+			ng-click="launchModule(module);">
+			<h5>{{module.title}}</h5>
+			<br/>
+			{{module.description}}
+		</button>
+		
+	</div>
+	
+	<div ng-if="module != null">
+	
+		<!--h3>Module: {{module.name}} @ {{module.path}} - {{htmlpath}}</h3 -->
+		<div ng-include="htmlpath"/>
+		
+	</div>
+	
+</div>
+
+

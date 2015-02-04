@@ -1,0 +1,6 @@
+{
+  name:"Administrator",
+  login:"admin",
+  password:"password",
+  isAdmin:true
+}

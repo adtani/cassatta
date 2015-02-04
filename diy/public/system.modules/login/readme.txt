@@ -1,0 +1,1 @@
+authentication related functionality, common to most applications

@@ -1,0 +1,69 @@
+<div ng-controller="taskmgmtController" class="col-md-6">
+
+<div ng-controller="taskmgmtController">
+	<div class="panel panel-primary">
+		<!-- Default panel contents -->
+		<div class="panel-heading">{{module.title}} - New Task</div>
+		<div class="panel-body">
+				<ng-form name="taskform">
+				<div class="form-group">
+					<label for="assignedTo">Assign To:</label>
+					<ui-select ng-model="task.assignedTo" theme="bootstrap"
+						reset-search-input="false" style="width: 300px;"> <ui-select-match
+						placeholder="Search ...">{{$select.selected.login}}</ui-select-match>
+					<ui-select-choices repeat="user in users track by $index"
+						refresh="searchUsers($select.search)" refresh-delay="0">
+					<div ng-bind-html="user.user | highlight: $select.search"></div>
+					<div ng-bind-html="user.login | highlight: $select.search"></div>
+					</ui-select-choices> </ui-select>
+				</div>
+				<div class="form-group">
+					<label for="taskTitle">Title:</label> <input name="taskTitle"
+						ng-model="task.title" type="text" class="form-control"
+						ng-required="true"></input>
+				</div>
+				<div class="form-group">
+					<label for="taskSummary">Task Summary:</label>
+					<textarea ng-model="task.summary" class="form-control" rows="3"
+						ng-required="true"></textarea>
+				</div>
+				<div class="form-group">
+					<label>Priority </label>
+					<ui-select ng-model="task.priority" theme="bootstrap"
+						style="width: 150px;"> <ui-select-match
+						placeholder="Priority ...">{{$select.selected.name}}</ui-select-match>
+					<ui-select-choices
+						repeat="priority in priorities | filter: $select.search">
+					<span ng-bind-html="priority.name | highlight: $select.search"></span>
+					</ui-select-choices> </ui-select>
+				</div>
+				<div class="form-group">
+					<label for="dueDate">Due Date:</label>
+					<p class="input-group">
+						<input type="text" class="form-control"
+							datepicker-popup="{{format}}" ng-model="task.dueDate"
+							is-open="opened" min-date="minDate" max-date="'2015-06-22'"
+							datepicker-options="dateOptions"
+							date-disabled="disabled(date, mode)" ng-required="true"
+							close-text="Close" /> <span class="input-group-btn">
+							<button type="button" class="btn btn-default"
+								ng-click="open($event)">
+								<i class="glyphicon glyphicon-calendar"></i>
+							</button>
+						</span>
+					</p>
+				</div>
+				<div class="form-group col-md-12">
+					<button ng-disabled="!taskform.$valid" type="submit"
+						class="btn btn-primary btn-lg" ng-click="saveTask()">Save
+						Task</button>
+					<button type="submit" class="btn btn-default btn-lg"
+						ng-click="resetTask()">Reset</button>
+					<button type="submit" class="btn btn-default btn-lg"
+						ng-click="launchModule('taskmgmt')">Cancel</button>
+				</div>
+				</ng-form>
+			</div>
+	</div>
+	<br />
+</div>

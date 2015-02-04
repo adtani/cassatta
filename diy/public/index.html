@@ -1,7 +1,113 @@
-<html>
-<head><title>Spring Bootstrapper V1.0</title></head>
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/ui-select-master/dist/select.css"/>
+    <link rel="stylesheet" href="bower_components/angularjs-toaster/toaster.css"/>
+    <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css"/>
+    
+    
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <script src="/bower_components/requirejs/require.js"></script>
+  </head>
+  <body ng-app="angularApp" ng-controller="RootController">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
 
-<body>
-<h1>Welcome to Spring Bootstrapper</h1>
+	<toaster-container toaster-options="{'position-class': 'toast-bottom-right'}"></toaster-container>
+
+	<div class="col-md-12" ng-include="'/system.modules/header/header.html'"></div>
+
+  	<hr/>
+
+	<div class="col-md-12">
+		<div class="col-md-3" ng-if="session.user != null">
+			<div ng-include="'/system.modules/menu/menu.html'"></div>
+		</div>
+	
+	  	<div class="col-md-9">
+			<div ng-view=""/>
+		</div>
+	</div>
+
+	<div class="col-md-12" ng-include="'/system.modules/footer/footer.html'"></div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <!-- script>
+       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script-->
+
+    <!-- build:js(.) scripts/oldieshim.js -->
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <![endif]-->
+    <!-- endbuild -->
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angularLocalStorage/src/angularLocalStorage.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-dialog-service/dist/dialogs.min.js"></script>
+    <script src="bower_components/angular-dialog-service/dist/dialogs-default-translations.min.js"></script>
+    <script src="bower_components/ui-select-master/dist/select.js"></script>
+    <script src="bower_components/angularjs-toaster/toaster.js"></script>
+    <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="/app.js"></script>
+    
+    <script src="/config/routing.config.js"></script>
+    <script src="/config/dialogs.config.js"></script>
+    <script src="/services/session.service.js"></script>
+    <script src="/services/alert.service.js"></script>
+    <script src="/services/docserver.service.js"></script>
+    <script src="/services/sqlserver.service.js"></script>
+    <script src="/services/app.service.js"></script>
+    <script src="/system.modules/root/root.controller.js"></script>
+    <script src="/system.modules/header/header.controller.js"></script>
+    <script src="/system.modules/login/login.controller.js"></script>
+    <script src="/system.modules/welcome/welcome.controller.js"></script>
+
+	<!-- Profile Specific Controllers Go Here -->
+    <!-- The profile, which defines the application -->
+    <script src="/profiles/demo.app/demo.app.config.js"></script>
+    <script src="/profiles/demo.app/hello/hello.controller.js"></script>
+    <script src="/profiles/demo.app/dialogs/dialogs.controller.js"></script>
+    <script src="/profiles/demo.app/doctaskmgmt/doctaskmgmt.controller.js"></script>
+    <!-- endbuild -->
 </body>
 </html>
