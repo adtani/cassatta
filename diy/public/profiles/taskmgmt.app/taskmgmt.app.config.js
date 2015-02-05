@@ -5,9 +5,9 @@
         .constant('AppConfig', {
         	
     		//REST SERVER BASE URL - Single place configuration
-    		DOC_SERVER_URL: 'http://localhost:8080/rest',
-    		SQL_SERVER_URL: 'http://localhost:9090/rest',
-    		UPLOAD_SERVER_URL: 'http://localhost:9090/upload',
+    		DOC_SERVER_URL: '/rest',
+    		SQL_SERVER_URL: '/rest',
+    		UPLOAD_SERVER_URL: '/upload',
 
     		apptitle : "Task Management App V1.0",
     		
