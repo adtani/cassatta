@@ -8,4 +8,4 @@ echo cd $OPENSHIFT_HOMEDIR/app-root/diy/repo
 cd $OPENSHIFT_HOMEDIR/app-root/diy/repo
 echo mvn package -s .openshift/settings.xml -DskipTests=true
 mvn package -s .openshift/settings.xml -DskipTests=true
-echo "Custom Build Script Execution Completed"
+echo "Custom Build Script Execution Completed..!"
