@@ -2,6 +2,7 @@ package com.springbootstrapper;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,7 @@ import com.springbootstrapper.repositories.RepositoryConfiguration;
 @ComponentScan
 @EnableJpaRepositories
 @Import(RepositoryConfiguration.class)
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
 public class Application {
 
 	public static void main(String[] args) {
