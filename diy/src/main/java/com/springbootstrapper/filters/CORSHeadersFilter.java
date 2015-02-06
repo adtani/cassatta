@@ -31,6 +31,7 @@ public class CORSHeadersFilter implements Filter {
 		response.setHeader("Access-Control-Expose-Headers", "Location");
 		
 		//Diagnostics Filters ...
+		response.setHeader("app.version",config.getProperty("1.0.0"));
 		response.setHeader("spring.datasource.url",config.getProperty("spring.datasource.url"));
 		response.setHeader("spring.datasource.username",config.getProperty("spring.datasource.username"));
 		response.setHeader("spring.datasource.password",config.getProperty("spring.datasource.password"));
