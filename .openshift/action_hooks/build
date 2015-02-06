@@ -2,5 +2,5 @@
 echo "Custom Build Script Executing Now"
 mvn -v
 cd $OPENSHIFT_REPO_DIR
-mvn package -DskipTests=true
+mvn package -s .openshift/settings.xml -DskipTests=true
 echo "Custom Build Script Execution Completed"
