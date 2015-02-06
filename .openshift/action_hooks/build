@@ -4,8 +4,8 @@ mvn -v
 echo *** Environment Variables ***
 env | grep OPENSHIFT
 echo *** Launching MVN ***
-echo cd $OPENSHIFT_HOMEDIR/app-root/repo/diy
-cd $OPENSHIFT_HOMEDIR/app-root/repo/diy
-echo mvn package -s $OPENSHIFT_HOMEDIR/app-root/repo/.openshift/settings.xml -DskipTests=true
-mvn package -s $OPENSHIFT_HOMEDIR/app-root/repo/.openshift/settings.xml -DskipTests=true
+echo cd $OPENSHIFT_HOMEDIRapp-root/repo/diy
+cd $OPENSHIFT_HOMEDIRapp-root/repo/diy
+echo mvn package -s $OPENSHIFT_HOMEDIRapp-root/repo/.openshift/settings.xml -DskipTests=true
+mvn package -X -s $OPENSHIFT_HOMEDIRapp-root/repo/.openshift/settings.xml -DskipTests=true
 echo "Custom Build Script Execution Completed..!"
