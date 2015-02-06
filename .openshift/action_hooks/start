@@ -5,6 +5,6 @@ echo cd $OPENSHIFT_REPO_DIR
 cd $OPENSHIFT_REPO_DIR
 
 echo nohup java -jar $OPENSHIFT_REPO_DIR/diy/target/*.jar --server.port=${OPENSHIFT_DIY_PORT} --server.address=${OPENSHIFT_DIY_IP} &
-nohup java -jar $OPENSHIFT_REPO_DIR/diy/target/*.jar --server.port=${OPENSHIFT_DIY_PORT} --server.address=${OPENSHIFT_DIY_IP} &
+nohup java -jar $OPENSHIFT_REPO_DIR/diy/target/*.jar --server.port=${OPENSHIFT_DIY_PORT} --server.address=${OPENSHIFT_DIY_IP} --debug &
 
 echo "Custom Stop Start Execution Complete!"
