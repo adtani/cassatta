@@ -7,6 +7,14 @@ if [ -z "$PID" ]
 then
     client_result "Application is already stopped"
 else
+    client_result "Application was detected to be running, it will be killed now!"
     kill $PID
+	PID=$(ps -ef | grep java.*\.jar | grep -v grep | awk '{ print $2 }')    
+	if [ -z "$PID" ]
+	then
+	    client_result "Application appears to be already stopped now!"
+	else
+	    client_result "Application appears to be still running!"
+	fi
 fi
 echo "Custom Stop Script Execution Complete!"
