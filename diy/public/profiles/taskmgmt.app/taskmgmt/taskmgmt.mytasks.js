@@ -163,7 +163,7 @@
 		};
 
    	  	$scope.$on('taskmgmt.task.saved', function(event, tasks){
-   	   	  	app.sqlserver.loadEntity("tasksview",tasks[0].id).then(function(response){
+   	   	  	app.sqlserver.loadEntity("org.taskmgmt.tasksview",tasks[0].id).then(function(response){
    	   	  		if(response.success){
    	   	  			if(response.entity.status != 'DONE'){
 	   	   	  			var existingTasks = $.grep($scope.gridOptions.data, function(task){return task.id==tasks[0].id});

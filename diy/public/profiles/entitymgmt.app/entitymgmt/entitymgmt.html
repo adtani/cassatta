@@ -1,0 +1,53 @@
+<div ng-controller="entitymgmtController">
+	<div class="col-md-9">
+		<div class="panel panel-primary">
+			<!-- Default panel contents -->
+			<div class="panel-heading">{{title}}</div>
+			<div class="panel-body">
+				<div class="col-md-12">
+					<div class="dropdown">
+					  Select Entity to 	Manage :
+					  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+					    {{domainType.entityType}}:
+					    <span class="caret"></span>
+					  </button>
+					  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" >
+					    <li role="presentation"><a role="menuitem" tabindex="-1" href="#/welcome/entitymgmt/{{entity.entityType}}" ng-repeat="entity in entityTypes track by $index">{{entity.entityType}}</a></li>
+					  </ul>
+					</div>					
+				</div>
+				<br/><br/>
+				<tabset> 
+
+					<tab heading="My Entities ({{gridOptions.data.length}})">
+						<h3>
+							<button type="submit"
+							class="btn btn-primary" ng-click="initNewEntity()">New
+							Entity</button>
+							<button type="submit"
+							class="btn btn-primary" ng-click="refresh()">Refresh</button>
+						</h3>
+						<!-- div class="grid" ng-grid="gridOptions"></div -->
+						<div ui-grid="gridOptions" ui-grid-edit ui-grid-selection
+							ui-grid-resize-columns ui-grid-row-edit ui-grid-cellNav
+							ui-grid-pagination ui-grid-exporter ui-grid-move-columns
+							class="tasksgrid"></div>
+					</tab>
+					
+					<tab heading="Collaborations">
+						<h3>This is where task related collaborations go ...</h3>
+					</tab>
+	
+					<tab heading="Activities">
+						<h3>This is where application related activities go ...</h3>
+					</tab>
+					
+				</tabset>
+			</div>
+		</div>
+	</div>
+  	<div class="col-md-3">
+		<div ng-include="'/profiles/entitymgmt.app/entitymgmt/editor/entitymgmt.editor.html'"/>
+	</div>
+	<br />
+</div>

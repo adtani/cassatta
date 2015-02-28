@@ -5,7 +5,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.springbootstrapper.domain.Role;
 
-@RepositoryRestResource(collectionResourceRel = "roles", path = "roles")
+@RepositoryRestResource(collectionResourceRel = "org.roles", path = "org.roles")
 public interface RoleRepository extends PagingAndSortingRepository<Role, Long> {
 
 

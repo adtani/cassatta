@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.springbootstrapper.domain.User;
 
-@RepositoryRestResource(collectionResourceRel = "tasks", path = "tasks")
+@RepositoryRestResource(collectionResourceRel = "org.taskmgmt.tasks", path = "org.taskmgmt.tasks")
 public interface TaskRepository extends PagingAndSortingRepository<Task, Long> {
 
 	List<Task> findByStatus(@Param("status") String status);

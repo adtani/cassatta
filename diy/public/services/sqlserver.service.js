@@ -33,7 +33,7 @@
     	}
 
         function login(username, password){
-        	return searchEntities("users","findByLogin?login="+username).then(function(response){
+        	return searchEntities("org.users","findByLogin?login="+username).then(function(response){
         		$log.info(response.entities.length+" users found matching login "+username);
         		if(response.success){
         			if(response.entities.length == 1 && response.entities[0].password == password){

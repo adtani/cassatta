@@ -88,7 +88,7 @@
    	   	  	var taskToBeSaved = {};
    	   	  	angular.copy($scope.task, taskToBeSaved);
 
-   	   	  	taskToBeSaved.entityType = "tasks";
+   	   	  	taskToBeSaved.entityType = "org.taskmgmt.tasks";
    	  		taskToBeSaved.assignedTo = "/users"+task.assignedTo.login;
    	  		taskToBeSaved.owner="/users"+task.owner.login;
    	  		taskToBeSaved.createdDate = new Date();

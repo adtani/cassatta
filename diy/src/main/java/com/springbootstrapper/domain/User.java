@@ -41,7 +41,7 @@ public class User {
 	private int access;
 
 	@Column(nullable = false, name = "ENTITY_TYPE")
-	private String entityType;
+	private String entityType = "org.users";
 	
     @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY, mappedBy = "user")
     private List<Role> roles;

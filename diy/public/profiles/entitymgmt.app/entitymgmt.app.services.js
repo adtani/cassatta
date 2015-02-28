@@ -3,14 +3,14 @@
 	'use strict';
 
     angular.module('angularApp')
-        .factory('taskmgmtService', ['$rootScope','app', 
-                         taskmgmtService]);
+        .factory('entitymgmtService', ['$rootScope','app', 
+                         entitymgmtService]);
     
-    function taskmgmtService($rootScope, app) {
+    function entitymgmtService($rootScope, app) {
     	
         return {
-        	saveTask : saveTask,
-        	loadTasks : loadTasks,
+        	saveEntity : saveEntity,
+        	loadEntities : loadEntities,
         	clearCache : clearCache
         };
         
@@ -22,11 +22,18 @@
         	deferred = null;
         }
 
-        function loadTasks(){
+        function loadEntities(entityType, urlFilter){
         	if(deferred == null){
 	        	deferred = app.q.defer();
 	        	if(tasks == null){
-		       	  	app.sqlserver.searchEntities("org.taskmgmt.tasksview","findByAssigneeIdAndStatusNot?assigneeId="+$rootScope.session.user.id+"&status=DONE").then(function(response){
+	        		var filter = urlFilter.split(":SESSION_USER_ID").join($rootScope.session.user.id);
+	        		var promise = null;
+	        		if(filter!=null && filter.length > 0){
+	        			promise = app.sqlserver.searchEntities(entityType,filter);
+	        		}else{
+	        			promise = app.sqlserver.loadEntities(entityType);
+	        		}
+		       	  	promise.then(function(response){
 		       	  		if(response.success){
 		       	  			tasks = response.entities;
 		    	   	  		for(var i = 0; i < tasks.length; i++){
@@ -45,13 +52,13 @@
         	return deferred.promise;
         }
         
-   	  	function saveTask(task){
-   	  		var taskToBeSaved = prepareTaskForSaving(task);
+   	  	function saveEntity(task){
+   	  		var taskToBeSaved = prepareEntityForSaving(task);
 	   	 	return app.sqlserver.saveEntity(taskToBeSaved).then(function(response){
 	    		if(response.success){
        	  			task.id = response.id;
        	  			taskToBeSaved.id = task.id;
-       	  			saveTaskData(task, taskToBeSaved);
+       	  			saveEntityData(task, taskToBeSaved);
 	    		}else{
 	    			app.alert.warning('Warning','Failure while saving task!');
 	    		}
@@ -59,17 +66,17 @@
 	    	});
    	  	}
    	  	
-   	  	function saveTaskData(task, taskToBeSaved){
+   	  	function saveEntityData(task, taskToBeSaved){
   			var promises = [];
   			if(task.parent == null){
   				task.parentage = "["+task.id+"]";
   				taskToBeSaved.parentage = task.parentage;
    	  			promises.push(app.sqlserver.saveEntity(taskToBeSaved));
-  				angular.forEach(saveTaskFiles(task), function(promise){
+  				angular.forEach(saveEntityFiles(task), function(promise){
   					promises.push(promise);
   				});
   			}else{
-  				angular.forEach(saveTaskFiles(task), function(promise){
+  				angular.forEach(saveEntityFiles(task), function(promise){
   					promises.push(promise);
   				});
   			}
@@ -77,14 +84,14 @@
    	  			var successfulPromises = $.grep(responses, function(response){return response.success});
   				if(successfulPromises.length == promises.length){
 	    	   	 	$rootScope.$broadcast('taskmgmt.task.saved', [task]);
-	    	   	 	app.alert.success("Success!","Task "+task.id+" saved successfully!");
+	    	   	 	app.alert.success("Success!","Entity "+task.id+" saved successfully!");
   				}else{
   					app.alert.warning('Warning','Failure while saving task information!');
   				}
   			})
    	  	}
    	  	
-   	  	function saveTaskFiles(task){
+   	  	function saveEntityFiles(task){
    	  		var promises = [];
   			//save task files now...
   			angular.forEach(task.uploadedFiles, function(file){
@@ -98,7 +105,7 @@
   			return promises;
    	  	}
    	  	
-   	  	function prepareTaskForSaving(task){
+   	  	function prepareEntityForSaving(task){
    	   	  	var taskToBeSaved = {};
    	   	  	angular.copy(task, taskToBeSaved);
    	   	  	taskToBeSaved.entityType = "org.taskmgmt.tasks";

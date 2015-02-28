@@ -1,0 +1,38 @@
+{
+	"editorView": {
+
+	},
+		
+	"listView" : {
+		"entityType": "org.users",
+		"urlFilter":  "",
+		"fields": [
+		            { 
+		            	"name": "id", 
+		            	"displayName":"ID", 
+		            	"enableCellEdit": false,
+		            	"allowCellFocus" : false
+		            },
+		            { 
+		            	"name": "login", 
+		            	"displayName": "Login", 
+		            	"cellClass": "NEW"
+		            },
+		            { 
+		            	"name": "name", 
+		            	"displayName": "Name", 
+		            	"enableCellEdit": false, 
+		            	"allowCellFocus" : false,
+		            	"cellClass": "NEW"
+		            },
+		            { 
+		            	"name": "isAdmin", 
+		            	"displayName": "IsAdmin" 
+		            },
+		            { 
+		            	"name": "access", 
+		            	"displayName": "Access Level" 
+		            }
+		   	    ]
+	}
+}

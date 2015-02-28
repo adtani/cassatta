@@ -95,3 +95,7 @@ body {
 	color: black;  
 	background-color: yellow;
 }
+
+button.btn.btn-default.btn-block.ui-select-toggle {
+	text-align: left
+}

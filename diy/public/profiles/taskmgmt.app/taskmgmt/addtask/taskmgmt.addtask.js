@@ -32,7 +32,7 @@
    	  	
    	  	$scope.searchUsers = function(pattern){
    	  		if(pattern.length > 2){
-		   	 	app.sqlserver.loadEntities("users").then(function(response){
+		   	 	app.sqlserver.loadEntities("org.users").then(function(response){
 		    		if(response.success){
 		    			$scope.users = $.grep(response.entities, function(user){
 		    				return user.login.indexOf(pattern) >= 0;
@@ -49,14 +49,14 @@
    	  		$scope.task = tasks[tasks.length-1];
    	  		$scope.title = "Task Editor - Task "+$scope.task.id;
    	    	if($scope.task.id != null && $scope.task.assignee == null){
-   	    		app.sqlserver.loadEntity("users",$scope.task.assigneeId).then(function(response){
+   	    		app.sqlserver.loadEntity("org.users",$scope.task.assigneeId).then(function(response){
    	    			if(response.success){
    	    				$scope.task.assignee = response.entity;
    	    			}
    	    		});
    	    	}
    	    	if($scope.task.id != null && $scope.task.files == null){
-   	    		app.sqlserver.loadNestedEntities($scope.task,"files","taskfiles").then(function(response){
+   	    		app.sqlserver.loadNestedEntities($scope.task,"files","org.taskmgmt.taskfiles").then(function(response){
    	    			if(response.success){
    	    				$scope.task.uploadedFiles = response.entities;
    	    			}

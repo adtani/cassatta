@@ -1,0 +1,162 @@
+<div ng-controller="entityEditorController" class="col-md-12">
+	<div class="panel {{paneltype}}">
+		<!-- Default panel contents -->
+		<div class="panel-heading">{{title}}</div>
+		<div class="panel-body">
+		
+			<tabset> 
+			
+				<tab heading="Entity">
+					<ng-form name="entityform" ng-disabled="'true'">
+						<fieldSet ng-disabled="entity == null">
+						<br/>
+						<div ng-repeat="field in meta.editor.fields">
+							<div class="form-group" ng-if="field.type == 'text'">
+								<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
+									ng-model="{{field.name}}" type="text" class="form-control"
+									ng-required="{{field.required}}"></input>
+							</div>
+							<div class="form-group" ng-if="field.type == 'int'">
+								<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
+									ng-model="{{field.name}}" type="text" class="form-control"
+									ng-required="{{field.required}}"></input>
+							</div>
+							<div class="form-group" ng-if="field.type == 'textarea'">
+								<label for="{{field.name}}">{{field.label}}:</label>
+								<textarea ng-model="{{field.name}}" class="form-control" rows="5"
+									ng-required="{{field.required}}"></textarea>
+							</div>
+							<div class="form-group" style="margin:0px"  ng-if="field.type == 'date'">
+								<label for="{{field.name}}">{{field.label}}:</label>
+								<p class="input-group">
+									<input type="text" class="form-control"
+										datepicker-popup="{{format}}" ng-model="{{field.name}}"
+										is-open="opened" min-date="minDate" max-date="'2015-06-22'"
+										datepicker-options="dateOptions"
+										date-disabled="disabled(date, mode)" 
+										close-text="Close" /> <span class="input-group-btn">
+										<button type="button" class="btn btn-default"
+											ng-click="open($event)">
+											<i class="glyphicon glyphicon-calendar"></i>
+										</button>
+									</span>
+								</p>
+							</div>
+						</div>												
+						
+						<hr/>
+						
+						<b>Deprecated Fields</b>
+						
+						<div class="form-group">
+							<label for="assignedTo">Parent Entity:</label>
+							<ui-select ng-model="task.parent" theme="bootstrap"
+								reset-search-input="false" style="width: 100%;"> <ui-select-match
+								placeholder="Search ...">{{$select.selected.id}} : {{$select.selected.title}}</ui-select-match>
+							<ui-select-choices repeat="task in tasks track by $index">
+							<div ng-bind-html="task.title | highlight: $select.search"></div>
+							</ui-select-choices> </ui-select>
+						</div>
+		
+						<div class="form-group">
+							<label for="assignedTo">Assign To:</label>
+							<ui-select ng-model="task.assignee" theme="bootstrap"
+								reset-search-input="false" style="width: 100%;"> <ui-select-match
+								placeholder="Search ...">{{$select.selected.id}} : {{$select.selected.login}}</ui-select-match>
+							<ui-select-choices repeat="user in users track by $index"
+								refresh="searchUsers($select.search)" refresh-delay="0">
+							<div ng-bind-html="user.name | highlight: $select.search"></div>
+							<div ng-bind-html="user.login | highlight: $select.search"></div>
+							</ui-select-choices> </ui-select>
+						</div>
+						<div class="form-group">
+							<label for="taskTitle">Title:</label> <input name="taskTitle"
+								ng-model="task.title" type="text" class="form-control"
+								ng-required="true"></input>
+						</div>
+						<div class="form-group">
+							<label for="taskSummary">Entity Summary:</label>
+							<textarea ng-model="task.summary" class="form-control" rows="3"
+								ng-required="true"></textarea>
+						</div>
+						<div class="form-group">
+							<label>Priority </label>
+							<ui-select ng-model="task.priority" theme="bootstrap"
+								style="width: 150px;"> <ui-select-match
+								placeholder="Priority ...">{{$select.selected}}</ui-select-match>
+							<ui-select-choices
+								repeat="priority in priorities | filter: $select.search">
+							<span ng-bind-html="priority | highlight: $select.search"></span>
+							</ui-select-choices> </ui-select>
+						</div>
+						<div class="form-group" style="margin:0px">
+							<label for="dueDate">Due Date:	{{task.dudeDate}}</label>
+							<p class="input-group">
+								<input type="text" class="form-control"
+									datepicker-popup="{{format}}" ng-model="task.dueDate"
+									is-open="opened" min-date="minDate" max-date="'2015-06-22'"
+									datepicker-options="dateOptions"
+									date-disabled="disabled(date, mode)" 
+									close-text="Close" /> <span class="input-group-btn">
+									<button type="button" class="btn btn-default"
+										ng-click="open($event)">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</button>
+								</span>
+							</p>
+						</div>
+						<div class="form-group col-md-12">
+							<br/>
+							<br/>
+							<button ng-disabled="!entityform.$valid" type="submit"
+								class="btn btn-primary" ng-click="saveEntity()">Save</button>
+							<button ng-if="task.id == null" type="submit" class="btn btn-default"
+								ng-click="resetEntity()">Reset</button>
+							<button ng-if="task.id == null" type="submit" class="btn btn-default"
+								ng-click="launchModule('entitymgmt')">Cancel</button>
+						</div>
+						</fieldSet>
+					</ng-form>
+				</tab>
+				
+				<tab heading="Files ({{task.uploadedFiles.length}})">
+					
+					<br/>
+
+					<h4>Uploaded Files <span class="label label-default">{{task.uploadedFiles.length}}</span></h4>
+					<hr/>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>#</th><th>File</th>
+							<tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="uploadedFile in task.uploadedFiles">
+								<th>{{task.uploadedFiles.indexOf(uploadedFile)+1}}</th>
+								<td><a href="{{uploadedFile.path}}">{{uploadedFile.name}}</a></td>							
+							</tr>
+						</tbody>
+					</table>					
+					<hr/>
+					<h4>Add New Files:</h4>
+					<progressbar max="max" value="progress">
+						<span style="color:black; white-space:nowrap;">{{progress}}%</span>
+					</progressbar>			
+
+					<div
+					  class="btn btn-primary btn-upload"
+					  upload-button
+					  url="{{app.config.UPLOAD_SERVER_URL}}"
+					   on-upload="onUploadStart(files)"
+					   on-error="onUploadError(response)"
+					   on-success="onUploadSuccess(response)"
+					   on-complete="onUploadComplete(response)"
+					>Upload</div>
+
+				</tab>
+			</tabset>
+		</div>
+	</div>
+	<br />
+</div>
