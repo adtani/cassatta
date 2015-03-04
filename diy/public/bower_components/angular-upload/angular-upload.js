@@ -16,6 +16,7 @@ angular.module('lr.upload.directives').directive('uploadButton', [
         url: '@',
         param: '@',
         method: '@',
+        field: '@',
         onUpload: '&',
         onSuccess: '&',
         onError: '&',
@@ -37,14 +38,14 @@ angular.module('lr.upload.directives').directive('uploadButton', [
             };
           options.data[scope.param || 'file'] = fileInput;
           scope.$apply(function () {
-            scope.onUpload({ files: fileInput[0].files });
+            scope.onUpload({ files: fileInput[0].files, field:scope.field });
           });
           upload(options).then(function (response) {
-            scope.onSuccess({ response: response });
-            scope.onComplete({ response: response });
+            scope.onSuccess({ response: response, field: scope.field });
+            scope.onComplete({ response: response, field: scope.field });
           }, function (response) {
-            scope.onError({ response: response });
-            scope.onComplete({ response: response });
+            scope.onError({ response: response, field:field });
+            scope.onComplete({ response: response, field:field });
           });
         });
         if ('required' in attr) {

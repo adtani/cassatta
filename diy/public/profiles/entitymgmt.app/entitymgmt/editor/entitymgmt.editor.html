@@ -3,34 +3,38 @@
 		<!-- Default panel contents -->
 		<div class="panel-heading">{{title}}</div>
 		<div class="panel-body">
+			<ng-form name="entityform" ng-disabled="'true'">
+			<fieldSet ng-disabled="entity == null">
 		
 			<tabset> 
-			
-				<tab heading="Entity">
-					<ng-form name="entityform" ng-disabled="'true'">
-						<fieldSet ng-disabled="entity == null">
+				<tab heading="{{tab.label}}" ng-repeat="tab in meta.editor.tabs">
 						<br/>
-						<div ng-repeat="field in meta.editor.fields">
+						<div ng-repeat="field in tab.fields">
 							<div class="form-group" ng-if="field.type == 'text'">
 								<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
-									ng-model="{{field.name}}" type="text" class="form-control"
+									ng-model="entity[field.name]" type="text" class="form-control"
+									ng-required="{{field.required}}"></input>
+							</div>
+							<div class="form-group" ng-if="field.type == 'password'">
+								<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
+									ng-model="entity[field.name]" type="password" class="form-control"
 									ng-required="{{field.required}}"></input>
 							</div>
 							<div class="form-group" ng-if="field.type == 'int'">
 								<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
-									ng-model="{{field.name}}" type="text" class="form-control"
+									ng-model="entity[field.name]" type="text" class="form-control"
 									ng-required="{{field.required}}"></input>
 							</div>
 							<div class="form-group" ng-if="field.type == 'textarea'">
 								<label for="{{field.name}}">{{field.label}}:</label>
-								<textarea ng-model="{{field.name}}" class="form-control" rows="5"
+								<textarea ng-model="entity[field.name]" class="form-control" rows="5"
 									ng-required="{{field.required}}"></textarea>
 							</div>
 							<div class="form-group" style="margin:0px"  ng-if="field.type == 'date'">
 								<label for="{{field.name}}">{{field.label}}:</label>
 								<p class="input-group">
 									<input type="text" class="form-control"
-										datepicker-popup="{{format}}" ng-model="{{field.name}}"
+										datepicker-popup="{{format}}" ng-model="entity[field.name]"
 										is-open="opened" min-date="minDate" max-date="'2015-06-22'"
 										datepicker-options="dateOptions"
 										date-disabled="disabled(date, mode)" 
@@ -42,69 +46,119 @@
 									</span>
 								</p>
 							</div>
+							
+							<div class="form-group" ng-if="field.type == 'OTO' ">
+								<label for="{{field.name}}">{{field.label}}:</label>
+								<ui-select ng-model="entity[field.name]" theme="bootstrap"
+									reset-search-input="false" style="width: 100%;"> <ui-select-match
+									placeholder="Search ...">{{$select.selected.display}}</ui-select-match>
+								<ui-select-choices repeat="result in results[field.name] track by $index"
+									refresh="searchEntities(field.name, field.entityType, $select.search)" refresh-delay="1000">
+								<div ng-bind-html="result.display | highlight: $select.search"></div>
+								</ui-select-choices> </ui-select>
+							</div>	
+							
+							<div class="form-group" ng-if="field.type == 'file'">
+								<label for="{{field.name}}">{{field.label}}:</label>
+								<a href="entity[field.name].filepath" ng-if="entity[field.name] != null">{{entity[field.name].filename}}</a>
+								<br/>
+								<div class="panel panel-default">
+									<div class="panel-body">
+										<progressbar max="max" value="progress">
+											<span style="color:black; white-space:nowrap;">{{progress}}%</span>
+										</progressbar>			
+										<div
+										   class="btn btn-primary btn-upload"
+											   upload-button
+										   url="{{app.config.UPLOAD_SERVER_URL}}"
+										   field="{{field.name}}"
+										   on-upload="onUploadStart(files,field)"
+										   on-error="onUploadError(response,field)"
+										   on-success="onUploadSuccess(response,field)"
+										   on-complete="onUploadComplete(response,field)"
+										>Upload</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group" ng-if="field.type == 'OTM' ">
+									<h4 style="text-align:right">
+										Total {{field.label}}(s) : <span class="label label-default">{{entity[field.name]!=null ? entity[field.name].length : 0}}</span>
+									</h4>
+
+									<accordion close-others="false">
+									    <accordion-group is-open="false" ng-repeat="subEntity in entity[field.name]">
+									        <accordion-heading>
+									        	{{field.label}} # {{entity[field.name].indexOf(subEntity)+1}}
+												&nbsp;&nbsp;
+									            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+									        </accordion-heading>								    
+											<div class="form-group">
+												<button type="submit"
+													class="btn btn-primary pull-right" ng-click="deleteSubEntity(field, subEntity)">Remove</button>
+												<div>
+													<div ng-repeat="subEntityField in field.meta.editor.fields">
+														<label for="{{subEntityField.label}}">{{subEntityField.label}}:</label>
+														<div>
+															<div class="form-group" ng-if="subEntityField.type != 'file' ">
+																<span>{{subEntity[subEntityField.name]}}</span>
+															</div>
+															<div class="form-group" ng-if="subEntityField.type == 'file'">
+																<a href="subEntity[subEntityField.name].filepath">{{subEntity[subEntityField.name].filename}}</a>
+															</div>
+														</div>
+													</div>												
+												</div>
+											</div>			
+									    </accordion-group>	
+									    <accordion-group is-open="true">
+									        <accordion-heading>
+									        	Add New {{field.label}}:
+									            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+									        </accordion-heading>								    
+											<div class="form-group">		
+												<div ng-repeat="subEntityField in field.meta.editor.fields">
+													<label for="{{subEntityField}}">{{subEntityField.label}}</label>
+													<div class="form-group" ng-if="subEntityField.type != 'file' ">
+														<input name="{{field.name+'_'+subEntityField.name}}"
+															ng-model="entity['tmp_'+field.name][subEntityField.name]" type="text" class="form-control"
+															ng-required="{{subEntityField.required}}"></input>
+													</div>
+													<div class="form-group" ng-if="subEntityField.type == 'file'">
+														<a href="entity['tmp_'+field.name][subEntityField.name].filepath" ng-if="entity['tmp_'+field.name][subEntityField.name] != null">{{entity['tmp_'+field.name][subEntityField.name].filename}}</a>
+														<br/>
+														<div class="panel panel-default">
+															<div class="panel-body">
+																<progressbar max="max" value="progress">
+																	<span style="color:black; white-space:nowrap;">{{progress}}%</span>
+																</progressbar>			
+																<div
+																   class="btn btn-primary btn-upload"
+						 										   upload-button
+																   url="{{app.config.UPLOAD_SERVER_URL}}"
+																   field="{{'tmp_'+field.name+':'+subEntityField.name}}"
+																   on-upload="onUploadStart(files, field)"
+																   on-error="onUploadError(response, field)"
+																   on-success="onUploadSuccess(response, field)"
+																   on-complete="onUploadComplete(response, field)"
+																>Upload</div>																
+															</div>
+														</div>
+													</div>
+												</div>
+												<div>
+													<div>
+														<button type="submit"
+														class="btn btn-primary" ng-click="addSubEntity(field)">Add</button>
+													</div>						
+												</div>
+											</div>	
+									    </accordion-group>
+	  								</accordion>
+							</div>
 						</div>												
 						
-						<hr/>
-						
-						<b>Deprecated Fields</b>
-						
-						<div class="form-group">
-							<label for="assignedTo">Parent Entity:</label>
-							<ui-select ng-model="task.parent" theme="bootstrap"
-								reset-search-input="false" style="width: 100%;"> <ui-select-match
-								placeholder="Search ...">{{$select.selected.id}} : {{$select.selected.title}}</ui-select-match>
-							<ui-select-choices repeat="task in tasks track by $index">
-							<div ng-bind-html="task.title | highlight: $select.search"></div>
-							</ui-select-choices> </ui-select>
-						</div>
-		
-						<div class="form-group">
-							<label for="assignedTo">Assign To:</label>
-							<ui-select ng-model="task.assignee" theme="bootstrap"
-								reset-search-input="false" style="width: 100%;"> <ui-select-match
-								placeholder="Search ...">{{$select.selected.id}} : {{$select.selected.login}}</ui-select-match>
-							<ui-select-choices repeat="user in users track by $index"
-								refresh="searchUsers($select.search)" refresh-delay="0">
-							<div ng-bind-html="user.name | highlight: $select.search"></div>
-							<div ng-bind-html="user.login | highlight: $select.search"></div>
-							</ui-select-choices> </ui-select>
-						</div>
-						<div class="form-group">
-							<label for="taskTitle">Title:</label> <input name="taskTitle"
-								ng-model="task.title" type="text" class="form-control"
-								ng-required="true"></input>
-						</div>
-						<div class="form-group">
-							<label for="taskSummary">Entity Summary:</label>
-							<textarea ng-model="task.summary" class="form-control" rows="3"
-								ng-required="true"></textarea>
-						</div>
-						<div class="form-group">
-							<label>Priority </label>
-							<ui-select ng-model="task.priority" theme="bootstrap"
-								style="width: 150px;"> <ui-select-match
-								placeholder="Priority ...">{{$select.selected}}</ui-select-match>
-							<ui-select-choices
-								repeat="priority in priorities | filter: $select.search">
-							<span ng-bind-html="priority | highlight: $select.search"></span>
-							</ui-select-choices> </ui-select>
-						</div>
-						<div class="form-group" style="margin:0px">
-							<label for="dueDate">Due Date:	{{task.dudeDate}}</label>
-							<p class="input-group">
-								<input type="text" class="form-control"
-									datepicker-popup="{{format}}" ng-model="task.dueDate"
-									is-open="opened" min-date="minDate" max-date="'2015-06-22'"
-									datepicker-options="dateOptions"
-									date-disabled="disabled(date, mode)" 
-									close-text="Close" /> <span class="input-group-btn">
-									<button type="button" class="btn btn-default"
-										ng-click="open($event)">
-										<i class="glyphicon glyphicon-calendar"></i>
-									</button>
-								</span>
-							</p>
-						</div>
+						<!-- Save Button -->
 						<div class="form-group col-md-12">
 							<br/>
 							<br/>
@@ -114,47 +168,10 @@
 								ng-click="resetEntity()">Reset</button>
 							<button ng-if="task.id == null" type="submit" class="btn btn-default"
 								ng-click="launchModule('entitymgmt')">Cancel</button>
-						</div>
-						</fieldSet>
-					</ng-form>
+						</div>						
 				</tab>
-				
-				<tab heading="Files ({{task.uploadedFiles.length}})">
-					
-					<br/>
-
-					<h4>Uploaded Files <span class="label label-default">{{task.uploadedFiles.length}}</span></h4>
-					<hr/>
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>#</th><th>File</th>
-							<tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="uploadedFile in task.uploadedFiles">
-								<th>{{task.uploadedFiles.indexOf(uploadedFile)+1}}</th>
-								<td><a href="{{uploadedFile.path}}">{{uploadedFile.name}}</a></td>							
-							</tr>
-						</tbody>
-					</table>					
-					<hr/>
-					<h4>Add New Files:</h4>
-					<progressbar max="max" value="progress">
-						<span style="color:black; white-space:nowrap;">{{progress}}%</span>
-					</progressbar>			
-
-					<div
-					  class="btn btn-primary btn-upload"
-					  upload-button
-					  url="{{app.config.UPLOAD_SERVER_URL}}"
-					   on-upload="onUploadStart(files)"
-					   on-error="onUploadError(response)"
-					   on-success="onUploadSuccess(response)"
-					   on-complete="onUploadComplete(response)"
-					>Upload</div>
-
-				</tab>
+			</fieldSet>
+			</ng-form>
 			</tabset>
 		</div>
 	</div>

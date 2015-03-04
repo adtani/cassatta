@@ -1,92 +1,130 @@
 {
 	"editor": {
-		"fields" : [
-			    {
-				    "name":"id",
-				    "type":"id",
-				    "required":true 
-			    },
-			    {
-				    "name":"entityType",
-				    "type":"entityType",
-				    "required":true
-			    },
-			    {
-				    "name":"title",
-				    "label":"Title",
-				    "type":"text",
-				    "required":true
-			    },
-			    {
-				    "name":"summary",
-				    "label":"Summary",
-				    "type":"text",
-				    "required":true
+		"entityType": "org.taskmgmt.tasks",
+		"tabs" : [
+			{
+				"name": "Tab 1",
+				"label": "General Information",
+				"fields" : [
+					    {
+						    "name":"id",
+						    "type":"id",
+						    "label":"ID",
+						    "required":true 
+					    },
+					    {
+						    "name":"entityType",
+						    "type":"entityType",
+						    "required":true
+					    },
+				        {
+				        	"name":"owner",
+				        	"label": "Owner",
+				            "type":"owner",
+				            "entityType":"org.users",
+					    	"required":true
+				        },
+				        {
+				        	"name":"parent",
+				        	"label": "Parent Task",
+				            "type":"OTO",
+				            "entityType":"org.taskmgmt.tasks",
+					    	"required":true
+				        },
+					    {
+						    "name":"title",
+						    "label":"Title",
+						    "type":"text",
+						    "required":true,
+						    "searchable":true
+					    },
+				        {
+			        		"name":"assignee",
+			        		"label" : "Assignee",
+			            	"type":"OTO",
+			            	"entityType":"org.users",
+					    	"required":true
+				        },			    
+					    {
+						    "name":"summary",
+						    "label":"Summary",
+						    "type":"textarea",
+						    "required":true
+						},
+					    {
+						    "name":"status",
+						    "label":"Status",
+						    "type":"file",
+						    "required":true
+					    },
+					    {
+					    	"name":"priority",
+					    	"label":"Priority",
+					    	"type":"int",
+						    "required":true
+					    },
+					    {
+					    	"name":"dueDate",
+					    	"label":"Due Date",
+					    	"type":"date",
+						    "required":true
+					    },
+					    { 	
+					    	"name":"parentage",
+					    	"label":"Parentage",
+					    	"type":"text",
+					    	"isCalculated":true,
+						    "required":true
+					    }
+					]
 				},
-			    {
-				    "name":"status",
-				    "label":"Status",
-				    "type":"text",
-				    "required":true
-			    },
-			    {
-			    	"name":"priority",
-			    	"label":"Priority",
-			    	"type":"int",
-				    "required":true
-			    },
-			    {
-			    	"name":"dueDate",
-			    	"label":"Due Date",
-			    	"type":"date",
-				    "required":true
-			    },
-			    { 	
-			    	"name":"parentage",
-			    	"label":"Parentage",
-			    	"type":"text",
-			    	"isCalculated":true,
-				    "required":true
-			    }
-			],
-			"relations": [
-			        {
-			        	"name":"parent",
-			            "type":"OTO",
-			            "entityType":"org.taskmgmt.tasks",
-				    	"required":true
-			        },
-			        {
-		        		"name":"assignee",
-		            	"type":"OTO",
-		            	"entityType":"org.users",
-				    	"required":true
-			        },
-			        {
-			        	"name":"files",
-			            "type":"OTM",
-			            "entityType":"org.taskmgmt.taskfiles",
-				    	"required":true
-			        },
-			        {
-			        	"name":"comments",
-			            "type":"OTM",
-			            "entityType":"org.taskmgmt.taskcomments",
-				    	"required":true
-			        },
-			        {
-			        	"name":"subTasks",
-			        	"persist":false,
-			            "type":"OTM",
-			            "entityType":"org.taskmgmt.tasks",
-				    	"required":true
-			        },
-			        {
-			        	"name":"owner",
-			            "type":"owner",
-			            "entityType":"org.users",
-				    	"required":true
-			        }
+				{
+					"name": "Tab 2",
+					"label": "Files",
+					"fields" : [
+				        {
+				        	"name":"files",
+				        	"label":"File",
+				            "type":"OTM",
+				            "entityType":"org.taskmgmt.taskfiles",
+				            "reverseReference" : "task",
+					    	"required":false,
+					    	"meta": {
+					    		"editor" : {
+					    			"fields" : [
+									    {
+										    "name":"id",
+										    "type":"id",
+										    "label": "ID", 
+										    "required":true 
+									    },			    			
+								        {
+								        	"name":"owner",
+								        	"label": "Owner",
+								            "type":"owner",
+								            "entityType":"org.users",
+									    	"required":true
+								        },
+									    {
+										    "name":"name",
+										    "label":"Name",
+										    "type":"text",
+										    "required":true,
+										    "searchable":true
+									    },
+									    {
+										    "name":"path",
+										    "label":"File",
+										    "type":"file",
+										    "required":true,
+										    "searchable":true
+									    }			    			
+					    			]
+					    		}
+					    	}
+				        }
+					]	
+				}			
 			]
 		},
 		

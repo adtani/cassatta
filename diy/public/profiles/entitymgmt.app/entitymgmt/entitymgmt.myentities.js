@@ -30,21 +30,8 @@
 		$scope.tasks = [];
 		
    	  	$scope.initNewEntity = function(){
-   	  		//TODO: Create new entity based on the configuration here.
-   	   	  	var task = {
-   	   	  			parent:null,
-   	   	  			parentage:null,
-   	   	  			title:"New Entity Title ...",
-   	   	  			summary:"New Entity Summary ...",
-   	    	  		priority:0,
-   	    	  		dueDate: "2014-01-01",
-   	    	  		assignee: $rootScope.session.user,
-   	    	  		owner: $rootScope.session.user,
-   	    	  		createdDate: new Date(),
-   	    	  		uploadedFiles: []
-   	 		};
-   	   	  	//TODO: Change Event Triggers to Generic Events
-   	   	  	$rootScope.$broadcast('entitymgmt.newentity',task);
+   	   	  	var entity = {};
+   	   	  	$rootScope.$broadcast('entitymgmt.newentity',entity);
    	  	}
 
    	  	//GRID-MANAGEMENT-START
@@ -74,10 +61,10 @@
    	  	
    	  	$scope.saveRow = function( rowEntity ) {
 	   	    // create a fake promise - normally you'd use the promise returned by $http or $resource
-	   	    var promise = $q.defer();
-	   	    $scope.gridApi.rowEdit.setSavePromise( $scope.gridApi.grid, rowEntity, promise.promise );
+	   	    var promise = app.q.defer();
+	   	    $scope.gridApi.rowEdit.setSavePromise( rowEntity, promise.promise );
 	   	   
-	   	    entitymgmtService.saveEntity(rowEntity).then(function(){
+	   	    entitymgmtService.saveEntity(rowEntity, $scope.meta.editor.entityType).then(function(){
 	   	    	promise.resolve();
 	   	    });
 	   	    
@@ -141,6 +128,7 @@
    	  	$scope.refresh = function(){
    	  		entitymgmtService.clearCache();
    	  		app.meta.getMeta($scope.domainType.entityType).then(function(meta){
+   	  			$scope.meta = meta;
         		console.log("downloaded meta for "+$scope.domainType.entityType+" is %o ",meta);
         		angular.forEach(meta.listView.fields, function(field){
         			$scope.gridOptions.columnDefs.push(field);
@@ -167,17 +155,17 @@
 			}
 		};
 
-   	  	$scope.$on('taskmgmt.task.saved', function(event, tasks){
-   	   	  	app.sqlserver.loadEntity("org.taskmgmt.tasksview",tasks[0].id).then(function(response){
+   	  	$scope.$on('entitymgmt.entity.saved', function(event, entities){
+   	   	  	app.sqlserver.loadEntity("org.taskmgmt.tasksview",entities[0].id).then(function(response){
    	   	  		if(response.success){
-   	   	  			if(response.entity.status != 'DONE'){
-	   	   	  			var existingEntities = $.grep($scope.gridOptions.data, function(task){return task.id==tasks[0].id});
+//   	   	  			if(response.entity.status != 'DONE'){
+	   	   	  			var existingEntities = $.grep($scope.gridOptions.data, function(entity){return entity.id==entities[0].id});
 	   	   	  			if(existingEntities.length > 0){
 	   	   	  				$scope.gridOptions.data.splice($scope.gridOptions.data.indexOf(existingEntities[0]),1,response.entity);
 	   	   	  			}else{
 	   	   	  				$scope.gridOptions.data.push(response.entity);
 	   	   	  			}
-   	   	  			}
+//   	   	  			}
    	   	  		}else{
    	   	  			app.alert.warning("Entity Load Failure!");
    	   	  		}

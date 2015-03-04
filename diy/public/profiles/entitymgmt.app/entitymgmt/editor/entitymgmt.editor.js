@@ -20,7 +20,8 @@
    	  	
    	  	$scope.entity = null;
    	  	
-   	  	//TODO:Generic search capability for relations...
+   	  	$scope.results = [{id:1,name:"result1",displaytext:"result1text"},{id:2,name:"result2",displaytext:"result2text"}]
+   	  	
    	  	$scope.searchUsers = function(pattern){
    	  		if(pattern.length > 2){
 		   	 	app.sqlserver.loadEntities("org.users").then(function(response){
@@ -36,10 +37,57 @@
    	  		}
    	  	};
    	  	
+   	  	$scope.searchEntities = function(fieldName, entityType, pattern){
+   	  		if(pattern.length > 2){
+		   	 	app.sqlserver.loadEntities(entityType).then(function(response){
+		    		if(response.success){
+		   		   	  	app.meta.getMeta(entityType).then(function(entityMeta){
+		   		    		$scope.results[fieldName] = $.grep(response.entities, function(entity){
+			   		   	  		var matchedFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
+			   		   	  			return field.searchable == true && entity[field.name].indexOf(pattern) >= 0;
+			   		   	  		});
+			   		   	  		return matchedFields.length > 0;
+			    			});		   
+		   		    		angular.forEach($scope.results[fieldName], function(result){
+		   		    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
+			   		   	  			return field.searchable == true;
+			   		   	  		});
+		   		    			result.display = "["+result.id+"]: "+result[searchableFields[0].name];
+		   		    		});
+		   		    	}, function(response){
+		   		    		console.warn(response);
+		   		    	});   	  			
+		    		}else{
+		    			app.alert.warning('Warning','Search Failure');
+						app.location.path("/login");
+		    		}
+		    	});   	  		
+   	  		}
+   	  	};
+   	  	
    	  	//TODO:Logic when entity is selected for editing...
    	  	$scope.$on('entitymgmt.entity.selected', function(event, entities){
 	   	  		$scope.entity = entities[entities.length-1];
 	   	  		$scope.title = "Entity Editor - "+$scope.entity.entityType+"["+$scope.entity.id+"]";
+	   	  		
+	   	  		angular.forEach($scope.meta.editor.tabs[0].fields, function(field){
+	   	  			if((field.type == 'OTO' || field.type == 'owner') && $scope.entity[field.name+"Id"] != null){
+	   	  				var entityId = $scope.entity[field.name+"Id"];
+		   	  			app.sqlserver.loadEntity(field.entityType, entityId).then(function(response){
+		   	    			if(response.success){
+		   	    				$scope.entity[field.name] = response.entity;
+		   	    				//set display on it, since it may not be already set by the server..
+		   	    				app.meta.getMeta(response.entity.entityType).then(function(entityMeta){
+					    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
+			   		   	  				return field.searchable == true;
+			   		   	  			});
+					    			response.entity.display = "["+response.entity.id+"]: "+ response.entity[searchableFields[0].name];
+		   	    				});
+		   	    			}
+		   	    		});
+	   	  			}
+	   	  		});
+	   	  		
 //	   	    	if($scope.entity.id != null && $scope.entity.assignee == null){
 //	   	    		app.sqlserver.loadEntity("org.users",$scope.entity.assigneeId).then(function(response){
 //	   	    			if(response.success){
@@ -63,11 +111,11 @@
 //   	  	});
 
    	  	
-//   	  	$scope.$on('taskmgmt.newtask', function(event, task){
-//   	  		$scope.task = task;
-//   	  		$scope.title = "Entity Editor - New Entity";
-//   	  		setPanelType();
-//   	  	});
+   	  	$scope.$on('entitymgmt.newentity', function(event, entity){
+   	  		$scope.entity = entity;
+   	  		$scope.title = "Entity Editor - New Entity";
+   	  		setPanelType();
+   	  	});
 
    	  	$scope.resetEntity = function(){
    	  		$scope.initEntity();
@@ -78,7 +126,7 @@
    	  	}
    	  	
    	  	$scope.saveEntity = function(){
-   	  		entitymgmtService.saveEntity($scope.task).then(function(){
+   	  		entitymgmtService.saveEntity($scope.entity, $scope.meta.editor.entityType).then(function(){
    	  			setPanelType();
    	  		});
    	  	}
@@ -120,34 +168,62 @@
 			}
 		}
 		
-		$scope.onUploadStart = function(files){
+		$scope.onUploadStart = function(files,field){
 			$scope.progress = 0;
 			$scope.animation = app.interval(startProgress,500);
-			app.log.info("File uploade started! %o", files);
+			app.log.info("File uploade started for field "+field.name+"! %o", files);
 		}
 		
-		$scope.onUploadError = function(response){
-			app.timeout( function(){ 
-				$scope.progress = 0; 
-				app.interval.cancel($scope.animation);
-				}, 5000);
-			app.log.info("File upload failed! %o", response);
+		$scope.onUploadError = function(response, field){
+			$scope.progress = 0; 
+			app.interval.cancel($scope.animation);
+			app.log.info("File upload failed for field "+field.name+"! %o", response);
 		}
 		
-		$scope.onUploadSuccess = function(response){
-			app.timeout( function(){ 
-				$scope.progress = 100; 
-				app.interval.cancel($scope.animation);
-				$scope.uploadedFiles.push(response.data);
-				}, 5000);
-			app.log.info("File uploaded successfully! %o", response);
+		$scope.onUploadSuccess = function(response, field){
+			var tokens = field.split(":");
+			$scope.progress = 100; 
+			app.interval.cancel($scope.animation);
+			if(response.data.success){
+				if(tokens.length == 1){
+					$scope.entity[tokens[0]] = {filename:response.data.name, filepath:response.data.path};
+				}else if(tokens.length > 1){
+					if($scope.entity[tokens[0]]==null){
+						$scope.entity[tokens[0]] = {};
+					}
+					$scope.entity[tokens[0]][tokens[1]] = {filename:response.data.name, filepath:response.data.path};
+				}
+			}
+			app.log.info("File uploaded successfully for field "+field.name+", value set as "+$scope.entity[field.name]+"! %o", response);
 		}
 		
-		$scope.onUploadComplete = function(response){
-			app.log.info("File upload completed! %o", response);
+		$scope.onUploadComplete = function(response, field){
+			app.log.info("File upload completed for field "+field.name+"! %o", response);
 		}
    	  	//END-UPLOAD-MANAGEMENT
 
+		//START-SUB-ENTITY-MANAGEMENT
+		$scope.addSubEntity = function(field){
+			if($scope.entity["tmp_"+field.name]!=null){
+				if($scope.entity[field.name]==null){
+					$scope.entity[field.name] = [];
+				}
+				$scope.entity[field.name].push($scope.entity["tmp_"+field.name]);
+				$scope.entity["tmp_"+field.name]={};
+				app.alert.success(field.label+" Added!");
+			}
+		}
+		
+		$scope.deleteSubEntity = function(field, subEntity){
+			app.dialogs.confirm('Confirm Removal',"Are you sure?",["Yeah","May Be!","No Way!"]);
+			dlg.result.then(function(btn){
+				$scope.entity[field.name].remove(subEntity);
+				app.alert.success(field.label+" Removed!");
+			},function(btn){
+				
+			});			
+		}
+		//END-SUB-ENTITY-MANAGEMENT
 		
 		$scope.selectEntity = function(entity){
 			$scope.domainType = entity;

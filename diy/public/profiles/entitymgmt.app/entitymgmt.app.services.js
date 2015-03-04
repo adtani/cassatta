@@ -51,8 +51,42 @@
         	}
         	return deferred.promise;
         }
-        
-   	  	function saveEntity(task){
+
+   	  	function saveEntity(entity, domainType){
+   	  		var deferred = app.q.defer();
+	   	  	app.meta.getMeta(domainType).then(function(entityMeta){
+	   	  		var entityToBeSaved = {};
+	   	  		angular.forEach(entityMeta.editor.tabs[0].fields, function(field){
+	   	  			if(field.type != 'OTM'){
+	   	  				entityToBeSaved[field.name] = entity[field.name];
+	   	  			}
+	   	  			if(field.type == 'OTO' && entity[field.name]!=null){
+	   	  				entityToBeSaved[field.name] = "/"+field.entityType+"/"+entity[field.name].id;
+	   	  			}
+	   	  			if(field.type == 'owner'){
+	   	  				entityToBeSaved[field.name] = "/"+field.entityType+"/"+$rootScope.session.user.id;
+	   	  			}
+	   	  			if(field.type == 'entityType'){
+	   	  			entityToBeSaved[field.name] = entityMeta.editor.entityType;
+	   	  			}
+	   	  		});
+		   	 	app.sqlserver.saveEntity(entityToBeSaved).then(function(response){
+		    		if(response.success){
+		    			entityToBeSaved.id = response.id;
+		    			entity.id = response.id;
+		    			app.alert.success("Success!","Entity "+response.id+" saved successfully!");
+		    	   	 	$rootScope.$broadcast('entitymgmt.entity.saved', [entity]);
+		    		}else{
+		    			console.warn("failure response while saving entity %o", response);
+		    			app.alert.warning('Warning','Failure while saving entity!');
+		    		}
+		    		deferred.resolve(entityToBeSaved);
+		    	});
+	   	  	});
+	   	  	return deferred.promise;
+   	  	}
+
+   	  	function saveEntityx(task){
    	  		var taskToBeSaved = prepareEntityForSaving(task);
 	   	 	return app.sqlserver.saveEntity(taskToBeSaved).then(function(response){
 	    		if(response.success){
