@@ -4,7 +4,7 @@
 
     <div class="btn-group-vertical col-md-12" role="group">
     	<button type="button" class="btn btn-lg btn-primary btn-block">Home</button>
-		<button type="button" class="btn btn-lg btn-default btn-block" ng-repeat="module in modules" ng-click="launchModule(module)">{{module.title}}</button>
+		<button type="button" class="btn btn-lg btn-default btn-block" ng-repeat="module in modules" ng-click="launchModule(module.name)">{{module.title}}</button>
     </div>
 	
 </div>
@@ -12,10 +12,10 @@
 <div ng-if="module != null">
 
     <div class="btn-group-vertical col-md-12" style="margin:0px" role="group">
-    	<button type="button" class="btn btn-lg btn-primary btn-block" ng-click="launchModule(module)">{{module.title}}</button>
+    	<button type="button" class="btn btn-lg btn-primary btn-block" ng-click="launchModule(module.name)">{{module.title}}</button>
 		<button type="button" class="btn btn-lg btn-default btn-block" ng-repeat="action in module.actions" ng-click="performAction(action.name)">{{action.title}}</button>
     	<button type="button" class="btn btn-lg btn-primary btn-block" ng-if="module.actions.length > 0">Other Modules</button>
-		<button type="button" class="btn btn-lg btn-default btn-block" ng-repeat="module in otherModules" ng-click="launchModule(module)">{{module.title}}</button>
+		<button type="button" class="btn btn-lg btn-default btn-block" ng-repeat="module in otherModules" ng-click="launchModule(module.name)">{{module.title}}</button>
     </div>
 	
 </div>

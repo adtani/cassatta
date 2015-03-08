@@ -4,7 +4,7 @@
 		"tabs" : [
 			{
 				"name": "Tab 1",
-				"label": "General Information",
+				"label": "General",
 				"fields" : [
 					    {
 						    "name":"id",
@@ -29,7 +29,7 @@
 				        	"label": "Parent Task",
 				            "type":"OTO",
 				            "entityType":"org.taskmgmt.tasks",
-					    	"required":true
+					    	"required":false
 				        },
 					    {
 						    "name":"title",
@@ -54,7 +54,7 @@
 					    {
 						    "name":"status",
 						    "label":"Status",
-						    "type":"file",
+						    "type":"text",
 						    "required":true
 					    },
 					    {
@@ -67,11 +67,12 @@
 					    	"name":"dueDate",
 					    	"label":"Due Date",
 					    	"type":"date",
-						    "required":true
+						    "required":false
 					    },
 					    { 	
 					    	"name":"parentage",
 					    	"label":"Parentage",
+					    	"display" : false,
 					    	"type":"text",
 					    	"isCalculated":true,
 						    "required":true
@@ -91,15 +92,26 @@
 					    	"required":false,
 					    	"meta": {
 					    		"editor" : {
+						            "entityType":"org.taskmgmt.taskfiles",
 					    			"fields" : [
+					    				{
+								        	"name":"task",
+										    "display" : false,
+								        	"label": "Task",
+								            "type":"OTO",
+								            "entityType":"org.taskmgmt.tasks",
+									    	"required":true
+					    				},
 									    {
 										    "name":"id",
+										    "display" : false,
 										    "type":"id",
 										    "label": "ID", 
 										    "required":true 
 									    },			    			
 								        {
 								        	"name":"owner",
+										    "display" : false,
 								        	"label": "Owner",
 								            "type":"owner",
 								            "entityType":"org.users",
@@ -118,7 +130,13 @@
 										    "type":"file",
 										    "required":true,
 										    "searchable":true
-									    }			    			
+									    },
+									    {
+										    "name":"entityType",
+										    "type":"entityType",
+										    "required":true,
+										    "display":false
+									    }	    			
 					    			]
 					    		}
 					    	}

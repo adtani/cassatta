@@ -5,20 +5,20 @@
 			<div class="panel-heading">{{title}}</div>
 			<div class="panel-body">
 				<div class="col-md-12">
-					<div class="dropdown">
-					  Select Entity to 	Manage :
-					  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-					    {{domainType.entityType}}:
-					    <span class="caret"></span>
-					  </button>
-					  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" >
-					    <li role="presentation"><a role="menuitem" tabindex="-1" href="#/welcome/entitymgmt/{{entity.entityType}}" ng-repeat="entity in entityTypes track by $index">{{entity.entityType}}</a></li>
-					  </ul>
-					</div>					
+					 Select Entity to 	Manage :
+				     <div class="btn-group" dropdown is-open="status.isopen">
+				      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+				        {{domainType.entityType}} <span class="caret"></span>
+				      </button>
+				      <ul class="dropdown-menu">
+				        <li ng-repeat="entity in entityTypes track by $index">
+				          <a href="#/welcome/entitymgmt/{{entity.entityType}}">{{entity.entityType}}</a>
+				        </li>
+				      </ul>
+				    </div>				
 				</div>
 				<br/><br/>
 				<tabset> 
-
 					<tab heading="My Entities ({{gridOptions.data.length}})">
 						<h3>
 							<button type="submit"
@@ -26,13 +26,19 @@
 							Entity</button>
 							<button type="submit"
 							class="btn btn-primary" ng-click="refresh()">Refresh</button>
+							<button type="submit"
+							class="btn btn-primary" ng-click="deleteEntities()">Delete</button>
 						</h3>
+						
+						Filters : {{gridOptions.enableFiltering}}
+						
 						<!-- div class="grid" ng-grid="gridOptions"></div -->
 						<div ui-grid="gridOptions" ui-grid-edit ui-grid-selection
 							ui-grid-resize-columns ui-grid-row-edit ui-grid-cellNav
 							ui-grid-pagination ui-grid-exporter ui-grid-move-columns
-							class="tasksgrid"></div>
-					</tab>
+							class="listgrid"></div>
+
+				</tab>
 					
 					<tab heading="Collaborations">
 						<h3>This is where task related collaborations go ...</h3>

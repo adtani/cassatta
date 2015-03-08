@@ -8,8 +8,8 @@
 
     	$rootScope.modules = app.config.modules;
     	
-    	$scope.launchModule = function(module){
-    		$location.path("/welcome/"+module.name);
+    	$scope.launchModule = function(moduleName){
+    		$location.path("/welcome/"+moduleName);
     	};
     	
     	$scope.performAction = function(actionName){

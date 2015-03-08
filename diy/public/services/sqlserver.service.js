@@ -80,15 +80,21 @@
         	$log.info("Persisting entity ["+entity.entityType+"] ...%o",entity);
         	var headers = (entity._etag != null)?{'If-Match':entity._etag} : {};
         	var method = (entity.id != null)? "POST" : "POST";
-            $resource(AppConfig.SQL_SERVER_URL+"/"+entity.entityType, {}, {'store':{method:method, headers:headers}}).store(entity, function(response, headers){
+        	var id = "";
+        	if(entity.id != null && entity.deleted){
+        		method = "DELETE";
+        		id = "/"+entity.id;
+        	}
+        	
+            $resource(AppConfig.SQL_SERVER_URL+"/"+entity.entityType+id, {}, {'store':{method:method, headers:headers}}).store(entity, function(response, headers){
             	$log.info("Entity of type ["+entity.entityType+"] created at ["+headers('Location')+"]!");
             	deferred.resolve({
             		success: true,
             		response: response,
-            		id: headers('Location').split('/').pop()
+            		id: entity.deleted ? entity.id : headers('Location').split('/').pop()
             	});
             }, function(response) {
-            	$log.warn("Entity of type ["+entity.entityType+"] could not be created!");
+            	$log.warn("Entity of type ["+entity.entityType+"] could not be persisted with http-"+method+"!");
             	deferred.resolve({
             		success : false,
             		response: response

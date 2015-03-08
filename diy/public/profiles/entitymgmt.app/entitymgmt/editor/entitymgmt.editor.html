@@ -3,53 +3,55 @@
 		<!-- Default panel contents -->
 		<div class="panel-heading">{{title}}</div>
 		<div class="panel-body">
-			<ng-form name="entityform" ng-disabled="'true'">
-			<fieldSet ng-disabled="entity == null">
-		
 			<tabset> 
-				<tab heading="{{tab.label}}" ng-repeat="tab in meta.editor.tabs">
+				<tab heading="{{tab.label}}" ng-repeat="tab in meta.editor.tabs track by $index">
+						<ng-form name="entityform" ng-disabled="'true'">
+						<fieldSet ng-disabled="entity == null">
 						<br/>
 						<div ng-repeat="field in tab.fields">
-							<div class="form-group" ng-if="field.type == 'text'">
+							<div class="form-group" ng-if="field.type == 'text' && field.display != false">
 								<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
 									ng-model="entity[field.name]" type="text" class="form-control"
 									ng-required="{{field.required}}"></input>
 							</div>
-							<div class="form-group" ng-if="field.type == 'password'">
+							<div class="form-group" ng-if="field.type == 'password' && field.display != false">
 								<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
 									ng-model="entity[field.name]" type="password" class="form-control"
 									ng-required="{{field.required}}"></input>
 							</div>
-							<div class="form-group" ng-if="field.type == 'int'">
+							<div class="form-group" ng-if="field.type == 'int' && field.display != false">
 								<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
 									ng-model="entity[field.name]" type="text" class="form-control"
 									ng-required="{{field.required}}"></input>
 							</div>
-							<div class="form-group" ng-if="field.type == 'textarea'">
+							<div class="form-group" ng-if="field.type == 'textarea' && field.display != false">
 								<label for="{{field.name}}">{{field.label}}:</label>
 								<textarea ng-model="entity[field.name]" class="form-control" rows="5"
 									ng-required="{{field.required}}"></textarea>
 							</div>
-							<div class="form-group" style="margin:0px"  ng-if="field.type == 'date'">
+							<div class="form-group" style="margin:0px"  ng-if="field.type == 'date' && field.display != false">
 								<label for="{{field.name}}">{{field.label}}:</label>
+								
 								<p class="input-group">
-									<input type="text" class="form-control"
-										datepicker-popup="{{format}}" ng-model="entity[field.name]"
-										is-open="opened" min-date="minDate" max-date="'2015-06-22'"
-										datepicker-options="dateOptions"
-										date-disabled="disabled(date, mode)" 
-										close-text="Close" /> <span class="input-group-btn">
-										<button type="button" class="btn btn-default"
-											ng-click="open($event)">
-											<i class="glyphicon glyphicon-calendar"></i>
-										</button>
-									</span>
+									<input type="text" 
+									       class="form-control" 
+									       datepicker-popup="{{format}}"
+									       ng-model="entity[field.name]"
+									       is-open="opened"
+									       ng-click = "opened = true"
+									       min-date="{{minDate}}"
+									       max-date="'2020-12-31'"
+									       datepicker-options="dateOptions"
+									       date-disabled="disabled(date, mode)" 
+									       ng-required="{{field.required}}"
+									       close-text="Close"
+									       class="input-md" />
 								</p>
 							</div>
 							
-							<div class="form-group" ng-if="field.type == 'OTO' ">
+							<div class="form-group" ng-if="field.type == 'OTO'  && field.display != false">
 								<label for="{{field.name}}">{{field.label}}:</label>
-								<ui-select ng-model="entity[field.name]" theme="bootstrap"
+								<ui-select ng-required="{{field.required}}" ng-model="entity[field.name]" theme="bootstrap"
 									reset-search-input="false" style="width: 100%;"> <ui-select-match
 									placeholder="Search ...">{{$select.selected.display}}</ui-select-match>
 								<ui-select-choices repeat="result in results[field.name] track by $index"
@@ -58,8 +60,11 @@
 								</ui-select-choices> </ui-select>
 							</div>	
 							
-							<div class="form-group" ng-if="field.type == 'file'">
+							<div class="form-group" ng-if="field.type == 'file' && field.display != false">
 								<label for="{{field.name}}">{{field.label}}:</label>
+								<input name="{{field.name}}"
+										ng-model="entity[field.name]" type="hidden" class="form-control"
+										ng-required="{{field.required}}"></input>
 								<a href="entity[field.name].filepath" ng-if="entity[field.name] != null">{{entity[field.name].filename}}</a>
 								<br/>
 								<div class="panel panel-default">
@@ -81,13 +86,13 @@
 								</div>
 							</div>
 							
-							<div class="form-group" ng-if="field.type == 'OTM' ">
+							<div class="form-group" ng-if="field.type == 'OTM'  && field.display != false">
 									<h4 style="text-align:right">
 										Total {{field.label}}(s) : <span class="label label-default">{{entity[field.name]!=null ? entity[field.name].length : 0}}</span>
 									</h4>
 
 									<accordion close-others="false">
-									    <accordion-group is-open="false" ng-repeat="subEntity in entity[field.name]">
+									    <accordion-group is-open="false" ng-repeat="subEntity in entity[field.name]" ng-if="!subEntity.deleted">
 									        <accordion-heading>
 									        	{{field.label}} # {{entity[field.name].indexOf(subEntity)+1}}
 												&nbsp;&nbsp;
@@ -112,54 +117,64 @@
 											</div>			
 									    </accordion-group>	
 									    <accordion-group is-open="true">
-									        <accordion-heading>
+											<ng-form name="newform" ng-disabled="'true'">
+											<fieldset>
+											<accordion-heading>
 									        	Add New {{field.label}}:
 									            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
 									        </accordion-heading>								    
 											<div class="form-group">		
 												<div ng-repeat="subEntityField in field.meta.editor.fields">
-													<label for="{{subEntityField}}">{{subEntityField.label}}</label>
-													<div class="form-group" ng-if="subEntityField.type != 'file' ">
-														<input name="{{field.name+'_'+subEntityField.name}}"
-															ng-model="entity['tmp_'+field.name][subEntityField.name]" type="text" class="form-control"
-															ng-required="{{subEntityField.required}}"></input>
-													</div>
-													<div class="form-group" ng-if="subEntityField.type == 'file'">
-														<a href="entity['tmp_'+field.name][subEntityField.name].filepath" ng-if="entity['tmp_'+field.name][subEntityField.name] != null">{{entity['tmp_'+field.name][subEntityField.name].filename}}</a>
-														<br/>
-														<div class="panel panel-default">
-															<div class="panel-body">
-																<progressbar max="max" value="progress">
-																	<span style="color:black; white-space:nowrap;">{{progress}}%</span>
-																</progressbar>			
-																<div
-																   class="btn btn-primary btn-upload"
-						 										   upload-button
-																   url="{{app.config.UPLOAD_SERVER_URL}}"
-																   field="{{'tmp_'+field.name+':'+subEntityField.name}}"
-																   on-upload="onUploadStart(files, field)"
-																   on-error="onUploadError(response, field)"
-																   on-success="onUploadSuccess(response, field)"
-																   on-complete="onUploadComplete(response, field)"
-																>Upload</div>																
+													<div ng-if="subEntityField.display != false">
+														<label for="{{subEntityField}}">{{subEntityField.label}}:</label>
+														<div class="form-group" ng-if="subEntityField.type != 'file'">
+															<input name="{{field.name+'_'+subEntityField.name}}"
+																ng-model="entity['tmp_'+field.name][subEntityField.name]" type="text" class="form-control"
+																ng-required="{{subEntityField.required}}"></input>
+														</div>
+														<div class="form-group" ng-if="subEntityField.type == 'file'  && subEntityField.display != false">
+															<input name="{{field.name+'_'+subEntityField.name}}"
+																ng-model="entity['tmp_'+field.name][subEntityField.name]" type="hidden" class="form-control"
+																ng-required="{{subEntityField.required}}"></input>
+															<a href="entity['tmp_'+field.name][subEntityField.name].filepath" ng-if="entity['tmp_'+field.name][subEntityField.name] != null">{{entity['tmp_'+field.name][subEntityField.name].filename}}</a>
+															<br/>
+															<div class="panel panel-default">
+																<div class="panel-body">
+																	<progressbar max="max" value="progress">
+																		<span style="color:black; white-space:nowrap;">{{progress}}%</span>
+																	</progressbar>			
+																	<div
+																	   class="btn btn-primary btn-upload"
+							 										   upload-button
+																	   url="{{app.config.UPLOAD_SERVER_URL}}"
+																	   field="{{'tmp_'+field.name+':'+subEntityField.name}}"
+																	   on-upload="onUploadStart(files, field)"
+																	   on-error="onUploadError(response, field)"
+																	   on-success="onUploadSuccess(response, field)"
+																	   on-complete="onUploadComplete(response, field)"
+																	>Upload</div>																
+																</div>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div>
 													<div>
+														Form Valid? {{newform.$valid}}
 														<button type="submit"
-														class="btn btn-primary" ng-click="addSubEntity(field)">Add</button>
+														class="btn btn-primary" ng-disabled="!newform.$valid" ng-click="addSubEntity(field)">Add</button>
 													</div>						
 												</div>
 											</div>	
+										</fieldset>
+										</ng-form>
 									    </accordion-group>
 	  								</accordion>
 							</div>
 						</div>												
 						
 						<!-- Save Button -->
-						<div class="form-group col-md-12">
+						<div class="form-group col-md-12" ng-if="$index==0">
 							<br/>
 							<br/>
 							<button ng-disabled="!entityform.$valid" type="submit"
@@ -168,10 +183,12 @@
 								ng-click="resetEntity()">Reset</button>
 							<button ng-if="task.id == null" type="submit" class="btn btn-default"
 								ng-click="launchModule('entitymgmt')">Cancel</button>
-						</div>						
+							<button ng-if="entity.id != null" type="submit"
+								class="btn btn-primary" ng-click="deleteEntity()">Delete</button>
+						</div>				
+					</fieldSet>
+					</ng-form>								
 				</tab>
-			</fieldSet>
-			</ng-form>
 			</tabset>
 		</div>
 	</div>

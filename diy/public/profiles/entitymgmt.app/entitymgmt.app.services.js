@@ -11,7 +11,8 @@
         return {
         	saveEntity : saveEntity,
         	loadEntities : loadEntities,
-        	clearCache : clearCache
+        	clearCache : clearCache,
+        	loadReferences : loadReferences
         };
         
         var tasks = null;
@@ -20,6 +21,42 @@
         function clearCache(){
         	tasks = null;
         	deferred = null;
+        }
+        
+        function loadReferences(entity, meta){
+        	var allfields = getAllFields(meta);
+   	  		angular.forEach(allfields, function(field){
+   	  			if((field.type == 'OTO' || field.type == 'owner') && entity[field.name+"Id"] != null){
+   	  				var entityId = entity[field.name+"Id"];
+	   	  			app.sqlserver.loadEntity(field.entityType, entityId).then(function(response){
+	   	    			if(response.success){
+	   	    				entity[field.name] = response.entity;
+	   	    				//set display on it, since it may not be already set by the server..
+	   	    				app.meta.getMeta(response.entity.entityType).then(function(entityMeta){
+				    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
+		   		   	  				return field.searchable == true;
+		   		   	  			});
+				    			response.entity.display = "["+response.entity.id+"]: "+ response.entity[searchableFields[0].name];
+	   	    				});
+	   	    			}
+	   	    		});
+   	  			}
+	   	  		if(field.type == 'OTM'){
+   	  				var subEntitiesURL = entity[field.name];
+	   	  			app.sqlserver.loadNestedEntities(entity, field.name, field.entityType).then(function(response){
+	   	    			if(response.success){
+	   	    				entity[field.name] = response.entities;
+	   	    				//set display on it, since it may not be already set by the server..
+	   	    				app.meta.getMeta(field.entityType).then(function(entityMeta){
+				    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
+		   		   	  				return field.searchable == true;
+		   		   	  			});
+				    			response.entity.display = "["+response.entity.id+"]: "+ response.entity[searchableFields[0].name];
+	   	    				});
+	   	    			}
+	   	    		});
+   	  			}
+   	  		});
         }
 
         function loadEntities(entityType, urlFilter){
@@ -55,124 +92,122 @@
    	  	function saveEntity(entity, domainType){
    	  		var deferred = app.q.defer();
 	   	  	app.meta.getMeta(domainType).then(function(entityMeta){
-	   	  		var entityToBeSaved = {};
-	   	  		angular.forEach(entityMeta.editor.tabs[0].fields, function(field){
-	   	  			if(field.type != 'OTM'){
-	   	  				entityToBeSaved[field.name] = entity[field.name];
-	   	  			}
-	   	  			if(field.type == 'OTO' && entity[field.name]!=null){
-	   	  				entityToBeSaved[field.name] = "/"+field.entityType+"/"+entity[field.name].id;
-	   	  			}
-	   	  			if(field.type == 'owner'){
-	   	  				entityToBeSaved[field.name] = "/"+field.entityType+"/"+$rootScope.session.user.id;
-	   	  			}
-	   	  			if(field.type == 'entityType'){
-	   	  			entityToBeSaved[field.name] = entityMeta.editor.entityType;
-	   	  			}
-	   	  		});
-		   	 	app.sqlserver.saveEntity(entityToBeSaved).then(function(response){
-		    		if(response.success){
-		    			entityToBeSaved.id = response.id;
-		    			entity.id = response.id;
-		    			app.alert.success("Success!","Entity "+response.id+" saved successfully!");
-		    	   	 	$rootScope.$broadcast('entitymgmt.entity.saved', [entity]);
-		    		}else{
-		    			console.warn("failure response while saving entity %o", response);
-		    			app.alert.warning('Warning','Failure while saving entity!');
-		    		}
-		    		deferred.resolve(entityToBeSaved);
-		    	});
+	   	  		saveEntityBasedOnMeta(entity, entityMeta, deferred);
 	   	  	});
 	   	  	return deferred.promise;
    	  	}
+   	  	
+   	  	function getAllFields(entityMeta){
+   	  		var allfields = [];
+	   	  	if(entityMeta.editor.tabs!=null){
+	   	  		angular.forEach(entityMeta.editor.tabs, function(tab){
+			  		angular.forEach(tab.fields, function(field){
+			  			allfields.push(field);
+			  		});
+			  	});
+	   	  	}
+	   	  	if(entityMeta.editor.fields!=null){
+		   	  	angular.forEach(entityMeta.editor.fields, function(field){
+		   	  		allfields.push(field);
+		  		});
+	   	  	}   
+	   	  	return allfields;
+   	  	}
+   	  	
+   	  	function saveEntityBasedOnMeta(entity, entityMeta, deferred){
+	   	  	var entityToBeSaved = {};
+	   	  	var allfields = [];
+	   	  	populateFieldsBasedOnMeta(entityToBeSaved, entity, entityMeta, allfields);
 
-   	  	function saveEntityx(task){
-   	  		var taskToBeSaved = prepareEntityForSaving(task);
-	   	 	return app.sqlserver.saveEntity(taskToBeSaved).then(function(response){
+	   	  	return app.sqlserver.saveEntity(entityToBeSaved).then(function(response){
+    			response.entity = entityToBeSaved;
 	    		if(response.success){
-       	  			task.id = response.id;
-       	  			taskToBeSaved.id = task.id;
-       	  			saveEntityData(task, taskToBeSaved);
+	    			entityToBeSaved.id = response.id;
+	    			entity.id = response.id;
+	    	   	 	
+	    			var promises = [];
+	    			//save nested entities with this id now...
+	    			angular.forEach(allfields, function(field){
+		   	  			if(field.type == 'OTM'){
+		   	  				if(entity[field.name]!=null){
+			   	  				angular.forEach(entity[field.name], function(subEntity){
+			   	  					subEntity[field.reverseReference] = {id: entity.id};
+			   	  					promises.push(saveEntityBasedOnMeta(subEntity, field.meta, null));
+			   	  				});
+		   	  				}
+		   	  			}
+		   	  		});
+	    			
+	    			if(promises.length > 0){
+		    			app.q.all(promises).then(function(responses){
+		    				var failures = $.grep(responses, function(response){return !response.success;});
+		    				if(failures.length == 0){
+				    	   	 	if(deferred!=null){
+			    	    			app.alert.success("Success!","Entity "+response.id+" of type "+entityToBeSaved.entityType+" saved successfully!");
+			    					$rootScope.$broadcast('entitymgmt.entity.saved', [entity]);
+				    				deferred.resolve(response);
+				    			}
+		    				}else{
+		    					app.alert.error("Failure!",failures.length+" nested entities out of "+responses.length+" could not be saved!");
+		    					if(deferred!=null){
+				    				deferred.reject(response);
+				    			}		    					
+		    				}
+		    			});
+	    			}else{
+	    				if(deferred!=null){
+	    	    			app.alert.success("Success!","Entity "+response.id+" of type "+entityToBeSaved.entityType+" saved successfully!");
+	    					$rootScope.$broadcast('entitymgmt.entity.saved', [entity]);
+	    					deferred.resolve(response);
+	    				}
+	    			}
 	    		}else{
-	    			app.alert.warning('Warning','Failure while saving task!');
+	    			console.error("failure response while saving entity %o", response);
+	    			app.alert.warning('Warning','Failure while saving entity of type '+entityToBeSaved.entityType+'!');
+	    			deferred.reject(response);
 	    		}
 	    		return response;
-	    	});
+	    	});   	  		
+   	  	}
+
+   	  	function populateFieldsBasedOnMeta(entityToBeSaved, entity, entityMeta, allfields){
+	   	  	if(entityMeta.editor.tabs!=null){
+	   	  		angular.forEach(entityMeta.editor.tabs, function(tab){
+			  		angular.forEach(tab.fields, function(field){
+			  			allfields.push(field);
+			  			populateField(entityToBeSaved, entity, field, entityMeta);
+			  		});
+			  	});
+	   	  	}
+	   	  	if(entityMeta.editor.fields!=null){
+		   	  	angular.forEach(entityMeta.editor.fields, function(field){
+		   	  		allfields.push(field);
+		  			populateField(entityToBeSaved, entity, field, entityMeta);
+		  		});
+	   	  	}   
+	   	  	populateImplicitFields(entityToBeSaved, entity, entityMeta);
    	  	}
    	  	
-   	  	function saveEntityData(task, taskToBeSaved){
-  			var promises = [];
-  			if(task.parent == null){
-  				task.parentage = "["+task.id+"]";
-  				taskToBeSaved.parentage = task.parentage;
-   	  			promises.push(app.sqlserver.saveEntity(taskToBeSaved));
-  				angular.forEach(saveEntityFiles(task), function(promise){
-  					promises.push(promise);
-  				});
-  			}else{
-  				angular.forEach(saveEntityFiles(task), function(promise){
-  					promises.push(promise);
-  				});
+   	  	function populateField(entityToBeSaved, entity, field, entityMeta){
+  			if(field.type != 'OTM'){
+  				entityToBeSaved[field.name] = entity[field.name];
   			}
-  			app.q.all(promises).then(function(responses){
-   	  			var successfulPromises = $.grep(responses, function(response){return response.success});
-  				if(successfulPromises.length == promises.length){
-	    	   	 	$rootScope.$broadcast('taskmgmt.task.saved', [task]);
-	    	   	 	app.alert.success("Success!","Entity "+task.id+" saved successfully!");
-  				}else{
-  					app.alert.warning('Warning','Failure while saving task information!');
-  				}
-  			})
+   	  		if(field.type == 'file' && entity[field.name]!=null){
+  				entityToBeSaved[field.name] = entity[field.name].filename!=null? entity[field.name].filename+":"+entity[field.name].filepath : entity[field.name];
+  			}
+  			if(field.type == 'OTO' && entity[field.name]!=null){
+  				entityToBeSaved[field.name] = "/"+field.entityType+"/"+entity[field.name].id;
+  			}
    	  	}
    	  	
-   	  	function saveEntityFiles(task){
-   	  		var promises = [];
-  			//save task files now...
-  			angular.forEach(task.uploadedFiles, function(file){
-  				if(file.id == null){
-  					file.task = "/tasks/"+task.id; 
-  					file.entityType = "org.taskmgmt.taskfiles";
-  					file.owner = "/users/"+$rootScope.session.user.id;
-  					promises.push(app.sqlserver.saveEntity(file));
-  				}
-  			});
-  			return promises;
-   	  	}
-   	  	
-   	  	function prepareEntityForSaving(task){
-   	   	  	var taskToBeSaved = {};
-   	   	  	angular.copy(task, taskToBeSaved);
-   	   	  	taskToBeSaved.entityType = "org.taskmgmt.tasks";
-   	   	  	
-   	   	  	if(task.assignee != null){
-   	   	  		taskToBeSaved.assignee = "/users/"+task.assignee.id;
-   	   	  	}else{
-   	   	  		taskToBeSaved.assignee = "/users/"+task.assigneeId;
-   	   	  	}
-   	   	  	
-   	   	  	if(task.owner!=null){
-   	   	  		taskToBeSaved.owner="/users/"+task.owner.id;
-   	   	  	}else if(task.ownerId!=null){
-   	   	  		taskToBeSaved.owner="/users/"+task.ownerId;
-   	   	  	}else{
-   	   	  		taskToBeSaved.owner="/users/"+$rootScope.session.user.id;
-   	   	  	}
-   	   	  	
-   	   	  	if(taskToBeSaved.assignee == null && taskToBeSaved.owner != null){
-   	   	  		taskToBeSaved.assignee == taskToBeSaved.owner;
-   	   	  	}
-   	   	  	
-   	   	  	if(task.parent!=null){
-   	   	  		taskToBeSaved.parent="/tasks/"+task.parent.id;
-   	   	  		taskToBeSaved.parentage = task.parent.parentage!=null? task.parent.parentage + "  >>  " + task.parent.id : task.parent.id;
-   	   	  	}
-   	   	  	
-   	  		taskToBeSaved.createdDate = new Date();
-   	  		if(taskToBeSaved.status == null){
-   	  			taskToBeSaved.status = "NEW";
-   	  		}
-   	  		taskToBeSaved.files = null;
-   	  		return taskToBeSaved;
+   	  	function populateImplicitFields(entityToBeSaved, entity, entityMeta){
+			entityToBeSaved['entityType'] = entityMeta.editor.entityType;
+			entityToBeSaved['owner'] = "/org.users/"+$rootScope.session.user.id;
+			entityToBeSaved['deleted'] = entity['deleted'];
+			entityToBeSaved['updatedOn'] = new Date();
+			if(entityToBeSaved.id==null){
+				entityToBeSaved['createOn'] = new Date();
+			}
    	  	}
 
     }

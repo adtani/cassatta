@@ -48,7 +48,19 @@
    	    	paginationPageSizes: [25, 50, 75],
    	    	paginationPageSize: 25,
    	    	enableFiltering : true,
-   	    	columnDefs : [],
+   	    	columnDefs : [
+   	    	       { name: '0', displayName: '0'},
+   	    	       { name: '1', displayName: '0'},
+   	    	       { name: '2', displayName: '0'},
+   	    	       { name: '3', displayName: '0'},
+   	    	       { name: '4', displayName: '0'},
+   	    	       { name: '5', displayName: '0'},
+   	    	       { name: '6', displayName: '0'},
+   	    	       { name: '7', displayName: '0'},
+   	    	       { name: '8', displayName: '0'},
+   	    	       { name: '9', displayName: '0'},
+   	    	       { name: '10', displayName: '0'}
+   	   	   	    ],   
    	  		gridMenuCustomItems: [
                 {
                   title: 'Remember Settings',
@@ -67,16 +79,7 @@
 	   	    entitymgmtService.saveEntity(rowEntity, $scope.meta.editor.entityType).then(function(){
 	   	    	promise.resolve();
 	   	    });
-	   	    
-	   	    //TODO: Remove temporary code..
-	   	    // fake a delay of 3 seconds whilst the save occurs, return error if gender is "male"
-//	   	    app.interval( function() {
-//	   	      if (rowEntity.id == 0 ){
-//	   	        promise.reject();
-//	   	      } else {
-//	   	        promise.resolve();
-//	   	      }
-//	   	    }, 3000, 1);
+	   	   
    	  	}; 
    	  	
    	  	$scope.gridOptions.onRegisterApi = function(gridApi){
@@ -108,33 +111,39 @@
 	   	    });	   	    
    	  	};
    	  	
-//   	  	$scope.completeEntities = function(){
-//   	  		var rows = $scope.gridApi.selection.getSelectedGridRows();
-//   	  		var deferred = [];
-//   	  		angular.forEach(rows, function(row){
-//   	  			var task = row.entity;
-//   	  			task.status='DONE';
-//   	  			deferred.push(entitymgmtService.saveEntity(task));
-//   	  		});
-//   	  		app.q.all(deferred).then(function(responses){
-//   	  			var successCount = $.grep(responses, function(response){
-//	  				return response.success;
-//	  			}).length;   	  			
-//  				app.alert.success(successCount+" of  "+deferred.length+" Entities Updated!");
-//  				$scope.refresh();
-//   	  		});
-//   	  	}
+   	  	$scope.deleteEntities = function(){
+			var dlg = app.dialogs.confirm('Confirm Deletion',"Are you sure?",["Yeah","May Be!","No Way!"]);
+			dlg.result.then(function(btn){
+	   	  		var rows = $scope.gridApi.selection.getSelectedGridRows();
+	   	  		var deferred = [];
+	   	  		angular.forEach(rows, function(row){
+	   	  			var entity = row.entity;
+	   	  			entity.deleted = true;
+	   	  			deferred.push(entitymgmtService.saveEntity(entity, $scope.meta.editor.entityType));
+	   	  		});
+	   	  		app.q.all(deferred).then(function(responses){
+	   	  			var successCount = $.grep(responses, function(response){
+		  				return response.success;
+		  			}).length;   	  			
+	  				app.alert.success(successCount+" of  "+deferred.length+" Entities Updated!");
+	   	  		});
+			},function(btn){
+				
+			});			
+		}
    	 
    	  	$scope.refresh = function(){
    	  		entitymgmtService.clearCache();
    	  		app.meta.getMeta($scope.domainType.entityType).then(function(meta){
    	  			$scope.meta = meta;
         		console.log("downloaded meta for "+$scope.domainType.entityType+" is %o ",meta);
+        		$scope.gridOptions.columnDefs = [];
         		angular.forEach(meta.listView.fields, function(field){
         			$scope.gridOptions.columnDefs.push(field);
         		});
     	   	  	entitymgmtService.loadEntities(meta.listView.entityType, meta.listView.urlFilter).then(function(entities){
     	  	   	    $scope.gridOptions.data = entities;
+    	  	   	    app.alert.success("Data Refreshed","Data refreshed successfully!");
     	   	  	});
         	}, function(response){
         		console.warn(response);
@@ -156,16 +165,18 @@
 		};
 
    	  	$scope.$on('entitymgmt.entity.saved', function(event, entities){
-   	   	  	app.sqlserver.loadEntity("org.taskmgmt.tasksview",entities[0].id).then(function(response){
+   	   	  	app.sqlserver.loadEntity($scope.meta.listView.entityType, entities[0].id).then(function(response){
    	   	  		if(response.success){
-//   	   	  			if(response.entity.status != 'DONE'){
-	   	   	  			var existingEntities = $.grep($scope.gridOptions.data, function(entity){return entity.id==entities[0].id});
-	   	   	  			if(existingEntities.length > 0){
-	   	   	  				$scope.gridOptions.data.splice($scope.gridOptions.data.indexOf(existingEntities[0]),1,response.entity);
-	   	   	  			}else{
-	   	   	  				$scope.gridOptions.data.push(response.entity);
-	   	   	  			}
-//   	   	  			}
+   	   	  			var existingEntities = $.grep($scope.gridOptions.data, function(entity){return entity.id==entities[0].id});
+   	   	  			if(existingEntities.length > 0){
+   	   	  				if(!entities[0].deleted){
+   	   	  					$scope.gridOptions.data.splice($scope.gridOptions.data.indexOf(existingEntities[0]),1,response.entity);
+   	   	  				}else{
+   	   	  					$scope.gridOptions.data.splice($scope.gridOptions.data.indexOf(existingEntities[0]),1);
+   	   	  				}
+   	   	  			}else{
+   	   	  				$scope.gridOptions.data.push(response.entity);
+   	   	  			}
    	   	  		}else{
    	   	  			app.alert.warning("Entity Load Failure!");
    	   	  		}

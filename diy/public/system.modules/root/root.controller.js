@@ -7,6 +7,7 @@
     function rootController($rootScope, $scope, $http, $location, $log, app) {
 
         $log.info("RootController Initialized ...");
+    	$rootScope.intent = "Loading...";
         
         function init() {
         	//first things first, retrieve session state into root scope
@@ -14,24 +15,7 @@
         	//app.docserver.init();
 
         	$rootScope.app = app;
-        	$rootScope.intent = "Loading...";
 
-        	/**
-             * @description
-             * sets current intent of communicating with the back-end, shows up on spinner
-             */
-            $rootScope.setIntent = function(intent) {
-                $rootScope.intent = intent;
-            }
-
-            /**
-             * @description
-             * resets intent to 'Loading...', the default spinner value
-             */
-            $rootScope.resetIntent = function () {
-                $rootScope.intent = "Loading...";
-            }
-        	
         	if($rootScope.session.user == null){
         		$location.path("/login");
         	}

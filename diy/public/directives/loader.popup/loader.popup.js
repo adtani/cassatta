@@ -22,6 +22,7 @@
                 '<div id="overlay-content" class="overlayContent" data-ng-transclude>' +
                 '</div>' +
                 '</div>',
+                
             link: function(scope, element, attrs) {
                 var overlayContainer = null,
                     timerPromise = null,
