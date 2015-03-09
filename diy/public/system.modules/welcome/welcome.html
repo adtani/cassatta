@@ -4,19 +4,18 @@
 	
 		<h3>Available Modules:</h3>
 		
-		<button class="col-md-2" style="margin:25px" type="button" class="btn btn-primary btn-lg btn-block" 
+		<a class="col-md-2" style="margin:25px" type="button" class="btn btn-primary" 
 			ng-repeat="module in modules" 
+			href="javascript:launchModule(module.name);"
 			ng-click="launchModule(module.name);">
-			<h5>{{module.title}}</h5>
+			<img src="{{module.icon!=null? module.icon : '/images/gear.png'}}"/>
+			<h4><strong>{{module.title}}</strong></h4>
 			<br/>
-			{{module.description}}
-		</button>
-		
+		</a>
 	</div>
 	
 	<div ng-if="module != null">
 	
-		<!--h3>Module: {{module.name}} @ {{module.path}} - {{htmlpath}}</h3 -->
 		<div ng-include="htmlpath"/>
 		
 	</div>

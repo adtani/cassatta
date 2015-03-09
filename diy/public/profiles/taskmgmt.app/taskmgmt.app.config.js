@@ -15,6 +15,7 @@
     				{
     					path : "profiles/taskmgmt.app",
     					name : "taskmgmt",
+    					icon : "/profiles/taskmgmt.app/images/tasks.png",
     					title : "Tasks",
     					description : "Task Management!",
     					level : 0,

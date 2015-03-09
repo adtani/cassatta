@@ -92,6 +92,7 @@
     				{
     					path : "profiles/taskmgmt.app",
     					name : "taskmgmt",
+    					icon : "/profiles/taskmgmt.app/images/tasks.png",    					
     					title : "Tasks",
     					description : "Task Management!",
     					level : 0,
@@ -107,6 +108,7 @@
     				{
     					path : "profiles/entitymgmt.app",
     					name : "entitymgmt",
+    					icon : "/profiles/entitymgmt.app/images/people.png",
     					title : "Entities",
     					description : "Entity Management!",
     					level : 0,

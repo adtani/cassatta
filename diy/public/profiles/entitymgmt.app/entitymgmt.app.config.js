@@ -15,6 +15,7 @@
     				{
     					path : "profiles/entitymgmt.app",
     					name : "entitymgmt",
+    					icon : "/profiles/entitymgmt.app/images/people.png",
     					title : "Entities",
     					description : "Entity Management!",
     					level : 0,

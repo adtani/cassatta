@@ -38,7 +38,7 @@
         		if(response.success){
         			if(response.entities.length == 1 && response.entities[0].password == password){
         				var user = response.entities[0];
-        				return loadNestedEntities(user, "roles","roles").then(function(response){
+        				return loadNestedEntities(user, "roles","org.roles").then(function(response){
         					if(response.success){
         						user.roles = response.entities;
                 				return {
