@@ -8,7 +8,8 @@
     	var cache = [];
     	
         return {
-        	getMeta : getMeta
+        	getMeta : getMeta,
+        	getRegisteredEntityTypes : getRegisteredEntityTypes
         };
 
     	function getMeta(metaType){
@@ -20,6 +21,21 @@
 	    		var metaPath =  metaType.split('.').join('/');
 	    		$resource("/metadata/"+metaPath+".metadata.json").get().$promise.then(function(response){
 	    			response.metaType = metaType;
+	    			cache.push(response);
+	            	deferred.resolve(response);
+	            });
+    		}
+    		return deferred.promise;
+    	}
+    	
+    	function getRegisteredEntityTypes(){
+    		var deferred = $q.defer();
+    		var cachedItems = $.grep(cache, function(item){return (item.metaType == 'registry')});
+    		if(cachedItems.length > 0){
+    			deferred.resolve(cachedItems[0]);
+    		}else{
+	    		$resource("/metadata/registry.json").query().$promise.then(function(response){
+	    			response.metaType = 'registry';
 	    			cache.push(response);
 	            	deferred.resolve(response);
 	            });

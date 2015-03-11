@@ -8,7 +8,7 @@
 			ng-repeat="module in modules" 
 			href="javascript:launchModule(module.name);"
 			ng-click="launchModule(module.name);">
-			<img src="{{module.icon!=null? module.icon : '/images/gear.png'}}"/>
+			<img src="{{ module.icon!=null ? module.icon : '/images/gear.png' }}"/>
 			<h4><strong>{{module.title}}</strong></h4>
 			<br/>
 		</a>

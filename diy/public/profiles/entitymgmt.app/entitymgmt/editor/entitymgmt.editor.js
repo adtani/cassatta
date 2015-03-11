@@ -220,20 +220,10 @@
 	    	});   	  		
 		}
 
-		function initEntityType(){
-			if($routeParams.action != null){
-				$scope.selectEntity($.grep($scope.entityTypes, function(entity){
-					return entity.entityType == $routeParams.action;
-				})[0]);
-			}else{
-				app.location.path("/welcome/entitymgmt/"+$scope.entityTypes[0].entityType);
-			}
-		}
-		
 		function init() {
 			// initialization code goes here...
 			setPanelType();
-			initEntityType();
+			$scope.initEntityType();
 		}
 
 		init();

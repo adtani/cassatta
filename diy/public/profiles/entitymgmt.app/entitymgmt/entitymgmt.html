@@ -4,19 +4,7 @@
 			<!-- Default panel contents -->
 			<div class="panel-heading">{{title}}</div>
 			<div class="panel-body">
-				<div class="col-md-12">
-					 Select Entity to 	Manage :
-				     <div class="btn-group" dropdown is-open="status.isopen">
-				      <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled">
-				        {{domainType.entityType}} <span class="caret"></span>
-				      </button>
-				      <ul class="dropdown-menu">
-				        <li ng-repeat="entity in entityTypes track by $index">
-				          <a href="#/welcome/entitymgmt/{{entity.entityType}}">{{entity.entityType}}</a>
-				        </li>
-				      </ul>
-				    </div>				
-				</div>
+				<div entitymgmt-entity-type-selector/>
 				<br/><br/>
 				<tabset> 
 					<tab heading="My Entities ({{gridOptions.data.length}})">

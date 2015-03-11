@@ -11,18 +11,7 @@
 
 		app.log.info("Entity Management controller initialized ...");
 		
-		$scope.entityTypes = [
-		      {
-		    	  name:"Users",
-		    	  entityType:"org.users",
-		    	  listViewEntityType:"org.users"
-		      },
-		      {
-		    	  name:"Tasks",
-		    	  entityType:"org.taskmgmt.tasks",
-		    	  listViewEntityType:"org.taskmgmt.tasksview"
-		      }	
-		];
+		$scope.entityTypes = null;
 		
 		$scope.title = "Entity Management";
 		
@@ -190,7 +179,17 @@
 			$scope.refresh();
 		}
 
-		function initEntityType(){
+		$scope.initEntityType = function(){
+			if(!$scope.init){
+				app.meta.getRegisteredEntityTypes().then(function(entityTypes){
+					$scope.init = true;
+					$scope.entityTypes = entityTypes;
+					initEntityTypeBasedOnRoute();
+				});
+			}
+		}
+		
+		function initEntityTypeBasedOnRoute(){
 			if($routeParams.action != null){
 				selectEntity($.grep($scope.entityTypes, function(entity){
 					return entity.entityType == $routeParams.action;
@@ -202,7 +201,7 @@
 		
 		function init() {
 			$scope.restoreState();
-			initEntityType();
+			$scope.initEntityType();
 		}
 
 		init();

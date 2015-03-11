@@ -1,0 +1,10 @@
+[
+      {
+    	  "name":"Users",
+    	  "entityType":"org.users"
+      },
+      {
+    	  "name":"Tasks",
+    	  "entityType":"org.taskmgmt.tasks"
+      }	
+]
