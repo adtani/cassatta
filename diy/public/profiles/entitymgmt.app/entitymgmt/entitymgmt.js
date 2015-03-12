@@ -35,6 +35,10 @@
 		//END-DOMAIN-TYPE-CHANGE-HANDLING
 
 		//START-EVENT-HANDLING
+		$scope.entitiesRefreshed = function(entities){
+			$scope.entities = entities;
+		}
+		
    	  	$scope.resetEntity = function(){
    	  		console.warn("Not implemented!");
    	  	}

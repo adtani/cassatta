@@ -64,7 +64,7 @@
         	if(deferred == null){
 	        	deferred = app.q.defer();
 	        	if(tasks == null){
-	        		var filter = urlFilter.split(":SESSION_USER_ID").join($rootScope.session.user.id);
+	        		var filter = urlFilter!=null? urlFilter.split(":SESSION_USER_ID").join($rootScope.session.user.id) : null;
 	        		var promise = null;
 	        		if(filter!=null && filter.length > 0){
 	        			promise = app.sqlserver.searchEntities(entityType,filter);

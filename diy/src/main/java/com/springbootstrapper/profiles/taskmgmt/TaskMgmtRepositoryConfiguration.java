@@ -8,6 +8,7 @@ public class TaskMgmtRepositoryConfiguration {
         config.exposeIdsFor(Task.class);
         config.exposeIdsFor(TaskView.class);
         config.exposeIdsFor(TaskFile.class);
+        config.exposeIdsFor(TaskFileView.class);
         config.exposeIdsFor(TaskComment.class);
     }
 

@@ -10,6 +10,7 @@
             	domainType: "=?",
             	app: "=",
             	meta: "=?",
+            	entities: "=?",
             	onNew: "&"
             },
             templateUrl: '/profiles/entitymgmt.app/directives/templates/entity.grid.view.html',
@@ -125,6 +126,7 @@
 	                		});
 	            	   	  	entitymgmtService.loadEntities(meta.listView.entityType, meta.listView.urlFilter).then(function(entities){
 	            	  	   	    $scope.gridOptions.data = entities;
+	            	  	   	    $scope.entities = entities;
 	            	  	   	    app.alert.success("Data Refreshed","Data refreshed successfully!");
 	            	   	  	});
 	                	}, function(response){

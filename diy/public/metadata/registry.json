@@ -6,5 +6,9 @@
       {
     	  "name":"Tasks",
     	  "entityType":"org.taskmgmt.tasks"
-      }	
+      },
+      {
+    	  "name":"Files",
+    	  "entityType":"org.taskmgmt.taskfiles"
+      }      	
 ]
