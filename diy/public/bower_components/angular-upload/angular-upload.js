@@ -44,8 +44,8 @@ angular.module('lr.upload.directives').directive('uploadButton', [
             scope.onSuccess({ response: response, field: scope.field });
             scope.onComplete({ response: response, field: scope.field });
           }, function (response) {
-            scope.onError({ response: response, field:field });
-            scope.onComplete({ response: response, field:field });
+            scope.onError({ response: response, field:scope.field });
+            scope.onComplete({ response: response, field:scope.field });
           });
         });
         if ('required' in attr) {

@@ -46,6 +46,7 @@
 	   	  			app.sqlserver.loadNestedEntities(entity, field.name, field.entityType).then(function(response){
 	   	    			if(response.success){
 	   	    				entity[field.name] = response.entities;
+	   	    				entity['_new_'+field.name] = {};
 	   	    				//set display on it, since it may not be already set by the server..
 	   	    				app.meta.getMeta(field.entityType).then(function(entityMeta){
 				    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){

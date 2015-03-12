@@ -2,7 +2,6 @@
 	<h4 style="text-align:right">
 		Total {{field.label}}(s) : <span class="label label-default">{{entity[field.name]!=null ? entity[field.name].length : 0}}</span>
 	</h4>
-	
 	<accordion close-others="false">
 	    <accordion-group is-open="false" ng-repeat="subEntity in entity[field.name]" ng-if="!subEntity.deleted">
 	        <accordion-heading>
@@ -14,75 +13,22 @@
 				<button type="submit"
 					class="btn btn-primary pull-right" ng-click="deleteSubEntity(field, subEntity)">Remove</button>
 				<div>
-					<div ng-repeat="subEntityField in field.meta.editor.fields">
-						<label for="{{subEntityField.label}}">{{subEntityField.label}}:</label>
-						<div>
-							<div class="form-group" ng-if="subEntityField.type != 'file' ">
-								<span>{{subEntity[subEntityField.name]}}</span>
-							</div>
-							<div class="form-group" ng-if="subEntityField.type == 'file'">
-								<a href="subEntity[subEntityField.name].filepath">{{subEntity[subEntityField.name].filename}}</a>
+					<div ng-repeat="tab in field.meta.editor.tabs">
+						<div ng-repeat="subEntityField in tab.fields" ng-if="subEntityField.display!=false">
+							<label for="{{subEntityField.label}}">{{subEntityField.label}}:</label>
+							<div>
+								<div class="form-group" ng-if="subEntityField.type != 'file' ">
+									<span>{{subEntity[subEntityField.name]}}</span>
+								</div>
+								<div class="form-group" ng-if="subEntityField.type == 'file'">
+									<a ng-href="{{subEntity[subEntityField.name].split(':')[1]}}" ng-if="subEntity[subEntityField.name] != null">{{subEntity[subEntityField.name].split(":")[0]}}</a>
+								</div>
 							</div>
 						</div>
 					</div>												
 				</div>
 			</div>			
 	    </accordion-group>	
-	    
-	    <accordion-group is-open="true">
-			<ng-form name="newform" ng-disabled="'true'">
-			<fieldset>
-			<accordion-heading>
-	        	Add New {{field.label}}:
-	            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-	        </accordion-heading>								    
-			<div class="form-group">	
-				<div id="editor"/>	
-				<!-- div ng-repeat="subEntityField in field.meta.editor.fields">
-					<div ng-if="subEntityField.display != false">
-						<label for="{{subEntityField}}">{{subEntityField.label}}:</label>
-						<div class="form-group" ng-if="subEntityField.type != 'file'">
-							<input name="{{field.name+'_'+subEntityField.name}}"
-								ng-model="entity['tmp_'+field.name][subEntityField.name]" type="text" class="form-control"
-								ng-required="{{subEntityField.required}}"></input>
-						</div>
-						<div class="form-group" ng-if="subEntityField.type == 'file'  && subEntityField.display != false">
-							<input name="{{field.name+'_'+subEntityField.name}}"
-								ng-model="entity['tmp_'+field.name][subEntityField.name]" type="hidden" class="form-control"
-								ng-required="{{subEntityField.required}}"></input>
-							<a href="entity['tmp_'+field.name][subEntityField.name].filepath" ng-if="entity['tmp_'+field.name][subEntityField.name] != null">{{entity['tmp_'+field.name][subEntityField.name].filename}}</a>
-							<br/>
-							<div class="panel panel-default">
-								<div class="panel-body">
-									<progressbar max="max" value="progress">
-										<span style="color:black; white-space:nowrap;">{{progress}}%</span>
-									</progressbar>			
-									<div
-									   class="btn btn-primary btn-upload"
-										   upload-button
-									   url="{{app.config.UPLOAD_SERVER_URL}}"
-									   field="{{'tmp_'+field.name+':'+subEntityField.name}}"
-									   on-upload="onUploadStart(files, field)"
-									   on-error="onUploadError(response, field)"
-									   on-success="onUploadSuccess(response, field)"
-									   on-complete="onUploadComplete(response, field)"
-									>Upload</div>																
-								</div>
-							</div>
-						</div>
-					</div>
-				</div-->
-				<!--div>
-					<div>
-						Form Valid? {{newform.$valid}}
-						<button type="submit"
-						class="btn btn-primary" ng-disabled="!newform.$valid" ng-click="addSubEntity(field)">Add</button>
-					</div>						
-				</div-->
-			</div>	
-		</fieldset>
-		</ng-form>
-	    </accordion-group>
 	</accordion>
 	<div class="panel panel-primary">
 	  <div class="panel-heading">

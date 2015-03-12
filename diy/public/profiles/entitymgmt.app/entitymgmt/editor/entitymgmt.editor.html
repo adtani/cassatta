@@ -3,7 +3,7 @@
 		<!-- Default panel contents -->
 		<div class="panel-heading">{{title}}</div>
 		<div class="panel-body">
-			<div entitymgmt-entity-editor entity="entity" meta="meta"></div>
+			<div entitymgmt-entity-editor action="Save" show-delete="true" app="app" entity="entity" meta="meta" on-save="saveEntity()" on-reset="resetEntity()" on-delete="deleteEntity()"></div>
 		</div>
 	</div>
 	<br />
