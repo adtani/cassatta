@@ -12,22 +12,47 @@
 		$scope.title = "Entity Management";
 
 		//START-DOMAIN-TYPE-CHANGE-HANDLING
-   	  	$scope.$on('entitymgmt.domaintype.selected', function(event, domainType){
-			selectDomainType(domainType);   		
-			setEditorPanel();
+		app.meta.getRegisteredDomainTypes().then(function(domainTypes){
+			$scope.domainTypes = domainTypes;
+			$scope.domainType = domainTypes[0];
+			$scope.usersDomainType = $.grep(domainTypes, function(dType){return dType.name == "Users"})[0]
+			$scope.tasksDomainType = $.grep(domainTypes, function(dType){return dType.name == "Tasks"})[0]
+			$scope.taskfilesDomainType = $.grep(domainTypes, function(dType){return dType.name == "Files"})[0]
 		});
    	  	
    	  	$scope.$on('entitymgmt.entity.selected', function(event, entities){
-   	  		$scope.entity = entities[entities.length-1];
-   	  		entitymgmtService.loadReferences($scope.entity, $scope.meta);
-			setEditorPanel();
+   	  		var entity = entities[entities.length-1];
+   	  		selectEntity(entity);
    	  	});
    	  	
-		function selectDomainType(domainType){
-			$scope.domainType = domainType;
+   	  	function selectEntity(entity){
+	  		selectEditorDomainType(entity.domainType);
+	   	  	app.meta.getMeta(entity.domainType.domainType).then(function(meta){
+	   	  		entitymgmtService.loadReferences(entity, meta);
+		  		$scope.entity = entity;
+				setEditorPanel();
+	    	}, function(response){
+	    		console.warn(response);
+	    	});                  		
+   	  	}
+   	  	
+		$scope.domainTypeSelected = function(){
+			$scope.editorDomainType = $scope.domainType;
 			$scope.entity = null;
-	   	  	app.meta.getMeta($scope.domainType.entityType).then(function(meta){
+	   	  	app.meta.getMeta($scope.domainType.domainType).then(function(meta){
 	    		$scope.meta = meta;
+	    		$scope.editorMeta = meta;
+	    		setEditorPanel();
+	    	}, function(response){
+	    		console.warn(response);
+	    	});                  		
+		}
+		
+		function selectEditorDomainType(domainType){
+			$scope.editorDomainType = domainType;
+			$scope.entity = null;
+	   	  	app.meta.getMeta(domainType.domainType).then(function(meta){
+	    		$scope.editorMeta = meta;
 	    	}, function(response){
 	    		console.warn(response);
 	    	});                  		
@@ -35,19 +60,16 @@
 		//END-DOMAIN-TYPE-CHANGE-HANDLING
 
 		//START-EVENT-HANDLING
-		$scope.entitiesRefreshed = function(entities){
-			$scope.entities = entities;
-		}
-		
    	  	$scope.resetEntity = function(){
    	  		console.warn("Not implemented!");
    	  	}
    	  	
-   	  	$scope.newEntity = function(){
-			$scope.entity = {
-				entityType:$scope.meta.editor.entityType
+   	  	$scope.newEntity = function(domainType){
+			var entity = {
+				entityType:domainType.editorType,
+				domainType:domainType
 			};			
-			setEditorPanel();
+			selectEntity(entity);
 		}
    	  	
    	  	function setEditorPanel(){

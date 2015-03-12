@@ -11,7 +11,8 @@
             	app: "=",
             	meta: "=?",
             	entities: "=?",
-            	onNew: "&"
+            	onNew: "&",
+            	gridOptions:"=?"
             },
             templateUrl: '/profiles/entitymgmt.app/directives/templates/entity.grid.view.html',
             controller: function($scope){
@@ -117,7 +118,7 @@
            	  	$scope.refresh = function(){
            	  		if($scope.domainType!=null){
 	           	  		entitymgmtService.clearCache();
-	           	  		app.meta.getMeta($scope.domainType.entityType).then(function(meta){
+	           	  		app.meta.getMeta($scope.domainType.domainType).then(function(meta){
 	           	  			$scope.meta = meta;
 	                		console.log("downloaded meta for "+$scope.domainType.entityType+" is %o ",meta);
 	                		$scope.gridOptions.columnDefs = [];
@@ -125,9 +126,13 @@
 	                			$scope.gridOptions.columnDefs.push(field);
 	                		});
 	            	   	  	entitymgmtService.loadEntities(meta.listView.entityType, meta.listView.urlFilter).then(function(entities){
+	            	   	  		console.log(entities.length+" items loaded ...")
+			       	  			angular.forEach(entities, function(entity){
+			       	  				entity.domainType = $scope.domainType;
+			       	  			});
 	            	  	   	    $scope.gridOptions.data = entities;
 	            	  	   	    $scope.entities = entities;
-	            	  	   	    app.alert.success("Data Refreshed","Data refreshed successfully!");
+	            	  	   	    app.alert.success("Data Refreshed",entities.length + " items loaded for "+meta.listView.entityType+"!");
 	            	   	  	});
 	                	}, function(response){
 	                		console.warn(response);
@@ -150,7 +155,9 @@
         		};
         		
         		$scope.$watch('domainType', function(newValue, oldValue){
-        			$scope.refresh();
+        			if(newValue != oldValue){
+        				$scope.refresh();
+        			}
         		});
 
            	  	$scope.$on('entitymgmt.entity.saved', function(event, entities){

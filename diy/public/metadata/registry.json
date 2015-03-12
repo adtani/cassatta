@@ -1,14 +1,20 @@
 [
       {
     	  "name":"Users",
-    	  "entityType":"org.users"
+    	  "domainType":"org.users",
+    	  "editorType":"org.users",
+    	  "listViewType":"org.users"
       },
       {
     	  "name":"Tasks",
-    	  "entityType":"org.taskmgmt.tasks"
+    	  "domainType":"org.taskmgmt.tasks",
+    	  "editorType":"org.taskmgmt.tasks",
+    	  "listViewType":"org.taskmgmt.taskviews"
       },
       {
     	  "name":"Files",
-    	  "entityType":"org.taskmgmt.taskfiles"
+    	  "domainType":"org.taskmgmt.taskfiles",
+    	  "editorType":"org.taskmgmt.taskfiles",
+    	  "listViewType":"org.taskmgmt.taskfilesview"
       }      	
 ]

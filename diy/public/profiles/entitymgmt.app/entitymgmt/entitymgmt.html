@@ -4,21 +4,27 @@
 			<!-- Default panel contents -->
 			<div class="panel-heading">Entity Management - Demonstration</div>
 			<div class="panel-body">
-				<div entitymgmt-domain-type-selector/>
+				<div entitymgmt-domain-type-selector domain-type="domainType" domain-types="domainTypes" on-select="domainTypeSelected()"/>
 				<br/><br/>
 				<tabset> 
-					<tab heading="{{domainType.name}} ({{entities.length}})">
-						<div entitymgmt-entity-grid-view domain-type="domainType" on-new="newEntity()" entities="entities"/>						
+					<tab heading="Dynamically Selected Entities - {{domainType.name}} ({{entities.length}})">
+						<div entitymgmt-entity-grid-view domain-type="domainType" on-new="newEntity(domainType)" entities="entities"/>						
 					</tab>
-					<tab heading="Activities">
-						<h3>This is where application related activities go ...</h3>
+					<tab heading="Users ({{users.length}})">
+						<div entitymgmt-entity-grid-view domain-type="usersDomainType" on-new="newEntity(usersDomainType)" entities="users"/>						
+					</tab>
+					<tab heading="Tasks ({{tasks.length}})">
+						<div entitymgmt-entity-grid-view domain-type="tasksDomainType" on-new="newEntity(tasksDomainType)" entities="tasks"/>						
+					</tab>
+					<tab heading="Files ({{taskfiles.length}})">
+						<div entitymgmt-entity-grid-view domain-type="taskfilesDomainType" on-new="newEntity(taskfilesDomainType)" entities="taskfiles"/>						
 					</tab>
 				</tabset>
 			</div>
 		</div>
 	</div>
   	<div class="col-md-3">
-		<div class="col-md-12" entitymgmt-entity-editor action="Save" domain-type="domainType" show-delete="true" app="app" entity="entity" meta="meta" panel-type="panelType" title="title" on-save="saveEntity()" on-reset="resetEntity()" on-delete="deleteEntity()"></div>
+		<div class="col-md-12" entitymgmt-entity-editor action="Save" domain-type="editorDomainType" show-delete="true" app="app" entity="entity" meta="editorMeta" panel-type="panelType" title="title" on-save="saveEntity()" on-reset="resetEntity()" on-delete="deleteEntity()"></div>
 	</div>
 	<br />
 </div>

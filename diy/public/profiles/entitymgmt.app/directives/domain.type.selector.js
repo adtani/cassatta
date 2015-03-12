@@ -8,31 +8,15 @@
             restrict: 'EA',
             templateUrl: '/profiles/entitymgmt.app/directives/templates/domain.type.selector.html',
             scope: {
-            	
+            	domainType : "=",
+            	domainTypes : "=",
+            	onSelect : "&"
             },
-            controller: function($scope)
-            {
-            	
-				$scope.selectDomainType = function(domainType){
-					$scope.domainType = domainType;
-					$rootScope.$broadcast('entitymgmt.domaintype.selected', domainType);
-				}
-				
-				$scope.loadDomainTypes = function(){
-					if(!$scope.init){
-						app.meta.getRegisteredDomainTypes().then(function(domainTypes){
-							$scope.init = true;
-							$scope.domainTypes = domainTypes;
-							$scope.selectDomainType(domainTypes[0]);
-						});
-					}
-				}
-				
-				function init() {
-					$scope.loadDomainTypes();
-				}        
-				
-				init();    	
+            controller:function($scope){
+            	$scope.selectDomain = function(domainType){
+            		$scope.domainType = domainType;
+            		$scope.onSelect();
+            	}
             }
         };
     };

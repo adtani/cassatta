@@ -15,12 +15,8 @@
         	loadReferences : loadReferences
         };
         
-        var tasks = null;
-        var deferred = null;
-        
         function clearCache(){
-        	tasks = null;
-        	deferred = null;
+        	//TODO:clearCache
         }
         
         function loadReferences(entity, meta){
@@ -30,6 +26,7 @@
    	  				var entityId = entity[field.name+"Id"];
 	   	  			app.sqlserver.loadEntity(field.entityType, entityId).then(function(response){
 	   	    			if(response.success){
+	   	    				console.log("Loaded reference "+field.name+" -> "+entity.id);
 	   	    				entity[field.name] = response.entity;
 	   	    				//set display on it, since it may not be already set by the server..
 	   	    				app.meta.getMeta(response.entity.entityType).then(function(entityMeta){
@@ -52,7 +49,9 @@
 				    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
 		   		   	  				return field.searchable == true;
 		   		   	  			});
-				    			response.entity.display = "["+response.entity.id+"]: "+ response.entity[searchableFields[0].name];
+				    			angular.forEach(entity[field.name], function(entity){
+				    				entity.display = "["+entity.id+"]: "+ entity[searchableFields[0].name];
+				    			})
 	   	    				});
 	   	    			}
 	   	    		});
@@ -61,32 +60,25 @@
         }
 
         function loadEntities(entityType, urlFilter){
-        	if(deferred == null){
-	        	deferred = app.q.defer();
-	        	if(tasks == null){
-	        		var filter = urlFilter!=null? urlFilter.split(":SESSION_USER_ID").join($rootScope.session.user.id) : null;
-	        		var promise = null;
-	        		if(filter!=null && filter.length > 0){
-	        			promise = app.sqlserver.searchEntities(entityType,filter);
-	        		}else{
-	        			promise = app.sqlserver.loadEntities(entityType);
-	        		}
-		       	  	promise.then(function(response){
-		       	  		if(response.success){
-		       	  			tasks = response.entities;
-		    	   	  		for(var i = 0; i < tasks.length; i++){
-		    	  	   	      tasks[i].dueDate = new Date(tasks[i].dueDate);
-		    	  	   	    }
-		    	   	  		deferred.resolve(tasks);
-		    	  	   	    $rootScope.$broadcast('taskmgmt.tasksupdated', tasks);
-		       	  		}else{
-		       	  			deferred.reject(response);
-		       	  		}
-		       	  	});
-	        	}else{
-	        		defered.resolve(tasks);
-	        	}
-        	}
+        	console.log("initiating fetch for "+entityType);
+        	var deferred = app.q.defer();
+    		var filter = urlFilter!=null? urlFilter.split(":SESSION_USER_ID").join($rootScope.session.user.id) : null;
+    		var promise = null;
+    		if(filter!=null && filter.length > 0){
+    			console.log("fetching ..."+entityType+filter);
+    			promise = app.sqlserver.searchEntities(entityType,filter);
+    		}else{
+    			console.log("fetching ..."+entityType);
+    			promise = app.sqlserver.loadEntities(entityType);
+    		}
+       	  	promise.then(function(response){
+       	  		if(response.success){
+    	   	  		deferred.resolve(response.entities);
+    	  	   	    $rootScope.$broadcast('taskmgmt.tasksupdated', response.entities);
+       	  		}else{
+       	  			deferred.reject(response);
+       	  		}
+       	  	});
         	return deferred.promise;
         }
 
