@@ -8,33 +8,20 @@
 				<br/><br/>
 				<tabset> 
 					<tab heading="My Entities ({{gridOptions.data.length}})">
-						<h3>
-							<button type="submit"
-							class="btn btn-primary" ng-click="initNewEntity()">New
-							Entity</button>
-							<button type="submit"
-							class="btn btn-primary" ng-click="refresh()">Refresh</button>
-							<button type="submit"
-							class="btn btn-primary" ng-click="deleteEntities()">Delete</button>
-						</h3>
-						
-						<div entitymgmt-entity-grid-view/>						
-				</tab>
-					
+						<div entitymgmt-entity-grid-view domain-type="domainType" on-new="newEntity()"/>						
+					</tab>
 					<tab heading="Collaborations">
 						<h3>This is where task related collaborations go ...</h3>
 					</tab>
-	
 					<tab heading="Activities">
 						<h3>This is where application related activities go ...</h3>
 					</tab>
-					
 				</tabset>
 			</div>
 		</div>
 	</div>
   	<div class="col-md-3">
-		<div ng-include="'/profiles/entitymgmt.app/entitymgmt/editor/entitymgmt.editor.html'"/>
+		<div class="col-md-12" entitymgmt-entity-editor action="Save" domain-type="domainType" show-delete="true" app="app" entity="entity" meta="meta" panel-type="panelType" title="title" on-save="saveEntity()" on-reset="resetEntity()" on-delete="deleteEntity()"></div>
 	</div>
 	<br />
 </div>

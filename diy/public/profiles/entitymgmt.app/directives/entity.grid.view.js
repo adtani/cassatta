@@ -7,10 +7,10 @@
         return {
             restrict: 'EA',
             scope: {
-            	action: "@",
-            	showDelete: "@",
+            	domainType: "=?",
             	app: "=",
             	meta: "=?",
+            	onNew: "&"
             },
             templateUrl: '/profiles/entitymgmt.app/directives/templates/entity.grid.view.html',
             controller: function($scope){
@@ -90,10 +90,6 @@
         	   	    	}
         	   	    });	  
 
-					app.meta.getRegisteredDomainTypes().then(function(domainTypes){
-						$scope.domainType = domainTypes[0];
-					});
-
            	  	};
            	  	
            	  	$scope.deleteEntities = function(){
@@ -118,21 +114,23 @@
         		}
            	 
            	  	$scope.refresh = function(){
-           	  		entitymgmtService.clearCache();
-           	  		app.meta.getMeta($scope.domainType.entityType).then(function(meta){
-           	  			$scope.meta = meta;
-                		console.log("downloaded meta for "+$scope.domainType.entityType+" is %o ",meta);
-                		$scope.gridOptions.columnDefs = [];
-                		angular.forEach(meta.listView.fields, function(field){
-                			$scope.gridOptions.columnDefs.push(field);
-                		});
-            	   	  	entitymgmtService.loadEntities(meta.listView.entityType, meta.listView.urlFilter).then(function(entities){
-            	  	   	    $scope.gridOptions.data = entities;
-            	  	   	    app.alert.success("Data Refreshed","Data refreshed successfully!");
-            	   	  	});
-                	}, function(response){
-                		console.warn(response);
-                	});
+           	  		if($scope.domainType!=null){
+	           	  		entitymgmtService.clearCache();
+	           	  		app.meta.getMeta($scope.domainType.entityType).then(function(meta){
+	           	  			$scope.meta = meta;
+	                		console.log("downloaded meta for "+$scope.domainType.entityType+" is %o ",meta);
+	                		$scope.gridOptions.columnDefs = [];
+	                		angular.forEach(meta.listView.fields, function(field){
+	                			$scope.gridOptions.columnDefs.push(field);
+	                		});
+	            	   	  	entitymgmtService.loadEntities(meta.listView.entityType, meta.listView.urlFilter).then(function(entities){
+	            	  	   	    $scope.gridOptions.data = entities;
+	            	  	   	    app.alert.success("Data Refreshed","Data refreshed successfully!");
+	            	   	  	});
+	                	}, function(response){
+	                		console.warn(response);
+	                	});
+           	  		}
            	  	}
            	  	
         		$scope.saveState = function() {
@@ -149,8 +147,7 @@
         			}
         		};
         		
-        		$rootScope.$on('entitymgmt.domaintype.selected', function(event, domainType){
-        			$scope.domainType = domainType;
+        		$scope.$watch('domainType', function(newValue, oldValue){
         			$scope.refresh();
         		});
 

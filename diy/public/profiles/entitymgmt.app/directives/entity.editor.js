@@ -14,6 +14,8 @@
             	meta: "=?",
             	field: "=?",
             	containerEntity: "=",
+            	panelType: "=",
+            	title: "=",
             	saveEntity: "&onSave",
             	resetEntity: "&onReset",
             	deleteEntity: "&onDelete"
@@ -21,19 +23,6 @@
             templateUrl: '/profiles/entitymgmt.app/directives/templates/entity.editor.html',
             controller: function($scope){
             	
-	       	  	$scope.$on('entitymgmt.newentity', function(event, entity){
-	       	  		$scope.entity = entity;
-	       	  		$scope.title = "New Entity ["+$scope.entity.entityType+"]";
-	       	  		setPanelType();
-	       	  	});
-        	
-	       	  	$scope.$on('entitymgmt.entity.selected', function(event, entities){
-	       	  		$scope.entity = entities[entities.length-1];
-		   	  		entitymgmtService.loadReferences($scope.entity, $scope.meta);
-		   	  		$scope.title = "New Entity - "+$scope.entity.entityType+" ["+$scope.entity.id+"]";
-		   	  		setPanelType();
-	       	  	});
-           	  	
 	    		//START-DATE-MANAGEMENT
 	    		// Disable weekend selection
 	    		$scope.disabled = function(date, mode) {
@@ -131,20 +120,6 @@
 	    		}
 	       	  	//END-UPLOAD-MANAGEMENT    
 	
-	    		
-	    		//START-PANEL-MANAGEMENT
-	    		$scope.paneltype = "panel-primary";
-	
-	       	  	//TODO:Logic when entity is selected for editing...
-	       	  	$scope.title = "Entity Editor";
-	       	  	
-	       	  	function setPanelType(){
-	       	  		$scope.paneltype = $scope.entity != null? ($scope.entity.id != null ? "panel-primary" : "panel-success") : "panel-info";
-	       	  	}
-	       	  	
-	       	  	setPanelType();
-	    		//END-PANEL-MANAGEMENT
-           	  	
             }
         };
 
