@@ -161,22 +161,29 @@
         		});
 
            	  	$scope.$on('entitymgmt.entity.saved', function(event, entities){
-           	   	  	app.sqlserver.loadEntity($scope.meta.listView.entityType, entities[0].id).then(function(response){
-           	   	  		if(response.success){
-           	   	  			var existingEntities = $.grep($scope.gridOptions.data, function(entity){return entity.id==entities[0].id});
-           	   	  			if(existingEntities.length > 0){
-           	   	  				if(!entities[0].deleted){
-           	   	  					$scope.gridOptions.data.splice($scope.gridOptions.data.indexOf(existingEntities[0]),1,response.entity);
-           	   	  				}else{
-           	   	  					$scope.gridOptions.data.splice($scope.gridOptions.data.indexOf(existingEntities[0]),1);
-           	   	  				}
-           	   	  			}else{
-           	   	  				$scope.gridOptions.data.push(response.entity);
-           	   	  			}
-           	   	  		}else{
-           	   	  			app.alert.warning("Entity Load Failure!");
-           	   	  		}
-           	   	  	});
+           	  		if(!entities[0].deleted){
+	           	   	  	app.sqlserver.loadEntity($scope.meta.listView.entityType, entities[0].id).then(function(response){
+	           	   	  		if(response.success){
+	           	   	  			var existingEntities = $.grep($scope.gridOptions.data, function(entity){return entity.id==entities[0].id && entities[0].domainType.name == entity.domainType.name});
+	           	   	  			if(existingEntities.length > 0){
+	           	   	  				if(!entities[0].deleted){
+	           	   	  					$scope.gridOptions.data.splice($scope.gridOptions.data.indexOf(existingEntities[0]),1,response.entity);
+	           	   	  				}else{
+	           	   	  					$scope.gridOptions.data.splice($scope.gridOptions.data.indexOf(existingEntities[0]),1);
+	           	   	  				}
+	           	   	  			}else{
+	           	   	  				$scope.gridOptions.data.push(response.entity);
+	           	   	  			}
+	           	   	  		}else{
+	           	   	  			app.alert.warning("Entity Load Failure!");
+	           	   	  		}
+	           	   	  	});
+           	  		}else{
+           	  			var existingEntities = $.grep($scope.gridOptions.data, function(row){return entities[0].id == row.id && entities[0].domainType.name == row.domainType.name});
+           	  			if(existingEntities.length>0){
+           	  				$scope.gridOptions.data.splice($scope.gridOptions.data.indexOf(existingEntities[0]),1);
+           	  			}
+           	  		}
            	  	});   	  	
            	  	
     			$scope.restoreState();

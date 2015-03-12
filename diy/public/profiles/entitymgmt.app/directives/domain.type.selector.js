@@ -9,13 +9,11 @@
             templateUrl: '/profiles/entitymgmt.app/directives/templates/domain.type.selector.html',
             scope: {
             	domainType : "=",
-            	domainTypes : "=",
-            	onSelect : "&"
+            	domainTypes : "="
             },
             controller:function($scope){
             	$scope.selectDomain = function(domainType){
             		$scope.domainType = domainType;
-            		$scope.onSelect();
             	}
             }
         };

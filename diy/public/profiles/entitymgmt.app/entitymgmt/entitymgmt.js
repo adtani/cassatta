@@ -36,17 +36,19 @@
 	    	});                  		
    	  	}
    	  	
-		$scope.domainTypeSelected = function(){
-			$scope.editorDomainType = $scope.domainType;
-			$scope.entity = null;
-	   	  	app.meta.getMeta($scope.domainType.domainType).then(function(meta){
-	    		$scope.meta = meta;
-	    		$scope.editorMeta = meta;
-	    		setEditorPanel();
-	    	}, function(response){
-	    		console.warn(response);
-	    	});                  		
-		}
+		$scope.$watch('domainType', function(newValue, oldValue){
+			if(newValue!=oldValue){
+				$scope.editorDomainType = $scope.domainType;
+				$scope.entity = null;
+		   	  	app.meta.getMeta($scope.domainType.domainType).then(function(meta){
+		    		$scope.meta = meta;
+		    		$scope.editorMeta = meta;
+		    		setEditorPanel();
+		    	}, function(response){
+		    		console.warn(response);
+		    	});                  	
+			}
+		});
 		
 		function selectEditorDomainType(domainType){
 			$scope.editorDomainType = domainType;
