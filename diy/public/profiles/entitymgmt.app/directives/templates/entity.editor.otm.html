@@ -2,7 +2,8 @@
 	<h4 style="text-align:right">
 		Total {{field.label}}(s) : <span class="label label-default">{{entity[field.name]!=null ? entity[field.name].length : 0}}</span>
 	</h4>
-	<accordion close-others="false">
+	
+	<accordion close-others="false" ng-if="entity[field.name]!=null && entity[field.name].length>0">
 	    <accordion-group is-open="false" ng-repeat="subEntity in entity[field.name]" ng-if="!subEntity.deleted">
 	        <accordion-heading>
 	        	{{field.label}} # {{entity[field.name].indexOf(subEntity)+1}}
@@ -30,12 +31,7 @@
 			</div>			
 	    </accordion-group>	
 	</accordion>
-	<div class="panel panel-primary">
-	  <div class="panel-heading">
-	    <h3 class="panel-title">Add New {{field.label}}</h3>
-	  </div>
-	  <div class="panel-body">
-	 	<div id="editor"/>   
-	  </div>
-	</div>	
+	
+	 <div id="editor"/>
+	    
 </div>

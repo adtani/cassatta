@@ -1,10 +1,3 @@
-<div ng-controller="entityEditorController" class="col-md-12">
-	<div class="panel {{paneltype}}">
-		<!-- Default panel contents -->
-		<div class="panel-heading">{{title}}</div>
-		<div class="panel-body">
-			<div entitymgmt-entity-editor action="Save" show-delete="true" app="app" entity="entity" meta="meta" on-save="saveEntity()" on-reset="resetEntity()" on-delete="deleteEntity()"></div>
-		</div>
-	</div>
-	<br />
+<div ng-controller="entityEditorController">
+	<div class="col-md-12" entitymgmt-entity-editor action="Save" domain-type="domainType" show-delete="true" app="app" entity="entity" meta="meta" on-save="saveEntity()" on-reset="resetEntity()" on-delete="deleteEntity()"></div>
 </div>

@@ -4,7 +4,7 @@
 			<!-- Default panel contents -->
 			<div class="panel-heading">{{title}}</div>
 			<div class="panel-body">
-				<div entitymgmt-entity-type-selector/>
+				<div entitymgmt-domain-type-selector/>
 				<br/><br/>
 				<tabset> 
 					<tab heading="My Entities ({{gridOptions.data.length}})">
@@ -18,14 +18,7 @@
 							class="btn btn-primary" ng-click="deleteEntities()">Delete</button>
 						</h3>
 						
-						Filters : {{gridOptions.enableFiltering}}
-						
-						<!-- div class="grid" ng-grid="gridOptions"></div -->
-						<div ui-grid="gridOptions" ui-grid-edit ui-grid-selection
-							ui-grid-resize-columns ui-grid-row-edit ui-grid-cellNav
-							ui-grid-pagination ui-grid-exporter ui-grid-move-columns
-							class="listgrid"></div>
-
+						<div entitymgmt-entity-grid-view/>						
 				</tab>
 					
 					<tab heading="Collaborations">

@@ -5,8 +5,8 @@
         {{domainType.entityType}} <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
-        <li ng-repeat="entity in entityTypes track by $index">
-          <a href="#/welcome/entitymgmt/{{entity.entityType}}">{{entity.entityType}}</a>
+        <li ng-repeat="domainType in domainTypes track by $index">
+          	<button type="button" class="btn-default btn-lg btn-block" ng-click="selectDomainType(domainType)">{{domainType.entityType}}</button>
         </li>
       </ul>
     </div>				

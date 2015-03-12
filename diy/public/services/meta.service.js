@@ -9,7 +9,7 @@
     	
         return {
         	getMeta : getMeta,
-        	getRegisteredEntityTypes : getRegisteredEntityTypes
+        	getRegisteredDomainTypes : getRegisteredDomainTypes
         };
 
     	function getMeta(metaType){
@@ -28,7 +28,7 @@
     		return deferred.promise;
     	}
     	
-    	function getRegisteredEntityTypes(){
+    	function getRegisteredDomainTypes(){
     		var deferred = $q.defer();
     		var cachedItems = $.grep(cache, function(item){return (item.metaType == 'registry')});
     		if(cachedItems.length > 0){
