@@ -52,11 +52,11 @@
 	        	//START-LOOKUP-MANAGEMENT
 	       	  	$scope.results = [{id:1,name:"result1",displaytext:"result1text"},{id:2,name:"result2",displaytext:"result2text"}];
 	       	  	
-	       	  	$scope.searchEntities = function(fieldName, entityType, pattern){
+	       	  	$scope.searchEntities = function(fieldName, domainType, pattern){
 	       	  		if(pattern.length > 2){
-	    		   	 	app.sqlserver.loadEntities(entityType).then(function(response){
-	    		    		if(response.success){
-	    		   		   	  	app.meta.getMeta(entityType).then(function(entityMeta){
+	       	  			app.meta.getMeta(domainType).then(function(entityMeta){
+		    		   	 	app.sqlserver.loadEntities(entityMeta.editor.entityType).then(function(response){
+		    		    		if(response.success){
 	    		   		    		$scope.results[fieldName] = $.grep(response.entities, function(entity){
 	    			   		   	  		var matchedFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
 	    			   		   	  			return field.searchable == true && entity[field.name].indexOf(pattern) >= 0;
@@ -69,14 +69,12 @@
 	    			   		   	  		});
 	    		   		    			result.display = "["+result.id+"]: "+result[searchableFields[0].name];
 	    		   		    		});
-	    		   		    	}, function(response){
-	    		   		    		console.warn(response);
-	    		   		    	});   	  			
-	    		    		}else{
-	    		    			app.alert.warning('Warning','Search Failure');
-	    						app.location.path("/login");
-	    		    		}
-	    		    	});   	  		
+		    		    		}else{
+		    		    			app.alert.warning('Warning','Search Failure');
+		    						app.location.path("/login");
+		    		    		}
+		    		    	});   	  		
+	       	  			});	       	  			
 	       	  		}
 	       	  	};            	
 	        	//END-LOOKUP-MANAGEMENT

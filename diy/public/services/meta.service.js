@@ -12,15 +12,15 @@
         	getRegisteredDomainTypes : getRegisteredDomainTypes
         };
 
-    	function getMeta(metaType){
+    	function getMeta(domainType){
     		var deferred = $q.defer();
-    		var cachedItems = $.grep(cache, function(item){return (item.metaType == metaType)});
+    		var cachedItems = $.grep(cache, function(item){return (item.domainType == domainType)});
     		if(cachedItems.length > 0){
     			deferred.resolve(cachedItems[0]);
     		}else{
-	    		var metaPath =  metaType.split('.').join('/');
+	    		var metaPath =  domainType.split('.').join('/');
 	    		$resource("/metadata/"+metaPath+".metadata.json").get().$promise.then(function(response){
-	    			response.metaType = metaType;
+	    			response.domainType = domainType;
 	    			cache.push(response);
 	            	deferred.resolve(response);
 	            });
@@ -30,12 +30,12 @@
     	
     	function getRegisteredDomainTypes(){
     		var deferred = $q.defer();
-    		var cachedItems = $.grep(cache, function(item){return (item.metaType == 'registry')});
+    		var cachedItems = $.grep(cache, function(item){return (item.domainType == 'registry')});
     		if(cachedItems.length > 0){
     			deferred.resolve(cachedItems[0]);
     		}else{
 	    		$resource("/metadata/registry.json").query().$promise.then(function(response){
-	    			response.metaType = 'registry';
+	    			response.domainType = 'registry';
 	    			cache.push(response);
 	            	deferred.resolve(response);
 	            });

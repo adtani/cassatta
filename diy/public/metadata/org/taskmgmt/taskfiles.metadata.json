@@ -21,14 +21,14 @@
 				        	"name":"owner",
 				        	"label": "Owner",
 				            "type":"owner",
-				            "entityType":"org.users",
+				            "domainType":"org.users",
 					    	"required":true
 				        },
 				        {
 				        	"name":"task",
 				        	"label": "Task",
 				            "type":"OTO",
-				            "entityType":"org.taskmgmt.tasks",
+				            "domainType":"org.taskmgmt.tasks",
 					    	"required":true
 				        },
 					    {

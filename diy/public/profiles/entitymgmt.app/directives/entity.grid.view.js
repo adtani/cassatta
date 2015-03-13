@@ -168,11 +168,7 @@
 		           	   	  	app.sqlserver.loadEntity($scope.meta.listView.entityType, entities[0].id).then(function(response){
 		           	   	  		if(response.success){
 		           	   	  			if(matchingEntities.length > 0){
-		           	   	  				if(!entities[0].deleted){
-		           	   	  					$scope.gridOptions.data.splice($scope.gridOptions.data.indexOf(matchingEntities[0]),1,response.entity);
-		           	   	  				}else{
-		           	   	  					$scope.gridOptions.data.splice($scope.gridOptions.data.indexOf(matchingEntities[0]),1);
-		           	   	  				}
+	           	   	  					$scope.gridOptions.data.splice($scope.gridOptions.data.indexOf(matchingEntities[0]),1,response.entity);
 		           	   	  			}else{
 		           	   	  				$scope.gridOptions.data.push(response.entity);
 		           	   	  			}

@@ -54,7 +54,7 @@
 								reset-search-input="false" style="width: 100%;"> <ui-select-match
 								placeholder="Search ...">{{$select.selected.display}}</ui-select-match>
 							<ui-select-choices repeat="result in results[field.name] track by $index"
-								refresh="searchEntities(field.name, field.entityType, $select.search)" refresh-delay="1000">
+								refresh="searchEntities(field.name, field.domainType, $select.search)" refresh-delay="1000">
 							<div ng-bind-html="result.display | highlight: $select.search"></div>
 							</ui-select-choices> </ui-select>
 						</div>	

@@ -40,36 +40,40 @@
    	  		angular.forEach(allfields, function(field){
    	  			if((field.type == 'OTO' || field.type == 'owner') && entity[field.name+"Id"] != null){
    	  				var entityId = entity[field.name+"Id"];
-	   	  			app.sqlserver.loadEntity(field.entityType, entityId).then(function(response){
-	   	    			if(response.success){
-	   	    				console.log("Loaded reference "+field.name+" -> "+entity.id);
-	   	    				entity[field.name] = response.entity;
-	   	    				//set display on it, since it may not be already set by the server..
-	   	    				app.meta.getMeta(response.entity.entityType).then(function(entityMeta){
-				    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
-		   		   	  				return field.searchable == true;
-		   		   	  			});
-				    			response.entity.display = "["+response.entity.id+"]: "+ response.entity[searchableFields[0].name];
-	   	    				});
-	   	    			}
-	   	    		});
+    				app.meta.getMeta(field.domainType).then(function(fieldMeta){
+    					field.meta = fieldMeta;
+    	   	  			app.sqlserver.loadEntity(field.meta.editor.entityType, entityId).then(function(response){
+    	   	    			if(response.success){
+    	   	    				console.log("Loaded reference "+field.name+" -> "+entity.id);
+    	   	    				entity[field.name] = response.entity;
+    	   	    				//set display on it, since it may not be already set by the server..
+    	   	    				app.meta.getMeta(response.entity.entityType).then(function(entityMeta){
+    				    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
+    		   		   	  				return field.searchable == true;
+    		   		   	  			});
+    				    			response.entity.display = "["+response.entity.id+"]: "+ response.entity[searchableFields[0].name];
+    	   	    				});
+    	   	    			}
+    	   	    		});
+    				});
    	  			}
 	   	  		if(field.type == 'OTM'){
    	  				var subEntitiesURL = entity[field.name];
-	   	  			app.sqlserver.loadNestedEntities(entity, field.name, field.entityType).then(function(response){
-	   	    			if(response.success){
-	   	    				entity[field.name] = response.entities;
-	   	    				entity['_new_'+field.name] = {};
-	   	    				angular.forEach(entity[field.name], function(nestedEntity){
-	   	    					loadReferences(nestedEntity, field.meta);
-	   	    				});
-	   	    			}
-	   	    		});
+	   	  			app.meta.getMeta(field.domainType).then(function(fieldMeta){
+	   	  				field.meta = fieldMeta;
+	   	  				app.sqlserver.loadNestedEntities(entity, field.name, field.meta.editor.entityType).then(function(response){
+		   	    			if(response.success){
+		   	    				entity[field.name] = response.entities;
+		   	    				entity['_new_'+field.name] = {};
+		   	    				angular.forEach(entity[field.name], function(nestedEntity){
+		   	    					loadReferences(nestedEntity, field.meta);
+		   	    				});
+		   	    			}
+		   	    		});
+	   				});
    	  			}
    	  		});
         }
-        
-        
         
         function setDisplayOnNestedEntities(entity, field, meta){
 			var searchableFields = $.grep(meta.editor.tabs[0].fields, function(field){

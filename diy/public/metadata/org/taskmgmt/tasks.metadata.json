@@ -21,14 +21,14 @@
 				        	"name":"owner",
 				        	"label": "Owner",
 				            "type":"owner",
-				            "entityType":"org.users",
+				            "domainType":"org.users",
 					    	"required":true
 				        },
 				        {
 				        	"name":"parent",
 				        	"label": "Parent Task",
 				            "type":"OTO",
-				            "entityType":"org.taskmgmt.tasks",
+				            "domainType":"org.taskmgmt.tasks",
 					    	"required":false
 				        },
 					    {
@@ -42,7 +42,7 @@
 			        		"name":"assignee",
 			        		"label" : "Assignee",
 			            	"type":"OTO",
-			            	"entityType":"org.users",
+			            	"domainType":"org.users",
 					    	"required":true
 				        },			    
 					    {
@@ -87,67 +87,9 @@
 				        	"name":"files",
 				        	"label":"File",
 				            "type":"OTM",
-				            "entityType":"org.taskmgmt.taskfiles",
+				            "domainType":"org.taskmgmt.taskfiles",
 				            "reverseReference" : "task",
-					    	"required":false,
-					    	"meta": {
-					    		"editor" : {
-									"name": "Tab 1.1",
-									"label": "Files",
-						            "entityType":"org.taskmgmt.taskfiles",
-									"tabs" : [
-										{
-											"name": "Tab 1",
-											"label": "Upload File",
-							    			"fields" : [
-							    				{
-										        	"name":"task",
-												    "display" : false,
-										        	"label": "Task",
-										            "type":"OTO",
-										            "entityType":"org.taskmgmt.tasks",
-											    	"required":true
-							    				},
-											    {
-												    "name":"id",
-												    "display" : false,
-												    "type":"id",
-												    "label": "ID", 
-												    "required":true 
-											    },			    			
-										        {
-										        	"name":"owner",
-												    "display" : false,
-										        	"label": "Owner",
-										            "type":"owner",
-										            "entityType":"org.users",
-											    	"required":true
-										        },
-											    {
-												    "name":"name",
-												    "label":"Name",
-												    "type":"text",
-												    "required":true,
-												    "searchable":true
-											    },
-											    {
-												    "name":"path",
-												    "label":"File",
-												    "type":"file",
-												    "required":true,
-												    "searchable":true
-											    },
-											    {
-												    "name":"entityType",
-												    "type":"entityType",
-												    "required":true,
-												    "display":false
-											    }	    			
-							    			]
-										}					
-									]
-					    		}
-					    	}
+					    	"required":false
 				        }
 					]	
 				},
@@ -159,81 +101,9 @@
 				        	"name":"comments",
 				        	"label":"Comments",
 				            "type":"OTM",
-				            "entityType":"org.taskmgmt.taskcomments",
+				            "domainType":"org.taskmgmt.taskcomments",
 				            "reverseReference" : "task",
-					    	"required":false,
-					    	"meta": {
-					    		"editor" : {
-									"name": "Tab 1.2",
-									"label": "Comments",
-						            "entityType":"org.taskmgmt.taskcomments",
-									"tabs" : [
-										{
-											"name": "Tab 1.2.1",
-											"label": "Comments",
-							    			"fields" : [
-							    				{
-										        	"name":"task",
-												    "display" : false,
-										        	"label": "Task",
-										            "type":"OTO",
-										            "entityType":"org.taskmgmt.tasks",
-											    	"required":true
-							    				},
-											    {
-												    "name":"id",
-												    "display" : false,
-												    "type":"id",
-												    "label": "ID", 
-												    "required":true 
-											    },			    			
-										        {
-										        	"name":"owner",
-												    "display" : false,
-										        	"label": "Owner",
-										            "type":"owner",
-										            "entityType":"org.users",
-											    	"required":true
-										        },
-										        {
-										        	"name":"assignee",
-										        	"label": "Assignee",
-										            "type":"OTO",
-										            "entityType":"org.users",
-											    	"required":true
-										        },
-											    {
-												    "name":"title",
-												    "label":"Title",
-												    "type":"text",
-												    "required":true,
-												    "searchable":true
-											    },
-											    {
-												    "name":"text",
-												    "label":"Text",
-												    "type":"textarea",
-												    "required":true,
-												    "searchable":true
-											    },
-											    {
-												    "name":"status",
-												    "label":"Status",
-												    "type":"text",
-												    "required":true,
-												    "searchable":true
-											    },											    
-											    {
-												    "name":"entityType",
-												    "type":"entityType",
-												    "required":true,
-												    "display":false
-											    }	    			
-							    			]
-										}					
-									]
-					    		}
-					    	}
+					    	"required":false
 				        }
 					]	
 				}											
