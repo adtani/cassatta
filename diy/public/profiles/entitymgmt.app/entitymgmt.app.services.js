@@ -12,11 +12,27 @@
         	saveEntity : saveEntity,
         	loadEntities : loadEntities,
         	clearCache : clearCache,
-        	loadReferences : loadReferences
+        	loadReferences : loadReferences,
+        	newEntity : newEntity
         };
         
         function clearCache(){
         	//TODO:clearCache
+        }
+        
+        function newEntity(domainType){
+			var entity = {
+					entityType:domainType.editorType,
+					domainType:domainType
+				};			
+			app.meta.getMeta(entity.entityType).then(function(entityMeta){
+	        	var allfields = getAllFields(entityMeta);
+	        	var otmFields = $.grep(allfields, function(field){return field.type == 'OTM'});
+	   	  		angular.forEach(otmFields, function(field){
+					entity['_new_'+field.name] = {};
+	   	  		});
+			});
+			return entity;
         }
         
         function loadReferences(entity, meta){
@@ -52,6 +68,8 @@
    	  			}
    	  		});
         }
+        
+        
         
         function setDisplayOnNestedEntities(entity, field, meta){
 			var searchableFields = $.grep(meta.editor.tabs[0].fields, function(field){

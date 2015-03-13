@@ -67,10 +67,7 @@
    	  	}
    	  	
    	  	$scope.newEntity = function(domainType){
-			var entity = {
-				entityType:domainType.editorType,
-				domainType:domainType
-			};			
+   	  		var entity = entitymgmtService.newEntity(domainType);
 			selectEntity(entity);
 		}
    	  	

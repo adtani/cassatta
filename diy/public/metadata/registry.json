@@ -16,5 +16,11 @@
     	  "domainType":"org.taskmgmt.taskfiles",
     	  "editorType":"org.taskmgmt.taskfiles",
     	  "listViewType":"org.taskmgmt.taskfilesview"
-      }      	
+      },
+      {
+    	  "name":"Comments",
+    	  "domainType":"org.taskmgmt.taskcomments",
+    	  "editorType":"org.taskmgmt.taskcomments",
+    	  "listViewType":"org.taskmgmt.taskcommentsview"
+      }      	      	
 ]
