@@ -18,6 +18,7 @@
 			$scope.usersDomainType = $.grep(domainTypes, function(dType){return dType.name == "Users"})[0]
 			$scope.tasksDomainType = $.grep(domainTypes, function(dType){return dType.name == "Tasks"})[0]
 			$scope.taskfilesDomainType = $.grep(domainTypes, function(dType){return dType.name == "Files"})[0]
+			$scope.taskcommentsDomainType = $.grep(domainTypes, function(dType){return dType.name == "Comments"})[0]
 		});
    	  	
    	  	$scope.$on('entitymgmt.entity.selected', function(event, entities){

@@ -6,7 +6,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(collectionResourceRel = "org.taskmgmt.TaskCommentViews", path = "org.taskmgmt.TaskCommentViews")
+@RepositoryRestResource(collectionResourceRel = "org.taskmgmt.taskcommentsview", path = "org.taskmgmt.taskcommentsview")
 public interface TaskCommentViewRepository extends PagingAndSortingRepository<TaskCommentView, Long> {
 
 	List<TaskCommentView> findByStatus(@Param("status") String status);
