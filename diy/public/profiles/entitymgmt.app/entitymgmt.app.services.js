@@ -44,19 +44,22 @@
 	   	    			if(response.success){
 	   	    				entity[field.name] = response.entities;
 	   	    				entity['_new_'+field.name] = {};
-	   	    				//set display on it, since it may not be already set by the server..
-	   	    				app.meta.getMeta(field.entityType).then(function(entityMeta){
-				    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
-		   		   	  				return field.searchable == true;
-		   		   	  			});
-				    			angular.forEach(entity[field.name], function(entity){
-				    				entity.display = "["+entity.id+"]: "+ entity[searchableFields[0].name];
-				    			})
+	   	    				angular.forEach(entity[field.name], function(nestedEntity){
+	   	    					loadReferences(nestedEntity, field.meta);
 	   	    				});
 	   	    			}
 	   	    		});
    	  			}
    	  		});
+        }
+        
+        function setDisplayOnNestedEntities(entity, field, meta){
+			var searchableFields = $.grep(meta.editor.tabs[0].fields, function(field){
+  	  				return field.searchable == true;
+  	  			});
+			angular.forEach(entity[field.name], function(nestedEntity){
+				nestedEntity.display = "["+nestedEntity.id+"]: "+ nestedEntity[searchableFields[0].name];
+			})
         }
 
         function loadEntities(entityType, urlFilter){

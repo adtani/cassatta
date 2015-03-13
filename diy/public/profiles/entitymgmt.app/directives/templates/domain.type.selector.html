@@ -6,7 +6,7 @@
       </button>
       <ul class="dropdown-menu">
         <li ng-repeat="domainType in domainTypes track by $index">
-          	<button type="button" class="btn-default btn-lg btn-block" ng-click="selectDomain(domainType)">{{domainType.name}}</button>
+          	<button type="button" class="btn-default btn-lg btn-block" ng-click="selectDomain($index)">{{domainType.name}}</button>
         </li>
       </ul>
     </div>				

@@ -37,7 +37,7 @@
             },
             templateUrl: '/profiles/entitymgmt.app/directives/templates/entity.editor.otm.html',
             link: function (scope, element, attrs) {
-            	var editor = $('#editor');
+            	var editor = element.find('#editor');
                 if(editor!=null){
                 	editor.append("<div entitymgmt-entity-editor action=\"Add\" show-delete=\"false\" app=\"app\" container-entity=\"entity['"+scope.field.name+"']\" entity=\"entity['"+"_new_"+scope.field.name+"']\" meta=\"field.meta\"  on-save=\"addSubEntity()\" on-reset=\"resetEntity()\" on-delete=\"deleteEntity()\"></div>");
                 	$compile(element.contents())(scope);

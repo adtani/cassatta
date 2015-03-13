@@ -41,6 +41,9 @@ public class TaskComment {
 	@Column(name = "CREATE_DATE")
 	private Date createDate;
 	
+	@Column(name = "UPDATE_DATE")
+	private Date updateDate;
+
 	@Column(nullable = false, name = "OWNER_ID", updatable=false, insertable=false)
 	private long ownerId;
 	

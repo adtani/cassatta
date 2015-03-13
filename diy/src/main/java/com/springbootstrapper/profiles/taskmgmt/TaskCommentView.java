@@ -1,17 +1,14 @@
 package com.springbootstrapper.profiles.taskmgmt;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -21,8 +18,8 @@ import com.springbootstrapper.domain.User;
 
 @Data
 @Entity 
-@Table (name = "taskmgmt_tasksview")
-public class TaskView {
+@Table (name = "taskmgmt_taskcommentsview")
+public class TaskCommentView {
 
 	@Id
 	@Column(nullable = false, name = "ID")	
@@ -35,55 +32,45 @@ public class TaskView {
 	@Column(nullable = false, name = "TITLE")
 	private String title;
 
-	@Column(nullable = false, name = "SUMMARY")
-	private String summary;
+	@Column(nullable = false, name = "TEXT")
+	private String text;
 	
 	@Column(nullable = false, name = "STATUS")
 	private String status;
 	
-	@Column(nullable = false, name = "PRIORITY")
-	private int priority;
-
-	@Column(name = "DUE_DATE")
-	private Date dueDate;
+	@Column(name = "CREATE_DATE")
+	private Date createDate;
+	
+	@Column(name = "UPDATE_DATE")
+	private Date updateDate;
 
 	@Column(nullable = false, name = "OWNER_ID", updatable=false, insertable=false)
 	private long ownerId;
-
-
+	
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=User.class)
 	private User owner;
-
+	
 	@Column(nullable = false, name = "ASSIGNEE_ID", updatable=false, insertable=false)
 	private long assigneeId;
 
-
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=User.class)
 	private User assignee;
-	
-	@Column(nullable = true, name = "PARENT_ID", updatable=false, insertable=false)
-	private Long parentId;
-	
-	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=TaskView.class)
+
+	@Column(nullable = true, name = "TASK_ID", updatable=false, insertable=false)
+	private Long taskId;
+
+	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=Task.class)
 	@JsonBackReference
-	private TaskView parent;	
+	private Task task;
 
-	@Column(nullable = true, name = "PARENTAGE")
-	private String parentage;
+	//Extra Fields ...
+	@Column(nullable = false, name = "TASK_TITLE")
+	private String taskTitle;
 	
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
-    private List<TaskView> subTasks;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "task")
-    private List<TaskFile> files;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "task")
-    private List<TaskComment> comments;
-    
-    //Extra fields ...
-	@Column(nullable = false, name = "OWNER_NAME", updatable=false, insertable=false)
+	@Column(nullable = false, name = "OWNER_NAME")
 	private String ownerName;
 	
-	@Column(nullable = false, name = "ASSIGNEE_NAME", updatable=false, insertable=false)
+	@Column(nullable = false, name = "ASSIGNEE_NAME")
 	private String assigneeName;
+	
 }

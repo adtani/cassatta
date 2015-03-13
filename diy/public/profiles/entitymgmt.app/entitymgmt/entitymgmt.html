@@ -4,7 +4,7 @@
 			<!-- Default panel contents -->
 			<div class="panel-heading">Entity Management - Demonstration</div>
 			<div class="panel-body">
-				<div entitymgmt-domain-type-selector domain-type="domainType" domain-types="domainTypes"/>
+				<div entitymgmt-domain-type-selector domain-type="domainType" domain-types="domainTypes" on-select="domainTypeSelected(domainType)"/>
 				<br/>
 				<tabset> 
 					<tab heading="Dynamically Selected Entities - {{domainType.name}} ({{entities.length}})">

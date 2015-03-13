@@ -78,9 +78,6 @@
         	setIntent : setIntent,
         	resetIntent : resetIntent
         };
-        
-
-
 
     }
 
