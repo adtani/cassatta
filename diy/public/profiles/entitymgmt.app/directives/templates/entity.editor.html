@@ -1,6 +1,6 @@
-<div class="panel {{panelType}}">
+<div class="panel {{panelType!=null?panelType:'panel-success'}}">
 	<!-- Default panel contents -->
-	<div class="panel-heading">{{title}}</div>
+	<div class="panel-heading">{{title!=null?title:meta.label}}</div>
 	<div class="panel-body">
 		<tabset> 
 			<tab heading="{{tab.label}}" ng-repeat="tab in meta.editor.tabs track by $index">

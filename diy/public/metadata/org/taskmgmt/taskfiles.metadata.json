@@ -1,4 +1,5 @@
 {
+	"label":"File",
 	"editor": {
 		"entityType": "org.taskmgmt.taskfiles",
 		"tabs" : [

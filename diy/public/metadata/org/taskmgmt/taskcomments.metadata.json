@@ -1,7 +1,8 @@
 {
+	"label":"Comment",
 	"editor" : {
 		"name": "Tab 1.2",
-		"label": "Comments",
+		"label": "General",
         "entityType":"org.taskmgmt.taskcomments",
 		"tabs" : [
 			{

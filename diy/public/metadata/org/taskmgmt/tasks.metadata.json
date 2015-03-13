@@ -1,4 +1,5 @@
 {
+	"label":"Task",
 	"editor": {
 		"entityType": "org.taskmgmt.tasks",
 		"tabs" : [
