@@ -7,10 +7,10 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import com.springbootstrapper.domain.User;
+import com.springbootstrapper.apps.salestracker.SalesTrackerRepositoryConfiguration;
+import com.springbootstrapper.apps.system.User;
+import com.springbootstrapper.apps.taskmgmt.TaskMgmtRepositoryConfiguration;
 import com.springbootstrapper.filters.AuthenticationInterceptor;
-import com.springbootstrapper.profiles.salestracker.SalesTrackerRepositoryConfiguration;
-import com.springbootstrapper.profiles.taskmgmt.TaskMgmtRepositoryConfiguration;
 
 @Configuration
 public class RepositoryConfiguration extends RepositoryRestMvcConfiguration {

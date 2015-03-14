@@ -1,4 +1,4 @@
-package com.springbootstrapper.domain;
+package com.springbootstrapper.apps.system;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,9 +23,6 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@Column(nullable = false, name = "ROLE_ID")
-	private int roleId;
-
 	@Column(nullable = false, name = "ROLE_NAME")
 	private String roleName;
 	

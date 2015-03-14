@@ -1,4 +1,4 @@
-package com.springbootstrapper.profiles.taskmgmt;
+package com.springbootstrapper.apps.taskmgmt;
 
 import java.util.List;
 

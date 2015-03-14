@@ -29,6 +29,7 @@
 				        	"name":"task",
 				        	"label": "Task",
 				            "type":"OTO",
+				            "display":false,
 				            "domainType":"org.taskmgmt.tasks",
 					    	"required":true
 				        },

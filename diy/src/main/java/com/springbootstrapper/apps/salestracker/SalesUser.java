@@ -1,4 +1,4 @@
-package com.springbootstrapper.profiles.salestracker;
+package com.springbootstrapper.apps.salestracker;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

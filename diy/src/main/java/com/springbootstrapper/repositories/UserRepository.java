@@ -6,7 +6,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import com.springbootstrapper.domain.User;
+import com.springbootstrapper.apps.system.User;
 
 @RepositoryRestResource(collectionResourceRel = "org.users", path = "org.users")
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {

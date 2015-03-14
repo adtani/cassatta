@@ -1,4 +1,4 @@
-package com.springbootstrapper.profiles.salestracker;
+package com.springbootstrapper.apps.salestracker;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;

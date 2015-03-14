@@ -1,4 +1,6 @@
-package com.springbootstrapper.profiles.taskmgmt;
+package com.springbootstrapper.apps.taskmgmt;
+
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,12 +14,12 @@ import javax.persistence.Table;
 import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.springbootstrapper.domain.User;
+import com.springbootstrapper.apps.system.User;
 
 @Data
 @Entity 
-@Table (name = "taskmgmt_taskfiles")
-public class TaskFile {
+@Table (name = "taskmgmt_taskcommentsview")
+public class TaskCommentView {
 
 	@Id
 	@Column(nullable = false, name = "ID")	
@@ -27,18 +29,33 @@ public class TaskFile {
 	@Column(nullable = true, name = "ENTITY_TYPE")
 	private String entityType;
 	
-	@Column(nullable = false, name = "NAME")
-	private String name;
+	@Column(nullable = false, name = "TITLE")
+	private String title;
 
-	@Column(nullable = false, name = "PATH")
-	private String path;
+	@Column(nullable = false, name = "TEXT")
+	private String text;
 	
+	@Column(nullable = false, name = "STATUS")
+	private String status;
+	
+	@Column(name = "CREATE_DATE")
+	private Date createDate;
+	
+	@Column(name = "UPDATE_DATE")
+	private Date updateDate;
+
 	@Column(nullable = false, name = "OWNER_ID", updatable=false, insertable=false)
 	private long ownerId;
 	
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=User.class)
 	private User owner;
 	
+	@Column(nullable = false, name = "ASSIGNEE_ID", updatable=false, insertable=false)
+	private long assigneeId;
+
+	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=User.class)
+	private User assignee;
+
 	@Column(nullable = true, name = "TASK_ID", updatable=false, insertable=false)
 	private Long taskId;
 
@@ -46,4 +63,14 @@ public class TaskFile {
 	@JsonBackReference
 	private Task task;
 
+	//Extra Fields ...
+	@Column(nullable = false, name = "TASK_TITLE")
+	private String taskTitle;
+	
+	@Column(nullable = false, name = "OWNER_NAME")
+	private String ownerName;
+	
+	@Column(nullable = false, name = "ASSIGNEE_NAME")
+	private String assigneeName;
+	
 }

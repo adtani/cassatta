@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springbootstrapper.apps.system.User;
 import com.springbootstrapper.config.AppConfig;
-import com.springbootstrapper.domain.User;
 import com.springbootstrapper.repositories.UserRepository;
 
 @RestController

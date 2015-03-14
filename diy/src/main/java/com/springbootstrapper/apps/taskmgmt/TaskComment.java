@@ -1,4 +1,4 @@
-package com.springbootstrapper.profiles.taskmgmt;
+package com.springbootstrapper.apps.taskmgmt;
 
 import java.util.Date;
 
@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.springbootstrapper.domain.User;
+import com.springbootstrapper.apps.system.User;
 
 @Data
 @Entity 

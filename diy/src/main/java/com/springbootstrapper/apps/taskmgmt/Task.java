@@ -1,4 +1,4 @@
-package com.springbootstrapper.profiles.taskmgmt;
+package com.springbootstrapper.apps.taskmgmt;
 
 import java.util.Date;
 import java.util.List;
@@ -17,12 +17,12 @@ import javax.persistence.Table;
 import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.springbootstrapper.domain.User;
+import com.springbootstrapper.apps.system.User;
 
 @Data
 @Entity 
-@Table (name = "taskmgmt_tasksview")
-public class TaskView {
+@Table (name = "taskmgmt_tasks")
+public class Task {
 
 	@Id
 	@Column(nullable = false, name = "ID")	
@@ -49,41 +49,33 @@ public class TaskView {
 
 	@Column(nullable = false, name = "OWNER_ID", updatable=false, insertable=false)
 	private long ownerId;
-
-
+	
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=User.class)
 	private User owner;
 
 	@Column(nullable = false, name = "ASSIGNEE_ID", updatable=false, insertable=false)
 	private long assigneeId;
 
-
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=User.class)
 	private User assignee;
 	
 	@Column(nullable = true, name = "PARENT_ID", updatable=false, insertable=false)
 	private Long parentId;
-	
-	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=TaskView.class)
+
+	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=Task.class)
 	@JsonBackReference
-	private TaskView parent;	
+	private Task parent;
 
 	@Column(nullable = true, name = "PARENTAGE")
 	private String parentage;
-	
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
-    private List<TaskView> subTasks;
+    private List<Task> subTasks;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "task")
     private List<TaskFile> files;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "task")
     private List<TaskComment> comments;
-    
-    //Extra fields ...
-	@Column(nullable = false, name = "OWNER_NAME", updatable=false, insertable=false)
-	private String ownerName;
-	
-	@Column(nullable = false, name = "ASSIGNEE_NAME", updatable=false, insertable=false)
-	private String assigneeName;
+
 }

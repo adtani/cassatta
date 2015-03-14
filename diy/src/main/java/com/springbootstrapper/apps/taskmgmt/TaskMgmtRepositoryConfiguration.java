@@ -1,4 +1,4 @@
-package com.springbootstrapper.profiles.taskmgmt;
+package com.springbootstrapper.apps.taskmgmt;
 
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 

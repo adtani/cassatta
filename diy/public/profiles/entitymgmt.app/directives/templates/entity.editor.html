@@ -8,17 +8,30 @@
 					<fieldSet ng-disabled="entity == null">
 					<br/>
 					<div ng-repeat="field in tab.fields track by $index">
-						<div class="form-group" ng-if="field.type == 'text' && field.display != false">
+						<div class="form-group" ng-if="field.validvalues != null && field.display != false">
+							<label for="{{field.name}}">{{field.label}}:</label> 
+							<select class="form-control selectpicker" name="{{field.name}}"
+								ng-model="entity[field.name]" type="select" 
+								ng-required="{{field.required}}">
+								<option ng-repeat="value in field.validvalues" value="{{value.id!=null? value.id : value}}">{{value.value!=null? value.id+' : '+value.value : value}}</option>
+							</select>
+						</div>
+						<div class="form-group" ng-if="field.type == 'text' && field.display != false && field.validvalues == null">
 							<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
 								ng-model="entity[field.name]" type="text" class="form-control"
 								ng-required="{{field.required}}"></input>
 						</div>
-						<div class="form-group" ng-if="field.type == 'password' && field.display != false">
+						<div class="form-group" ng-if="field.type == 'boolean' && field.display != false && field.validvalues == null">
+							<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
+								ng-model="entity[field.name]" type="checkbox" class="form-control"
+								ng-required="{{field.required}}"></input>
+						</div>
+						<div class="form-group" ng-if="field.type == 'password' && field.display != false && field.validvalues == null">
 							<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
 								ng-model="entity[field.name]" type="password" class="form-control"
 								ng-required="{{field.required}}"></input>
 						</div>
-						<div class="form-group" ng-if="field.type == 'int' && field.display != false">
+						<div class="form-group" ng-if="field.type == 'int' && field.display != false && field.validvalues == null">
 							<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
 								ng-model="entity[field.name]" type="text" class="form-control"
 								ng-required="{{field.required}}"></input>
