@@ -16,6 +16,7 @@
     					path : "profiles/demo.app",
     					name : "hello",
     					title : "Hello World",
+    					icon : "/profiles/demo.app/images/hello.png",    					
     					description : "Hello World, just displays Hello World!",
     					level : 0,
     					actions : [
@@ -39,6 +40,7 @@
     				{
     					path : "profiles/demo.app",
     					name : "dialogs",
+    					icon : "/profiles/demo.app/images/dialogs.png",    					
     					title : "Example Dialogs",
     					description : "Dialog Examples!",
     					level : 0
@@ -58,38 +60,6 @@
     	    					]
     				},
     				{
-    					path : "demo.modules",
-    					name : "hello",
-    					title : "Hello World",
-    					description : "Hello World, just displays Hello World!",
-    					level : 0,
-    					actions : [
-    					    {
-    					    	name : "greetme",
-    					    	title : "Greet Me",
-    					    	level : 100
-    					    }, 	
-    					    {
-    					    	name : "whoami",
-    					    	title : "Who am I?",
-    					    	level : 100
-    					    }, 	
-    					    {
-    					    	name : "myaccess",
-    					    	title : "What is my access level?",
-    					    	level : 0
-    					    } 	
-    					]
-    				},
-    				{
-    					path : "demo.modules",
-    					name : "dialogs",
-    					title : "Example Dialogs",
-    					description : "Dialog Examples!",
-    					level : 0
-    				},
-    				
-    				{
     					path : "profiles/taskmgmt.app",
     					name : "taskmgmt",
     					icon : "/profiles/taskmgmt.app/images/tasks.png",    					
@@ -104,7 +74,6 @@
     					    }	
     					]
     				},
-    				
     				{
     					path : "profiles/entitymgmt.app",
     					name : "entitymgmt",
@@ -120,8 +89,6 @@
     					    }	
     					]
     				}    
-    				
-    				
     		]
     	}
     );   

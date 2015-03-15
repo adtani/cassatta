@@ -13,7 +13,7 @@
 							<select class="form-control selectpicker" name="{{field.name}}"
 								ng-model="entity[field.name]" type="select" 
 								ng-required="{{field.required}}">
-								<option ng-repeat="value in field.validvalues" value="{{value.id!=null? value.id : value}}">{{value.value!=null? value.id+' : '+value.value : value}}</option>
+								<option ng-repeat="value in field.validvalues" value="{{value.id!=null? value.id : value}}" {{entity[field.name]==value.id? 'selected':''}}>{{value.value!=null? value.id+' : '+value.value : value}}</option>
 							</select>
 						</div>
 						<div class="form-group" ng-if="field.type == 'text' && field.display != false && field.validvalues == null">

@@ -12,13 +12,7 @@
         .when('/login', {
           templateUrl: '/system.modules/login/login.html'
         })
-        .when('/welcome', {
-          templateUrl: '/system.modules/welcome/welcome.html'
-        })
-        .when('/welcome/:module', {
-          templateUrl: '/system.modules/welcome/welcome.html'
-        })
-        .when('/welcome/:module/:action', {
+        .when('/welcome/:module?/:action?/:arg1?/:arg2?/:arg3?/:arg4?', {
           templateUrl: '/system.modules/welcome/welcome.html'
         })
         .otherwise({
