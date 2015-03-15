@@ -16,8 +16,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springbootstrapper.apps.system.User;
+import com.springbootstrapper.apps.system.UserRepository;
 import com.springbootstrapper.config.AppConfig;
-import com.springbootstrapper.repositories.UserRepository;
 
 @RestController
 @RequestMapping(value="/app")

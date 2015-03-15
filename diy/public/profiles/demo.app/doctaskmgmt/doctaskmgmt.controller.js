@@ -56,7 +56,7 @@
    	  	
    	  	$scope.searchUsers = function(pattern){
    	  		if(pattern.length > 2){
-		   	 	app.docserver.loadEntities("users").then(function(response){
+		   	 	app.restheart.loadEntities("users").then(function(response){
 		    		if(response.success){
 		    			$scope.users = $.grep(response.entities, function(user){
 		    				return user.login.indexOf(pattern) >= 0;
@@ -92,7 +92,7 @@
    	  		taskToBeSaved.assignedTo = "/users"+task.assignedTo.login;
    	  		taskToBeSaved.owner="/users"+task.owner.login;
    	  		taskToBeSaved.createdDate = new Date();
-	   	 	app.docserver.saveEntity(taskToBeSaved).then(function(response){
+	   	 	app.restheart.saveEntity(taskToBeSaved).then(function(response){
 	    		if(response.success){
 	    			app.alert.success("Success!","Task Saved!");
 					app.location.path("/welcome/taskmgmt");

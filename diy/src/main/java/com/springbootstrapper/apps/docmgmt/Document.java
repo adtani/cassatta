@@ -1,0 +1,52 @@
+package com.springbootstrapper.apps.docmgmt;
+
+import java.util.List;
+
+import lombok.Data;
+
+import org.springframework.data.annotation.Id;
+
+@Data
+@org.springframework.data.mongodb.core.mapping.Document (collection = "documents")
+public class Document {
+
+	@Id private String id;
+	
+	private List<DocumentAttribute> attributes;
+
+	public static class DocumentAttribute {
+		
+		private String key;
+		
+		private String value;
+		
+		private Document document;
+
+		public String getKey() {
+			return key;
+		}
+
+		public void setKey(String key) {
+			this.key = key;
+		}
+
+		public String getValue() {
+			return value;
+		}
+
+		public void setValue(String value) {
+			this.value = value;
+		}
+
+		public Document getDocument() {
+			return document;
+		}
+
+		public void setDocument(Document document) {
+			this.document = document;
+		}
+		
+		
+	}
+	
+}

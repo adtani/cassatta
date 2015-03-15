@@ -7,7 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.springbootstrapper.apps.system.User;
-
+import com.springbootstrapper.config.AppJpaRepository;
+@AppJpaRepository
 @RepositoryRestResource(collectionResourceRel = "org.taskmgmt.tasks", path = "org.taskmgmt.tasks")
 public interface TaskRepository extends PagingAndSortingRepository<Task, Long> {
 

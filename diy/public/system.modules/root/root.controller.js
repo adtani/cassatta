@@ -12,7 +12,7 @@
         function init() {
         	//first things first, retrieve session state into root scope
         	app.session.init();
-//        	app.docserver.init();
+//        	app.restheart.init();
 
         	$rootScope.app = app;
 

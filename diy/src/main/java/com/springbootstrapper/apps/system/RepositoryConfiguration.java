@@ -1,4 +1,4 @@
-package com.springbootstrapper.repositories;
+package com.springbootstrapper.apps.system;
 
 import java.net.URI;
 

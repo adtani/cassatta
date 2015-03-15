@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('angularApp')
-        .factory('docserverService', ['$resource', '$q', '$rootScope', 'AppConfig', '$log', serverService]);
+        .factory('restheartService', ['$resource', '$q', '$rootScope', 'AppConfig', '$log', serverService]);
    
     
     function serverService($resource, $q, $rootScope, AppConfig, $log) {
