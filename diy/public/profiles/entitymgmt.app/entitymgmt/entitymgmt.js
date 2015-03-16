@@ -64,10 +64,6 @@
 		//END-DOMAIN-TYPE-CHANGE-HANDLING
 
 		//START-EVENT-HANDLING
-   	  	$scope.resetEntity = function(){
-   	  		console.warn("Not implemented!");
-   	  	}
-   	  	
    	  	$scope.newEntity = function(domainType){
    	  		var entity = entitymgmtService.newEntity(domainType);
 			selectEntity(entity);

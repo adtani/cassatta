@@ -17,7 +17,6 @@
             	panelType: "=",
             	title: "=",
             	saveEntity: "&onSave",
-            	resetEntity: "&onReset",
             	deleteEntity: "&onDelete"
             },
             templateUrl: '/profiles/entitymgmt.app/directives/templates/entity.editor.html',

@@ -109,10 +109,6 @@
 						<br/>
 						<button ng-disabled="!entityform.$valid" type="submit"
 							class="btn btn-primary" ng-click="saveEntity()">{{action}}</button>
-						<button ng-if="task.id == null" type="submit" class="btn btn-default"
-							ng-click="resetEntity()">Reset</button>
-						<button ng-if="task.id == null" type="submit" class="btn btn-default"
-							ng-click="launchModule('entitymgmt')">Cancel</button>
 						<button ng-if="entity.id != null" type="submit"
 							class="btn btn-primary" ng-click="deleteEntity()" ng-if="showDelete">Delete</button>
 					</div>				
