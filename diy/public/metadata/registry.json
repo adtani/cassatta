@@ -22,5 +22,11 @@
     	  "domainType":"org.taskmgmt.taskcomments",
     	  "editorType":"org.taskmgmt.taskcomments",
     	  "listViewType":"org.taskmgmt.taskcommentsview"
+      },      	      	
+      {
+    	  "name":"Documents",
+    	  "domainType":"org.docmgmt.documents",
+    	  "editorType":"org.docmgmt.documents",
+    	  "listViewType":"org.docmgmt.documents"
       }      	      	
 ]

@@ -2,7 +2,7 @@
 	<div class="col-md-9">
 		<div class="panel panel-primary">
 			<!-- Default panel contents -->
-			<div class="panel-heading">Entity Management - Demonstration</div>
+			<div class="panel-heading">Document Management</div>
 			<div class="panel-body">
 				<div entitymgmt-domain-type-selector domain-type="domainType" domain-types="domainTypes" on-select="domainTypeSelected(domainType)"/>
 				<br/>
@@ -21,9 +21,6 @@
 					</tab>
 					<tab heading="Comments ({{taskcomments.length}})">
 						<div entitymgmt-entity-grid-view domain-type="taskcommentsDomainType" on-new="newEntity(taskcommentsDomainType)" entities="taskcomments"/>						
-					</tab>
-					<tab heading="Documents ({{documents.length}})">
-						<div entitymgmt-entity-grid-view domain-type="documentsDomainType" on-new="newEntity(documentsDomainType)" entities="documents"/>						
 					</tab>
 				</tabset>
 			</div>

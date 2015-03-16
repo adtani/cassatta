@@ -10,7 +10,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import com.springbootstrapper.config.AppMongoRepository;
 
 @AppMongoRepository
-@RepositoryRestResource(collectionResourceRel = "org.docmgmt.docs", path = "org.docmgmt.docs")
+@RepositoryRestResource(collectionResourceRel = "org.docmgmt.documents", path = "org.docmgmt.documents")
 public interface DocumentRepository extends MongoRepository<Document, String> {
 
 }

@@ -38,62 +38,41 @@
         function loadReferences(entity, meta){
         	var allfields = getAllFields(meta);
    	  		angular.forEach(allfields, function(field){
-   	  			if((field.type == 'OTO' || field.type == 'owner')){
-   	  				loadOTAReference(entity,field);
+   	  			if((field.type == 'OTO' || field.type == 'owner') && entity[field.name+"Id"] != null){
+   	  				var entityId = entity[field.name+"Id"];
+    				app.meta.getMeta(field.domainType).then(function(fieldMeta){
+    					field.meta = fieldMeta;
+    	   	  			app.sqlserver.loadEntity(field.meta.editor.entityType, entityId).then(function(response){
+    	   	    			if(response.success){
+    	   	    				console.log("Loaded reference "+field.name+" -> "+entity.id);
+    	   	    				entity[field.name] = response.entity;
+    	   	    				//set display on it, since it may not be already set by the server..
+    	   	    				app.meta.getMeta(response.entity.entityType).then(function(entityMeta){
+    				    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
+    		   		   	  				return field.searchable == true;
+    		   		   	  			});
+    				    			response.entity.display = "["+response.entity.id+"]: "+ response.entity[searchableFields[0].name];
+    	   	    				});
+    	   	    			}
+    	   	    		});
+    				});
    	  			}
 	   	  		if(field.type == 'OTM'){
-	   	  			loadOTMReference(entity,field);
+   	  				var subEntitiesURL = entity[field.name];
+	   	  			app.meta.getMeta(field.domainType).then(function(fieldMeta){
+	   	  				field.meta = fieldMeta;
+	   	  				app.sqlserver.loadNestedEntities(entity, field.name, field.meta.editor.entityType).then(function(response){
+		   	    			if(response.success){
+		   	    				entity[field.name] = response.entities;
+		   	    				entity['_new_'+field.name] = {};
+		   	    				angular.forEach(entity[field.name], function(nestedEntity){
+		   	    					loadReferences(nestedEntity, field.meta);
+		   	    				});
+		   	    			}
+		   	    		});
+	   				});
    	  			}
    	  		});
-        }
-        
-        function loadOTAReference(entity, field){
-    		var entityId = null;
-			if(entity[field.name+"Id"] != null){
-				entityId = entity[field.name+"Id"];
-			}else if(entity[field.name]!=null && entity[field.name].id!=null){
-				entityId = entity[field.name].id;
-			}else if(entity[field.name]!=null && entity[field.name].indexOf('/')!=-1){
-				entityId = entity[field.name].split('/').pop();
-			}else {
-				console.warn("Can not load OTO reference "+field.name+" of type "+field.domainType);
-			}
-			app.meta.getMeta(field.domainType).then(function(fieldMeta){
-				field.meta = fieldMeta;
-				if(entityId != null){
-	   	  			app.sqlserver.loadEntity(field.meta.editor.entityType, entityId).then(function(response){
-	   	    			if(response.success){
-	   	    				console.log("Loaded reference "+field.name+" -> "+entity.id);
-	   	    				entity[field.name] = response.entity;
-	   	    				//set display on it, since it may not be already set by the server..
-	   	    				app.meta.getMeta(response.entity.entityType).then(function(entityMeta){
-				    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
-		   		   	  				return field.searchable == true;
-		   		   	  			});
-				    			response.entity.display = "["+response.entity.id+"]: "+ response.entity[searchableFields[0].name];
-	   	    				});
-	   	    			}
-	   	    		});
-				}
-			});
-        }
-
-        function loadOTMReference(entity, field){
-			var subEntitiesURL = entity[field.name];
-  			app.meta.getMeta(field.domainType).then(function(fieldMeta){
-  				field.meta = fieldMeta;
-   				entity['_new_'+field.name] = {};
-   				if(field.embedded != true){
-	  				app.sqlserver.loadNestedEntities(entity, field.name, field.meta.editor.entityType).then(function(response){
-	   	    			if(response.success){
-	   	    				entity[field.name] = response.entities;
-	   	    				angular.forEach(entity[field.name], function(nestedEntity){
-	   	    					loadReferences(nestedEntity, field.meta);
-	   	    				});
-	   	    			}
-	   	    		});
-   				}
-			});
         }
         
         function setDisplayOnNestedEntities(entity, field, meta){
@@ -167,7 +146,7 @@
 	    			var promises = [];
 	    			//save nested entities with this id now...
 	    			angular.forEach(allfields, function(field){
-		   	  			if(field.type == 'OTM' && field.embedded != true){
+		   	  			if(field.type == 'OTM'){
 		   	  				if(entity[field.name]!=null){
 			   	  				angular.forEach(entity[field.name], function(subEntity){
 			   	  					subEntity[field.reverseReference] = {id: entity.id};
@@ -228,21 +207,14 @@
    	  	}
    	  	
    	  	function populateField(entityToBeSaved, entity, field, entityMeta){
-  			if(field.type != 'OTM' || field.embedded == true){
-  				if(field.embedded != true){
-  					entityToBeSaved[field.name] = entity[field.name];
-  				}else{
-  					//exclude deleted entities right here if its embedded case.
-  					entityToBeSaved[field.name] = $.grep(entity[field.name], function(nestedEntity){
-  						return nestedEntity.deleted != true;
-  					});
-  				}
+  			if(field.type != 'OTM'){
+  				entityToBeSaved[field.name] = entity[field.name];
   			}
    	  		if(field.type == 'file' && entity[field.name]!=null){
   				entityToBeSaved[field.name] = entity[field.name].filename!=null? entity[field.name].filename+":"+entity[field.name].filepath : entity[field.name];
   			}
   			if(field.type == 'OTO' && entity[field.name]!=null){
-  				entityToBeSaved[field.name] = "/"+entity[field.name].entityType+"/"+entity[field.name].id;
+  				entityToBeSaved[field.name] = "/"+field.entityType+"/"+entity[field.name].id;
   			}
    	  	}
    	  	

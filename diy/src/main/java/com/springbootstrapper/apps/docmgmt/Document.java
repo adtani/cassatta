@@ -7,27 +7,41 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 @Data
-@org.springframework.data.mongodb.core.mapping.Document (collection = "documents")
+@org.springframework.data.mongodb.core.mapping.Document (collection = "org.docmgmt.documents")
 public class Document {
 
 	@Id private String id;
 	
+	private String title;
+	
+	private String description;
+	
+	private String status;
+	
+	private String entityType;
+	
+	private String file;
+
+	private String owner;
+	
+	private String assignee;
+
 	private List<DocumentAttribute> attributes;
 
 	public static class DocumentAttribute {
 		
-		private String key;
+		private String name;
 		
 		private String value;
 		
 		private Document document;
 
-		public String getKey() {
-			return key;
+		public String getName() {
+			return name;
 		}
 
-		public void setKey(String key) {
-			this.key = key;
+		public void setName(String name) {
+			this.name = name;
 		}
 
 		public String getValue() {
@@ -45,7 +59,6 @@ public class Document {
 		public void setDocument(Document document) {
 			this.document = document;
 		}
-		
 		
 	}
 	
