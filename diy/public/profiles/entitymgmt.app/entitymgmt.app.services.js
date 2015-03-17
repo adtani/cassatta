@@ -229,13 +229,15 @@
    	  	
    	  	function populateField(entityToBeSaved, entity, field, entityMeta){
   			if(field.type != 'OTM' || field.embedded == true){
-  				if(field.embedded != true){
-  					entityToBeSaved[field.name] = entity[field.name];
-  				}else{
-  					//exclude deleted entities right here if its embedded case.
-  					entityToBeSaved[field.name] = $.grep(entity[field.name], function(nestedEntity){
-  						return nestedEntity.deleted != true;
-  					});
+  				if(entity[field.name]!=null){
+	  				if(field.embedded != true){
+	  					entityToBeSaved[field.name] = entity[field.name];
+	  				}else{
+	  					//exclude deleted entities right here if its embedded case.
+	  					entityToBeSaved[field.name] = $.grep(entity[field.name], function(nestedEntity){
+	  						return nestedEntity.deleted != true;
+	  					});
+	  				}
   				}
   			}
    	  		if(field.type == 'file' && entity[field.name]!=null){

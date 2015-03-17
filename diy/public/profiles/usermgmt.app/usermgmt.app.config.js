@@ -13,11 +13,11 @@
     		
     		modules : [
     				{
-    					path : "profiles/docmgmt.app",
-    					name : "docmgmt",
-    					icon : "/profiles/docmgmt.app/images/documents.png",
+    					path : "profiles/usermgmt.app",
+    					name : "usermgmt",
+    					icon : "/profiles/usermgmt.app/images/users.png",
     					title : "Documents",
-    					description : "Document Management!",
+    					description : "User Management!",
     					level : 0
     				}    				
     		]

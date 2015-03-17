@@ -9,6 +9,7 @@
             scope: {
             	action: "@",
             	showDelete: "@",
+            	showExpand: "@",
             	app: "=",
             	entity: "=?",
             	meta: "=?",
@@ -115,7 +116,12 @@
 	    		$scope.onUploadComplete = function(response, field){
 	    			app.log.info("File upload completed for field "+field+"! %o", response);
 	    		}
-	       	  	//END-UPLOAD-MANAGEMENT    
+	       	  	//END-UPLOAD-MANAGEMENT  
+	    		
+	    		$scope.fullscreen = function(){
+	    			console.log("Redirecting to fullscreen editor @ "+"/welcome/entitymgmt/editor/"+$scope.entity.domainType.domainType+"/"+$scope.entity.id);
+	    			app.location.path("/welcome/entitymgmt/editor/"+$scope.entity.domainType.domainType+"/"+$scope.entity.id);
+	    		}
 	
             }
         };

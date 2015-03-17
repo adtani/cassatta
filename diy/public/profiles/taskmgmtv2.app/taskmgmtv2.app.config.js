@@ -13,11 +13,11 @@
     		
     		modules : [
     				{
-    					path : "profiles/docmgmt.app",
-    					name : "docmgmt",
-    					icon : "/profiles/docmgmt.app/images/documents.png",
-    					title : "Documents",
-    					description : "Document Management!",
+    					path : "profiles/taskmgmtv2.app",
+    					name : "taskmgmtv2",
+    					icon : "/profiles/taskmgmtv2.app/images/tasksv2.png",
+    					title : "Tasks Management v2.0",
+    					description : "Tasks Management!",
     					level : 0
     				}    				
     		]

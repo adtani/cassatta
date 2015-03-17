@@ -120,19 +120,17 @@
 	           	  		entitymgmtService.clearCache();
 	           	  		app.meta.getMeta($scope.domainType.domainType).then(function(meta){
 	           	  			$scope.meta = meta;
-	                		console.log("downloaded meta for "+$scope.domainType.entityType+" is %o ",meta);
 	                		$scope.gridOptions.columnDefs = [];
 	                		angular.forEach(meta.listView.fields, function(field){
 	                			$scope.gridOptions.columnDefs.push(field);
 	                		});
 	            	   	  	entitymgmtService.loadEntities(meta.listView.entityType, meta.listView.urlFilter).then(function(entities){
-	            	   	  		console.log(entities.length+" items loaded ...")
 			       	  			angular.forEach(entities, function(entity){
 			       	  				entity.domainType = $scope.domainType;
 			       	  			});
 	            	  	   	    $scope.gridOptions.data = entities;
 	            	  	   	    $scope.entities = entities;
-	            	  	   	    app.alert.success("Data Refreshed",entities.length + " items loaded for "+meta.listView.entityType+"!");
+//	            	  	   	    app.alert.success("Data Refreshed",entities.length + " items loaded for "+meta.listView.entityType+"!");
 	            	   	  	});
 	                	}, function(response){
 	                		console.warn(response);
@@ -161,7 +159,7 @@
         		});
 
            	  	$scope.$on('entitymgmt.entity.saved', function(event, entities){
-           	  		var entitiesMatchingEntityType = $.grep($scope.gridOptions.data, function(entity){return entities[0].domainType.name == entity.domainType.name});
+           	  		var entitiesMatchingEntityType = $.grep($scope.gridOptions.data, function(entity){return entities[0].domainType.name == $scope.domainType.name});
            	  		if(entitiesMatchingEntityType.length > 0){
 	   	   	  			var matchingEntities = $.grep($scope.gridOptions.data, function(entity){return entity.id==entities[0].id && entities[0].domainType.name == entity.domainType.name});
 	           	  		if(!entities[0].deleted){

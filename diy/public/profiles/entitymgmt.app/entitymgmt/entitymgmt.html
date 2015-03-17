@@ -10,27 +10,12 @@
 					<tab heading="Dynamically Selected Entities - {{domainType.name}} ({{entities.length}})">
 						<div entitymgmt-entity-grid-view domain-type="domainType" on-new="newEntity(domainType)" entities="entities"/>						
 					</tab>
-					<tab heading="Users ({{users.length}})">
-						<div entitymgmt-entity-grid-view domain-type="usersDomainType" on-new="newEntity(usersDomainType)" entities="users"/>						
-					</tab>
-					<tab heading="Tasks ({{tasks.length}})">
-						<div entitymgmt-entity-grid-view domain-type="tasksDomainType" on-new="newEntity(tasksDomainType)" entities="tasks"/>						
-					</tab>
-					<tab heading="Files ({{taskfiles.length}})">
-						<div entitymgmt-entity-grid-view domain-type="taskfilesDomainType" on-new="newEntity(taskfilesDomainType)" entities="taskfiles"/>						
-					</tab>
-					<tab heading="Comments ({{taskcomments.length}})">
-						<div entitymgmt-entity-grid-view domain-type="taskcommentsDomainType" on-new="newEntity(taskcommentsDomainType)" entities="taskcomments"/>						
-					</tab>
-					<tab heading="Documents ({{documents.length}})">
-						<div entitymgmt-entity-grid-view domain-type="documentsDomainType" on-new="newEntity(documentsDomainType)" entities="documents"/>						
-					</tab>
 				</tabset>
 			</div>
 		</div>
 	</div>
   	<div class="col-md-3">
-		<div class="col-md-12" entitymgmt-entity-editor action="Save" domain-type="editorDomainType" show-delete="true" app="app" entity="entity" meta="editorMeta" panel-type="panelType" title="title" on-save="saveEntity()" on-reset="resetEntity()" on-delete="deleteEntity()"></div>
+		<div class="col-md-12" entitymgmt-entity-editor action="Save" domain-type="editorDomainType" show-expand="true" show-delete="true" app="app" entity="entity" meta="editorMeta" panel-type="panelType" title="title" on-save="saveEntity()" on-reset="resetEntity()" on-delete="deleteEntity()"></div>
 	</div>
-	<br />
+	<br/>
 </div>

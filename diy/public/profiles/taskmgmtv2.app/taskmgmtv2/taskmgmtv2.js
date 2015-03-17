@@ -4,18 +4,18 @@
 	
 	var app = angular.module('angularApp');
 
-	app.controller('docmgmtController',
-			[ '$rootScope', '$scope', 'app', '$routeParams', 'entitymgmtService', docmgmtController ]);
+	app.controller('taskmgmtController',
+			[ '$rootScope', '$scope', 'app', '$routeParams', 'entitymgmtService', taskmgmtController ]);
 	
-	function docmgmtController($rootScope, $scope, app, $routeParams, entitymgmtService) {
+	function taskmgmtController($rootScope, $scope, app, $routeParams, entitymgmtService) {
 
-		$scope.mainEntity = "Document";
+		$scope.mainEntity = "Task";
 		$scope.title = ""+$scope.mainEntity+" Management";
 
 		//START-EVENT-HANDLING
 		app.meta.getRegisteredDomainTypes().then(function(domainTypes){
 			$scope.domainTypes = domainTypes;
-			$scope.documentsDomainType = $.grep(domainTypes, function(dType){return dType.name == "Documents"})[0]
+			$scope.documentsDomainType = $.grep(domainTypes, function(dType){return dType.name == "Tasks"})[0]
 			$scope.domainTypeSelected($scope.documentsDomainType);
 		});
    	  	

@@ -82,13 +82,37 @@
     					description : "Entity Management!",
     					level : 0,
     					actions : [
-    					    {
-    					    	name : "addtask",
-    					    	title : "Add Entity",
-    					    	level : 0
-    					    }	
-    					]
-    				}    
+	    					    {
+	    					    	name : "editor",
+	    					    	title : "Editor",
+	    					    	level : 0
+	    					    }	
+	    					]
+    				},    
+    				{
+    					path : "profiles/docmgmt.app",
+    					name : "docmgmt",
+    					icon : "/profiles/docmgmt.app/images/documents.png",
+    					title : "Documents Management",
+    					description : "Document Management!",
+    					level : 100
+    				},
+    				{
+    					path : "profiles/usermgmt.app",
+    					name : "usermgmt",
+    					icon : "/profiles/usermgmt.app/images/users.png",
+    					title : "User Management",
+    					description : "User Management!",
+    					level : 0
+    				},
+    				{
+    					path : "profiles/taskmgmtv2.app",
+    					name : "taskmgmtv2",
+    					icon : "/profiles/taskmgmtv2.app/images/tasksv2.png",
+    					title : "Tasks Management v2.0",
+    					description : "Tasks Management!",
+    					level : 100
+    				}    				
     		]
     	}
     );   

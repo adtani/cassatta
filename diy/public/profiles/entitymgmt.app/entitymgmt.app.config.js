@@ -18,14 +18,7 @@
     					icon : "/profiles/entitymgmt.app/images/people.png",
     					title : "Entities",
     					description : "Entity Management!",
-    					level : 0,
-    					actions : [
-    					    {
-    					    	name : "addtask",
-    					    	title : "Add Entity",
-    					    	level : 0
-    					    }	
-    					]
+    					level : 0
     				}    				
     		]
     	}

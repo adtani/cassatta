@@ -2,6 +2,10 @@
 	<!-- Default panel contents -->
 	<div class="panel-heading">{{title!=null?title:meta.label}}</div>
 	<div class="panel-body">
+		<div class="col-md-12">
+			<button ng-if="showExpand=='true' && entity != null" type="submit"
+					class="btn btn-primary pull-right" ng-click="fullscreen()"></i><i class="fa fa-search-plus fa-2x"></i></button>
+		</div>
 		<tabset> 
 			<tab heading="{{tab.label}}" ng-repeat="tab in meta.editor.tabs track by $index">
 					<ng-form name="entityform" ng-disabled="'true'">
@@ -118,4 +122,3 @@
 		</tabset>
 	</div>
 </div>
-

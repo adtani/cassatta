@@ -1,0 +1,15 @@
+<div ng-controller="entitymgmtController">
+	<div class="col-md-6">
+		<div class="panel panel-primary">
+			<!-- Default panel contents -->
+			<div class="panel-heading">Entity Management - Demonstration</div>
+			<div class="panel-body">
+				<div class="col-md-12" entitymgmt-entity-editor action="Save"
+					domain-type="editorDomainType" show-delete="true" app="app"
+					entity="entity" meta="editorMeta" panel-type="panelType"
+					title="title" on-save="saveEntity()" on-reset="resetEntity()"
+					on-delete="deleteEntity()"></div>
+			</div>
+		</div>
+	</div>
+</div>
