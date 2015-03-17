@@ -4,10 +4,10 @@
 	
 	var app = angular.module('angularApp');
 
-	app.controller('taskmgmtController',
-			[ '$rootScope', '$scope', 'app', '$routeParams', 'entitymgmtService', taskmgmtController ]);
+	app.controller('taskmgmtv2Controller',
+			[ '$rootScope', '$scope', 'app', '$routeParams', 'entitymgmtService', taskmgmtv2Controller ]);
 	
-	function taskmgmtController($rootScope, $scope, app, $routeParams, entitymgmtService) {
+	function taskmgmtv2Controller($rootScope, $scope, app, $routeParams, entitymgmtService) {
 
 		$scope.mainEntity = "Tasks";
 		$scope.title = $scope.mainEntity+" Management";

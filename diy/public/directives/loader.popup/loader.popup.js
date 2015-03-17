@@ -59,7 +59,7 @@
 
                     httpInterceptor.responseError = function(rejection) {
                         processResponse();
-                    	if(rejection.status = 403){
+                    	if(rejection.status == 403){
                     		$location.path("/login");
                     	}
                         return $q.reject(rejection);
