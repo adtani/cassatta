@@ -34,7 +34,7 @@
     <div class="device-lg visible-lg"></div> 
     
     <div>
-        <div data-loader-popup="" data-loader-popup-delay="300" ng-if="intent!=null">
+        <div data-http-interceptor="" data-http-interceptor-delay="300" ng-if="intent!=null">
             <br/>
             <i class="fa fa-spinner fa-spin" ></i>&nbsp;&nbsp;{{intent}}
         </div>            
@@ -105,13 +105,20 @@
     <script src="/filters/address.filter.js"></script>
     <script src="/filters/props.filter.js"></script>
     <script src="/services/session.service.js"></script>
+    <script src="/services/plugins.service.js"></script>
+    <script src="/services/entities.service.js"></script>
     <script src="/services/alert.service.js"></script>
     <script src="/services/restheart.service.js"></script>
     <script src="/services/sqlserver.service.js"></script>
     <script src="/services/app.service.js"></script>
     <script src="/services/meta.service.js"></script>
     <script src="/services/responsive.service.js"></script>
-    <script src="/directives/loader.popup/loader.popup.js"></script>
+    <script src="/directives/http.interceptor/http.interceptor.js"></script>
+    <script src="/directives/entities/domain.type.selector.js"></script>
+    <script src="/directives/entities/entity.editor.js"></script>
+    <script src="/directives/entities/entity.editor.otm.js"></script>
+    <script src="/directives/entities/entity.grid.view.js"></script>
+
     <script src="/system.modules/root/root.controller.js"></script>
     <script src="/system.modules/header/header.controller.js"></script>
     <script src="/system.modules/login/login.controller.js"></script>
@@ -140,14 +147,7 @@
     
     	<!-- Profile Specific Controllers Go Here -->
     <!-- The profile, which defines the application -->
-    <script src="/profiles/entitymgmt.app/entitymgmt.app.services.js"></script>
     <script src="/profiles/entitymgmt.app/entitymgmt/entitymgmt.js"></script>
-    <script src="/profiles/entitymgmt.app/directives/domain.type.selector.js"></script>
-    <script src="/profiles/entitymgmt.app/directives/entity.editor.js"></script>
-    <script src="/profiles/entitymgmt.app/directives/entity.editor.otm.js"></script>
-    <script src="/profiles/entitymgmt.app/directives/entity.grid.view.js"></script>
-
-
 
     <script src="/profiles/docmgmt.app/docmgmt/docmgmt.js"></script>
     <script src="/profiles/usermgmt.app/usermgmt/usermgmt.js"></script>

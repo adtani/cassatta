@@ -1,12 +1,12 @@
 (function() {
 
     var myApp = angular.module('angularApp');
-    myApp.directive('entitymgmtDomainTypeSelector', ['$q', '$timeout', '$rootScope', '$window', '$rootScope', 'httpInterceptor', '$routeParams', 'app', entityMgmtDomainTypeSelector]);
+    myApp.directive('entitymgmtDomainTypeSelector', ['app', entityMgmtDomainTypeSelector]);
 
-    function entityMgmtDomainTypeSelector($q, $timeout, $rootScope, $window, $rootScope, httpInterceptor, $routeParams, app) {
+    function entityMgmtDomainTypeSelector(app) {
         return {
             restrict: 'EA',
-            templateUrl: '/profiles/entitymgmt.app/directives/templates/domain.type.selector.html',
+            templateUrl: '/directives/entities/templates/domain.type.selector.html',
             scope: {
             	domainType : "=",
             	domainTypes : "=",

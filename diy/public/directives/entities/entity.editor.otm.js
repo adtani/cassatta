@@ -1,9 +1,9 @@
 (function() {
 
     var myApp = angular.module('angularApp');
-    myApp.directive('entitymgmtEntityEditorOtm', ['$q', '$timeout', '$window', '$compile', '$rootScope', 'httpInterceptor', 'app', entityMgmtEntityEditorOtm]);
+    myApp.directive('entitymgmtEntityEditorOtm', ['app', entityMgmtEntityEditorOtm]);
 
-    function entityMgmtEntityEditorOtm($q, $timeout, $window, $compile, $rootScope, httpInterceptor, app) {
+    function entityMgmtEntityEditorOtm(app) {
         return {
             restrict: 'EA',
             scope: {
@@ -35,12 +35,12 @@
         		}
         		//END-SUB-ENTITY-MANAGEMENT            	
             },
-            templateUrl: '/profiles/entitymgmt.app/directives/templates/entity.editor.otm.html',
+            templateUrl: '/directives/entities/templates/entity.editor.otm.html',
             link: function (scope, element, attrs) {
             	var editor = element.find('#editor');
                 if(editor!=null){
                 	editor.append("<div entitymgmt-entity-editor action=\"Add\" show-delete=\"false\" app=\"app\" container-entity=\"entity['"+scope.field.name+"']\" entity=\"entity['"+"_new_"+scope.field.name+"']\" meta=\"field.meta\"  on-save=\"addSubEntity()\" on-reset=\"resetEntity()\" on-delete=\"deleteEntity()\"></div>");
-                	$compile(element.contents())(scope);
+                	app.compile(element.contents())(scope);
                 }
             }
         };

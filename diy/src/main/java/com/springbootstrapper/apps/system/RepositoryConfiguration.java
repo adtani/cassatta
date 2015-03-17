@@ -18,6 +18,7 @@ public class RepositoryConfiguration extends RepositoryRestMvcConfiguration {
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(User.class);
+        config.exposeIdsFor(Role.class);
         config.setBaseUri(URI.create("/rest"));
         //Add repository configurations for individual profiles...
         new TaskMgmtRepositoryConfiguration().configureRepositoryRestConfiguration(config);

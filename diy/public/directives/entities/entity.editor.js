@@ -1,9 +1,9 @@
 (function() {
 
     var myApp = angular.module('angularApp');
-    myApp.directive('entitymgmtEntityEditor', ['$q', '$timeout', '$window', '$rootScope', 'httpInterceptor', 'entitymgmtService', 'app', entityMgmtEntityEditor]);
+    myApp.directive('entitymgmtEntityEditor', ['app', entityMgmtEntityEditor]);
 
-    function entityMgmtEntityEditor($q, $timeout, $window, $rootScope, httpInterceptor, entitymgmtService, app) {
+    function entityMgmtEntityEditor(app) {
         return {
             restrict: 'EA',
             scope: {
@@ -20,7 +20,7 @@
             	saveEntity: "&onSave",
             	deleteEntity: "&onDelete"
             },
-            templateUrl: '/profiles/entitymgmt.app/directives/templates/entity.editor.html',
+            templateUrl: '/directives/entities/templates/entity.editor.html',
             controller: function($scope){
             	
 	    		//START-DATE-MANAGEMENT

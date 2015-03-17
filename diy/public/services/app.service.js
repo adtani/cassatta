@@ -2,7 +2,9 @@
 	'use strict';
 
     angular.module('angularApp')
-        .factory('app', ['$resource', 
+        .factory('app', [
+                         '$compile',
+                         '$resource', 
                          '$rootScope', 
                          '$http',
                          '$interval',
@@ -16,13 +18,16 @@
                          'sqlserverService',
                          'metaService',
                          'responsiveService',
+                         'entitiesService',
+                         'pluginsService',
                          '$location',
                          '$log',
                          '$q',
                          'uiGridConstants',
                          appService]);
     
-    function appService($resource, 
+    function appService($compile,
+    		$resource, 
     		$rootScope, 
     		$http,
     		$interval,
@@ -36,6 +41,8 @@
     		sqlserverService, 
     		metaService,
     		responsiveService,
+    		entitiesService,
+    		pluginsService,
     		$location,
     		$log,
     		$q,
@@ -60,6 +67,8 @@
         }
     	
         return {
+        	compile:$compile,
+        	root:$rootScope,
         	http : $http,
         	interval : $interval,
         	timeout : $timeout,
@@ -71,6 +80,8 @@
         	authserver : sqlserverService,
         	meta : metaService,
         	responsive : responsiveService,
+        	entities:entitiesService,
+        	plugins: pluginsService,
         	config : AppConfig,
         	location : $location,
         	log : $log,

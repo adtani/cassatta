@@ -2,19 +2,19 @@
 
     /**
      * @ngdoc directive
-     * @name loaderPopupDirective
+     * @name httpInterceptorDirective
      *
-     * # loaderPopupDirective
+     * # httpInterceptorDirective
      *
      * @description
      * spinner / loading animation directive for all actions requiring communicatino with the backend
      */
-    var loaderPopupDirective = function($q, $timeout, $window, $location, $rootScope, httpInterceptor) {
+    var httpInterceptorDirective = function($q, $timeout, $window, $location, $rootScope, httpInterceptor) {
         return {
             restrict: 'EA',
             transclude: true,
             scope: {
-                loaderPopupDelay: "@"
+                httpInterceptorDelay: "@"
             },
 
             template: '<div id="overlay-container" class="overlayContainer">' +
@@ -90,7 +90,7 @@
                     if (queue.length == 1) {
                         timerPromise = $timeout(function() {
                             if (queue.length) showOverlay();
-                        }, scope.loaderPopupDelay ? scope.loaderPopupDelay : 500); //Delay showing for 500 millis to avoid flicker
+                        }, scope.httpInterceptorDelay ? scope.httpInterceptorDelay : 500); //Delay showing for 500 millis to avoid flicker
                     }
                 }
 
@@ -111,7 +111,7 @@
                                 hideOverlay();
                                 if (timerPromiseHide) $timeout.cancel(timerPromiseHide);
                             }
-                        }, scope.loaderPopupDelay ? scope.loaderPopupDelay : 500);
+                        }, scope.httpInterceptorDelay ? scope.httpInterceptorDelay : 500);
                     }
                 }
 
@@ -161,6 +161,6 @@
     //Directive that uses the httpInterceptor factory above to monitor XHR calls
     //When a call is made it displays an overlay and a content area 
     //No attempt has been made at this point to test on older browsers
-    myApp.directive('loaderPopup', ['$q', '$timeout', '$window', '$location', '$rootScope', 'httpInterceptor', loaderPopupDirective]);
+    myApp.directive('httpInterceptor', ['$q', '$timeout', '$window', '$location', '$rootScope', 'httpInterceptor', httpInterceptorDirective]);
 
 }());

@@ -3,10 +3,18 @@
 	'use strict';
 
     angular.module('angularApp')
-        .factory('entitymgmtService', ['$rootScope','app', 
-                         entitymgmtService]);
+        .factory('entitiesService', ['$rootScope','$q','metaService','sqlserverService','alertService', 'pluginsService',
+                         entitiesService]);
     
-    function entitymgmtService($rootScope, app) {
+    function entitiesService($rootScope, $q, metaService, sqlserverService, alertService, pluginsService) {
+    	
+    	var app = {
+    		q:$q,
+    		meta:metaService,
+    		sqlserver:sqlserverService,
+    		alert:alertService,
+    		plugins:pluginsService
+    	};
     	
         return {
         	saveEntity : saveEntity,

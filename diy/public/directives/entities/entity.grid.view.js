@@ -1,9 +1,9 @@
 (function() {
 
     var myApp = angular.module('angularApp');
-    myApp.directive('entitymgmtEntityGridView', ['$q', '$timeout', '$window', '$rootScope', 'httpInterceptor', 'entitymgmtService', 'app', entityMgmtEntityGridView]);
+    myApp.directive('entitymgmtEntityGridView', ['app', entityMgmtEntityGridView]);
 
-    function entityMgmtEntityGridView($q, $timeout, $window, $rootScope, httpInterceptor, entitymgmtService, app) {
+    function entityMgmtEntityGridView(app) {
         return {
             restrict: 'EA',
             scope: {
@@ -14,7 +14,7 @@
             	onNew: "&",
             	gridOptions:"=?"
             },
-            templateUrl: '/profiles/entitymgmt.app/directives/templates/entity.grid.view.html',
+            templateUrl: '/directives/entities/templates/entity.grid.view.html',
             controller: function($scope){
            	  	//GRID-MANAGEMENT-START
            	  	$scope.gridOptions = {
@@ -58,7 +58,7 @@
         	   	    var promise = app.q.defer();
         	   	    $scope.gridApi.rowEdit.setSavePromise( rowEntity, promise.promise );
         	   	   
-        	   	    entitymgmtService.saveEntity(rowEntity, $scope.meta.editor.entityType).then(function(){
+        	   	    app.entities.saveEntity(rowEntity, $scope.meta.editor.entityType).then(function(){
         	   	    	promise.resolve();
         	   	    });
         	   	   
@@ -74,7 +74,7 @@
         	   	    	app.log.log(msg);
         	   	    	if(row.isSelected){
         		   	    	var task = row.entity;
-        		   	    	$rootScope.$broadcast('entitymgmt.entity.selected',[task]);
+        		   	    	app.root.$broadcast('entitymgmt.entity.selected',[task]);
         	   	    	}
         	   	    });
         	  
@@ -88,7 +88,7 @@
         	   	    		}
         	   	    	});
         	   	    	if(selectedEntities.length > 0){
-        	   	    		$rootScope.$broadcast('entitymgmt.entity.selected',selectedEntities);
+        	   	    		app.root.$broadcast('entitymgmt.entity.selected',selectedEntities);
         	   	    	}
         	   	    });	  
 
@@ -102,7 +102,7 @@
         	   	  		angular.forEach(rows, function(row){
         	   	  			var entity = row.entity;
         	   	  			entity.deleted = true;
-        	   	  			deferred.push(entitymgmtService.saveEntity(entity, $scope.meta.editor.entityType));
+        	   	  			deferred.push(app.entities.saveEntity(entity, $scope.meta.editor.entityType));
         	   	  		});
         	   	  		app.q.all(deferred).then(function(responses){
         	   	  			var successCount = $.grep(responses, function(response){
@@ -117,14 +117,14 @@
            	 
            	  	$scope.refresh = function(){
            	  		if($scope.domainType!=null){
-	           	  		entitymgmtService.clearCache();
+	           	  		app.entities.clearCache();
 	           	  		app.meta.getMeta($scope.domainType.domainType).then(function(meta){
 	           	  			$scope.meta = meta;
 	                		$scope.gridOptions.columnDefs = [];
 	                		angular.forEach(meta.listView.fields, function(field){
 	                			$scope.gridOptions.columnDefs.push(field);
 	                		});
-	            	   	  	entitymgmtService.loadEntities(meta.listView.entityType, meta.listView.urlFilter).then(function(entities){
+	            	   	  	app.entities.loadEntities(meta.listView.entityType, meta.listView.urlFilter).then(function(entities){
 			       	  			angular.forEach(entities, function(entity){
 			       	  				entity.domainType = $scope.domainType;
 			       	  			});
