@@ -10,6 +10,7 @@ public class TaskMgmtRepositoryConfiguration {
         config.exposeIdsFor(TaskFile.class);
         config.exposeIdsFor(TaskFileView.class);
         config.exposeIdsFor(TaskComment.class);
+        config.exposeIdsFor(TaskCommentView.class);
     }
 
 }

@@ -11,7 +11,7 @@
     			"fields" : [
     				{
 			        	"name":"task",
-					    "display" : false,
+					    "display" : true,
 			        	"label": "Task",
 			            "type":"OTO",
 			            "domainType":"org.taskmgmt.tasks",
