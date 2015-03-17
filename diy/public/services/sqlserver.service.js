@@ -3,15 +3,16 @@
     'use strict';
 
     angular.module('angularApp')
-        .factory('sqlserverService', ['$resource', '$q', '$rootScope', 'AppConfig', '$log', serverService]);
+        .factory('sqlserverService', ['$resource', '$q', '$http', '$rootScope', 'AppConfig', '$log', serverService]);
    
     
-    function serverService($resource, $q, $rootScope, AppConfig, $log) {
+    function serverService($resource, $q, $http, $rootScope, AppConfig, $log) {
     	$rootScope.collections = [];
     	
         return {
         	init : init, //creates database and basic collections for first-time usage (only if they dont exist already)
         	login : login,
+        	logout : logout,
         	saveEntity : saveEntity,
         	loadEntity : loadEntity,
         	loadEntities : loadEntities,
@@ -33,40 +34,42 @@
     	}
 
         function login(username, password){
-        	return searchEntities("org.users","findByLogin?login="+username).then(function(response){
-        		$log.info(response.entities.length+" users found matching login "+username);
-        		if(response.success){
-        			if(response.entities.length == 1 && response.entities[0].password == password){
-        				var user = response.entities[0];
-        				return loadNestedEntities(user, "roles","org.roles").then(function(response){
-        					if(response.success){
-        						user.roles = response.entities;
-                				return {
-                            		user : user,
-                            		success : true
-                            	};        				
-        					}else{
-                				return {
-                            		response : response,
-                            		success : false
-                            	};
-        					}
-        				});
-        			}else{
-        				return {
-                    		response : response,
-                    		success : false
-                    	};
-        			}
-        		}else{
-        			return {
-                		response : response,
-                		success : false
-                	};
-        		}
-        	});
+        	return $resource(AppConfig.AUTH_SERVER_URL + "/login?login="+username+"&password="+password).get().$promise.then(function(response){
+            	var entity = response; 
+            	if(entity.id!=null){
+	            	return {
+	            		response : response,
+	            		user : entity,
+	            		success : true
+	            	};
+            	}else{
+            		return {
+            			response : response,
+            			success : fase
+            		}
+            	}
+            }, function(response) {
+            	return {
+            		response : response,
+            		success : false
+            	}
+            });        	
         }
-        
+
+        function logout(){
+        	return $resource(AppConfig.AUTH_SERVER_URL + "/logout").get().$promise.then(function(response){
+            	return {
+            		response : response,
+            		success : true
+            	};
+            }, function(response) {
+            	return {
+            		response : response,
+            		success : false
+            	}
+            });        	
+        }
+
         function init(){
         	$log.info("Initializing rest database ...");
         };

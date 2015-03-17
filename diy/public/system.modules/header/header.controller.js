@@ -9,9 +9,15 @@
         $log.info("header controller initialized ...");
         
         $scope.logout = function(){
-        	app.session.clear();
-        	app.session.init();
-        	$location.path("/login");
+        	app.authserver.logout().then(function(response){
+        		if(response.success){
+                	app.session.clear();
+                	app.session.init();
+                	$location.path("/login");
+        		}else{
+        			app.alert.warning("Warning", 'Could not be logged out, sorry!');
+        		}
+        	});
         }
         
         function init() {

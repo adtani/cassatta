@@ -5,7 +5,7 @@
         .constant('AppConfig', {
         	
     		//REST SERVER BASE URL - Single place configuration
-    		DOC_SERVER_URL: '/rest',
+        	AUTH_SERVER_URL: '/app',
     		SQL_SERVER_URL: '/rest',
     		UPLOAD_SERVER_URL: '/upload',
 

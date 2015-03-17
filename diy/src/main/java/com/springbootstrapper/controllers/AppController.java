@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,22 +28,35 @@ public class AppController {
 	@Autowired
 	private AppConfig config;
 	
+	@Autowired
+	private HttpSession session;
+	
     @Autowired
     private UserRepository userRepository;
 
     @RequestMapping("/login")
     @ResponseBody
     public User login(@RequestParam String login, @RequestParam String password) {
+    	session.invalidate();
     	List<User> usersByLogin = userRepository.findByLogin(login);
     	if(usersByLogin.size()>0){
     		User user = usersByLogin.get(0);
 			if(user.getPassword().equals(password)){
+		    	session.setAttribute("user", user);
+		    	System.out.println(user.getLogin()+" signed in with authorization "+session.getId());
+		    	user.setAuthorization(session.getId());
     			return user;
     		}
     	}
 		return null;
     }
-    
+
+    @RequestMapping("/logout")
+    @ResponseBody
+    public void logout() {
+    	session.invalidate();
+    }
+
     @RequestMapping(value="/users", method=RequestMethod.GET)
     @ResponseBody
     public Iterable<User> users() {

@@ -9,7 +9,7 @@
      * @description
      * spinner / loading animation directive for all actions requiring communicatino with the backend
      */
-    var loaderPopupDirective = function($q, $timeout, $window, $rootScope, httpInterceptor) {
+    var loaderPopupDirective = function($q, $timeout, $window, $location, $rootScope, httpInterceptor) {
         return {
             restrict: 'EA',
             transclude: true,
@@ -45,6 +45,9 @@
                 //Hook into httpInterceptor factory request/response/responseError functions                
                 function wireUpHttpInterceptor() {
                     httpInterceptor.request = function(config) {
+                    	if($rootScope.session.user!=null){
+                    		config.headers['authorization']=$rootScope.session.user.authorization;
+                    	}
                         processRequest();
                         return config || $q.when(config);
                     };
@@ -56,6 +59,9 @@
 
                     httpInterceptor.responseError = function(rejection) {
                         processResponse();
+                    	if(rejection.status = 403){
+                    		$location.path("/login");
+                    	}
                         return $q.reject(rejection);
                     };
                 }
@@ -155,6 +161,6 @@
     //Directive that uses the httpInterceptor factory above to monitor XHR calls
     //When a call is made it displays an overlay and a content area 
     //No attempt has been made at this point to test on older browsers
-    myApp.directive('loaderPopup', ['$q', '$timeout', '$window', '$rootScope', 'httpInterceptor', loaderPopupDirective]);
+    myApp.directive('loaderPopup', ['$q', '$timeout', '$window', '$location', '$rootScope', 'httpInterceptor', loaderPopupDirective]);
 
 }());

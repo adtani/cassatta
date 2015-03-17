@@ -42,6 +42,7 @@
     		uiGridConstants
     		) {
     	
+    	
     	/**
          * @description
          * sets current intent of communicating with the back-end, shows up on spinner
