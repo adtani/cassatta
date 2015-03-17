@@ -9,7 +9,8 @@
 	
 	function entitymgmtController($rootScope, $scope, app, $routeParams, entitymgmtService) {
 
-		$scope.title = "Entity Management";
+		$scope.mainEntity = "Entity";
+		$scope.title = $scope.mainEntity+" Management";
 
 		//START-DOMAIN-TYPE-CHANGE-HANDLING
 		function initDomainTypes(){
@@ -34,7 +35,7 @@
 					  		$scope.entity = entity;
 							setEditorPanel();		   	  			
 			   	  		}else{
-			   	  			app.alert.warning("Entity Load Failure!");
+			   	  			app.alert.warning($scope.mainEntity+" Load Failure!");
 			   	  		}
 			   	  	});   	  		
 	   	  		}else{
@@ -77,7 +78,7 @@
    	  	
    	  	function setEditorPanel(){
    	  		$scope.panelType = $scope.entity != null? ($scope.entity.id != null ? "panel-primary" : "panel-success") : "panel-info";
-   	  		$scope.title = $scope.entity != null? ($scope.entity.id != null ? "Edit Entity - " + $scope.entity.entityType+" ["+$scope.entity.id+"]" : "New Entity - "+ $scope.entity.entityType ) : "Entity Editor";
+   	  		$scope.title = $scope.entity != null? ($scope.entity.id != null ? "Edit "+$scope.mainEntity+" - " + $scope.entity.entityType+" ["+$scope.entity.id+"]" : "New "+$scope.mainEntity+" - "+ $scope.entity.entityType ) : $scope.mainEntity+" Editor";
    	  	}
    	 
    	  	$scope.deleteEntity = function(){
@@ -122,7 +123,7 @@
 						  		$scope.editorMeta = meta;
 								setEditorPanel();		   	  			
 				   	  		}else{
-				   	  			app.alert.warning("Entity Load Failure!");
+				   	  			app.alert.warning($scope.mainEntity+" Load Failure!");
 				   	  		}
 				   	  	});   	  		
 			    	}, function(response){
