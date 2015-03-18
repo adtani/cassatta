@@ -61,7 +61,8 @@
     							    name:"status",
     							    label:"Status",
     							    type:"text",
-    							    required:true
+    							    required:true,
+    							    validvalues:['OPEN','ASSIGNED','CLOSED', 'RE-OPENED']
     						    },
     						    {
     						    	name:"priority",
@@ -122,7 +123,7 @@
     			
     		listView: {
     			entityType: "org.taskmgmt.tasksview",
-    			urlFilter:  "findByAssigneeIdAndStatusNot?assigneeId=:SESSION_USER_ID&status=DONE",
+    			urlFilter:  "findByAssigneeIdAndStatusNot?assigneeId=:SESSION_USER_ID&status=CLOSED",
     			fields: [
     		   	    	    { 	name: "parentage", 
     		   	    	    	displayName: "Parents", 
@@ -171,10 +172,25 @@
 	        	actions : [
 	                 {
 	              	   name:"markDone",
-	              	   label:"Mark Done",
-	              	   action:function(plugin, rootScope, scope, app, entities){
-	              		   app.alert.success("Plugin launched!","Plugin launched!");
+	              	   label:"Mark Selected Tasks Done",
+	              	   execute:function(app, scope, entities){
+	              		   if(entities == null || entities.length == 0){
+	              			   app.alert.warning("You need to select one or more items first!");
+	              		   }else{
+              			   	  var deferred = [];
+           	   		          angular.forEach(entities, function(entity){
+           	   		        	  entity.status = 'DONE';
+           	   		        	  deferred.push(app.entities.saveEntity(entity, scope.meta.editor.entityType));
+           	   		          });
+           	   		          app.q.all(deferred).then(function(responses){
+              	   	  			var successCount = $.grep(responses, function(response){
+            		  				return response.success;
+            		  			}).length;   	  			
+            	  				app.alert.success(successCount+" of  "+deferred.length+" Entities Updated!");
+           	   		          });
+	              		   }
 	              	   }
+	                 
 	                 }
 	            ]
         };

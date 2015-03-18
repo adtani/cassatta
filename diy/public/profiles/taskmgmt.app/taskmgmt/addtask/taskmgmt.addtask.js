@@ -9,8 +9,6 @@
 	
 	function taskmgmtAddTaskController($rootScope, $scope, app, taskmgmtService) {
 
-		app.log.info("AddTask controller initialized ...");
-
 		$scope.title = "Task Editor : New Task";
 		$scope.users = [];
 		$scope.paneltype = "panel-primary";

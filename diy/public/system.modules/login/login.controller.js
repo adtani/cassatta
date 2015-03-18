@@ -6,8 +6,6 @@
 
     function loginController($rootScope, $scope, $http, $location, $log, app) {
 
-        $log.info("login controller initialized...");
-        
         //dummy data so we dont have to fill every time...
         $scope.username = "admin";
         $scope.password = "password";

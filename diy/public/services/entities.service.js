@@ -71,7 +71,6 @@
 				if(entityId != null){
 	   	  			app.sqlserver.loadEntity(field.meta.editor.entityType, entityId).then(function(response){
 	   	    			if(response.success){
-	   	    				console.log("Loaded reference "+field.name+" -> "+entity.id);
 	   	    				entity[field.name] = response.entity;
 	   	    				//set display on it, since it may not be already set by the server..
 	   	    				app.meta.getMeta(response.entity.entityType).then(function(entityMeta){
@@ -114,15 +113,12 @@
         }
 
         function loadEntities(entityType, urlFilter){
-        	console.log("initiating fetch for "+entityType);
         	var deferred = app.q.defer();
     		var filter = urlFilter!=null? urlFilter.split(":SESSION_USER_ID").join($rootScope.session.user.id) : null;
     		var promise = null;
     		if(filter!=null && filter.length > 0){
-    			console.log("fetching ..."+entityType+filter);
     			promise = app.sqlserver.searchEntities(entityType,filter);
     		}else{
-    			console.log("fetching ..."+entityType);
     			promise = app.sqlserver.loadEntities(entityType);
     		}
        	  	promise.then(function(response){

@@ -21,16 +21,19 @@
 				            	name: "title", 
 				            	label: "Title",
 				            	searchable: true,
+				            	requried:true,
 				            	type:"text"
 				            },
 				            { 
 				            	name: "description", 
 				            	label: "Description",
+				            	required: true,
 				            	type:"textarea"
 				            },
 				            { 
 				            	name: "status", 
 				            	label: "Status",
+				            	requried:true,
 				            	type:"text",
 				            	validvalues:[
 				            		"DRAFT",
@@ -50,7 +53,8 @@
 					        	label: "Owner",
 					            type:"owner",
 					            domainType:"org.users",
-						    	required:true
+						    	required:true,
+						    	display:false
 					        },
 					        {
 					        	name:"assignee",

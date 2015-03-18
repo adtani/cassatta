@@ -6,8 +6,6 @@
 
     function helloController($rootScope, $scope, $http, $location, $log, app) {
 
-        $log.info("hello controller initialized ...");
-        
         $scope.greeting = "Hello World";
         
         $scope.greetMe = function(){

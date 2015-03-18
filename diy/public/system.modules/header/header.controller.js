@@ -5,8 +5,6 @@
         .controller('HeaderController', ['$rootScope', '$scope', '$http', '$location', '$log', 'app', headerController]);
 
     function headerController($rootScope, $scope, $http, $location, $log, app) {
-
-        $log.info("header controller initialized ...");
         
         $scope.logout = function(){
         	app.authserver.logout().then(function(response){

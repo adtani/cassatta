@@ -1,11 +1,23 @@
 	<h3>
-		<button type="submit"
-		class="btn btn-primary" ng-click="onNew()">New
-		Entity</button>
-		<button type="submit"
-		class="btn btn-primary" ng-click="refresh()">Refresh</button>
-		<button type="submit"
-		class="btn btn-primary" ng-click="deleteEntities()">Delete</button>
+		<div class="btn-group" role="group" aria-label="...">
+			<button type="submit"
+			class="btn btn-primary" ng-click="newEntity()">New
+			Entity</button>
+			<button type="submit"
+			class="btn btn-primary" ng-click="refresh()">Refresh</button>
+			<button type="submit"
+			class="btn btn-primary" ng-click="deleteEntities()">Delete</button>
+			<span>&nbsp;&nbsp;</span>
+			<div class="btn-group pull-right" role="group" style="margin-left:25px" ng-if="meta.actions!=null && meta.actions.length > 0">
+			  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+			    Custom Actions ...
+			    <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+			    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" ng-click="launchCustomAction(action)" ng-repeat="action in meta.actions">{{action.label}}</a></li>
+			  </ul>
+			</div>		
+		</div>
 	</h3>
 
 	<!-- div class="grid" ng-grid="gridOptions"></div -->

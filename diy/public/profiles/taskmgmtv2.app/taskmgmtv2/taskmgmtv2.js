@@ -5,9 +5,9 @@
 	var app = angular.module('angularApp');
 
 	app.controller('taskmgmtv2Controller',
-			[ '$rootScope', '$scope', 'app', '$routeParams', 'entitymgmtService', taskmgmtv2Controller ]);
+			[ '$rootScope', '$scope', 'app', '$routeParams', taskmgmtv2Controller ]);
 	
-	function taskmgmtv2Controller($rootScope, $scope, app, $routeParams, entitymgmtService) {
+	function taskmgmtv2Controller($rootScope, $scope, app, $routeParams) {
 
 		$scope.mainEntity = "Tasks";
 		$scope.title = $scope.mainEntity+" Management";
@@ -31,7 +31,7 @@
 	   	  		if(entity.id!=null){
 			   	  	app.sqlserver.loadEntity(meta.editor.entityType, entity.id).then(function(response){
 			   	  		if(response.success){
-				   	  		entitymgmtService.loadReferences(entity, meta);
+				   	  		app.entities.loadReferences(entity, meta);
 					  		$scope.entity = entity;
 							setEditorPanel();		   	  			
 			   	  		}else{
@@ -72,7 +72,7 @@
 
 		//START-EVENT-HANDLING
    	  	$scope.newEntity = function(domainType){
-   	  		var entity = entitymgmtService.newEntity(domainType);
+   	  		var entity = app.entities.newEntity(domainType);
 			selectEntity(entity);
 		}
    	  	
@@ -85,7 +85,7 @@
 			var dlg = app.dialogs.confirm('Confirm Deletion',"Are you sure?",["Yeah","May Be!","No Way!"]);
 			dlg.result.then(function(btn){
 				$scope.entity.deleted = true;
-				entitymgmtService.saveEntity($scope.entity, $scope.editorMeta.editor.entityType).then(function(){
+				app.entities.saveEntity($scope.entity, $scope.editorMeta.editor.entityType).then(function(){
 	   	  			setPanelType();
 	   	  		});
 				app.alert.success(field.label+" Removed!");
@@ -95,7 +95,7 @@
 		}
 
    	  	$scope.saveEntity = function(){
-   	  		entitymgmtService.saveEntity($scope.entity, $scope.editorMeta.editor.entityType).then(function(){
+   	  		app.entities.saveEntity($scope.entity, $scope.editorMeta.editor.entityType).then(function(){
    				setEditorPanel();
    	  		});
    	  	} 
@@ -115,7 +115,7 @@
 				   	  	app.sqlserver.loadEntity(meta.editor.entityType, entityId).then(function(response){
 				   	  		if(response.success){
 				   	  			//retrieve entity references ...
-					   	  		entitymgmtService.loadReferences(response.entity, meta);
+					   	  		app.entities.loadReferences(response.entity, meta);
 					   	  		$scope.domainType = domainType;
 						  		$scope.entity = response.entity;
 						  		$scope.entity.domainType = $scope.domainType;

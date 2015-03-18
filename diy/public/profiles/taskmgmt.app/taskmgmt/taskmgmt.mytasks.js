@@ -8,9 +8,6 @@
 			[ '$rootScope', '$scope', 'app', 'taskmgmtService', taskmgmtController ]);
 	
 	function taskmgmtController($rootScope, $scope, app, taskmgmtService) {
-
-		app.log.info("Task controller initialized ...");
-
 		$scope.title = "Task Management";
 		$scope.tasks = [];
 		

@@ -53,6 +53,10 @@
                     ]
            	  	};
            	  	
+           	  	$scope.newEntity = function(){
+           	  		$scope.onNew({domainType: $scope.domainType});
+           	  	}
+           	  	
            	  	$scope.saveRow = function( rowEntity ) {
         	   	    // create a fake promise - normally you'd use the promise returned by $http or $resource
         	   	    var promise = app.q.defer();
@@ -94,6 +98,18 @@
 
            	  	};
            	  	
+           	  	$scope.launchCustomAction = function(action){
+    	   	  		var rows = $scope.gridApi.selection.getSelectedGridRows();
+    	   	  		var deferred = [];
+	   	  			var entities = (rows!=null && rows.length > 0)? $.map(rows, function(row, i){return row.entity}) : null;
+           	  		try{
+           	  			action.execute(app, $scope, entities);
+           	  		}catch(exception){
+           	  			console.warn("Error while launching custom action! %o",exception)
+           	  			app.alert.warning("Error!","Error while launching custom action! ");
+           	  		}
+           	  	}
+           	  	
            	  	$scope.deleteEntities = function(){
         			var dlg = app.dialogs.confirm('Confirm Deletion',"Are you sure?",["Yeah","May Be!","No Way!"]);
         			dlg.result.then(function(btn){
@@ -130,7 +146,6 @@
 			       	  			});
 	            	  	   	    $scope.gridOptions.data = entities;
 	            	  	   	    $scope.entities = entities;
-//	            	  	   	    app.alert.success("Data Refreshed",entities.length + " items loaded for "+meta.listView.entityType+"!");
 	            	   	  	});
 	                	}, function(response){
 	                		console.warn(response);
@@ -165,6 +180,7 @@
 	           	  		if(!entities[0].deleted){
 		           	   	  	app.sqlserver.loadEntity($scope.meta.listView.entityType, entities[0].id).then(function(response){
 		           	   	  		if(response.success){
+			       	  				response.entity.domainType = $scope.domainType;
 		           	   	  			if(matchingEntities.length > 0){
 	           	   	  					$scope.gridOptions.data.splice($scope.gridOptions.data.indexOf(matchingEntities[0]),1,response.entity);
 		           	   	  			}else{

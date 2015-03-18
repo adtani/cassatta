@@ -8,14 +8,14 @@
 				<br/>
 				<tabset> 
 					<tab heading="Dynamically Selected Entities - {{domainType.name}} ({{entities.length}})">
-						<div entitymgmt-entity-grid-view domain-type="domainType" on-new="newEntity(domainType)" entities="entities"/>						
+						<div entitymgmt-entity-grid-view domain-type="domainType" on-new="newEntity(domainType)" entities="entities" meta="meta"/>						
 					</tab>
 				</tabset>
 			</div>
 		</div>
 	</div>
   	<div class="col-md-3">
-		<div class="col-md-12" entitymgmt-entity-editor action="Save" domain-type="editorDomainType" show-expand="true" show-delete="true" app="app" entity="entity" meta="editorMeta" panel-type="panelType" title="title" on-save="saveEntity()" on-reset="resetEntity()" on-delete="deleteEntity()"></div>
+		<div class="col-md-12" entitymgmt-entity-editor action="Save" domain-type="editorDomainType" show-expand="true" show-delete="true" app="app" entity="entity" meta="meta" panel-type="panelType" title="title" on-save="saveEntity()" on-reset="resetEntity()" on-delete="deleteEntity()"></div>
 	</div>
 	<br/>
 </div>

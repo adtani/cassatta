@@ -15,7 +15,7 @@
     				{
     					path : "profiles/demo.app",
     					name : "hello",
-    					title : "Hello World",
+    					title : "H-World!",
     					icon : "/profiles/demo.app/images/hello.png",    					
     					description : "Hello World, just displays Hello World!",
     					level : 0,
@@ -41,30 +41,16 @@
     					path : "profiles/demo.app",
     					name : "dialogs",
     					icon : "/profiles/demo.app/images/dialogs.png",    					
-    					title : "Example Dialogs",
-    					description : "Dialog Examples!",
+    					title : "Dialogs!",
+    					description : "Example Dialogs!",
     					level : 0
-    				},
-    				{
-    					path : "profiles/demo.app",
-    					name : "doctaskmgmt",
-    					title : "Mongo Tasks",
-    					description : "Task Management! (Powerd by Mongo)",
-    					level : 0,
-    					actions : [
-    	    					    {
-    	    					    	name : "addtask",
-    	    					    	title : "Add Task",
-    	    					    	level : 0
-    	    					    }	
-    	    					]
     				},
     				{
     					path : "profiles/taskmgmt.app",
     					name : "taskmgmt",
     					icon : "/profiles/taskmgmt.app/images/tasks.png",    					
-    					title : "Tasks",
-    					description : "Task Management!",
+    					title : "Tasks V1.0!",
+    					description : "Tasks!",
     					level : 0,
     					actions : [
     					    {
@@ -78,7 +64,7 @@
     					path : "profiles/entitymgmt.app",
     					name : "entitymgmt",
     					icon : "/profiles/entitymgmt.app/images/people.png",
-    					title : "Entities",
+    					title : "Entities!",
     					description : "Entity Management!",
     					level : 0,
     					actions : [
@@ -93,7 +79,7 @@
     					path : "profiles/docmgmt.app",
     					name : "docmgmt",
     					icon : "/profiles/docmgmt.app/images/documents.png",
-    					title : "Documents Management",
+    					title : "Documents!",
     					description : "Document Management!",
     					level : 100
     				},
@@ -101,7 +87,7 @@
     					path : "profiles/usermgmt.app",
     					name : "usermgmt",
     					icon : "/profiles/usermgmt.app/images/users.png",
-    					title : "User Management",
+    					title : "Users!",
     					description : "User Management!",
     					level : 0
     				},
@@ -109,7 +95,7 @@
     					path : "profiles/taskmgmtv2.app",
     					name : "taskmgmtv2",
     					icon : "/profiles/taskmgmtv2.app/images/tasksv2.png",
-    					title : "Tasks Management v2.0",
+    					title : "Tasks v2.0",
     					description : "Tasks Management!",
     					level : 100
     				}    				

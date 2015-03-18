@@ -80,7 +80,6 @@
         
         function persistEntity(entity){
         	var deferred = $q.defer();
-        	$log.info("Persisting entity ["+entity.entityType+"] ...%o",entity);
         	var headers = (entity._etag != null)?{'If-Match':entity._etag} : {};
         	var method = (entity.id != null)? "POST" : "POST";
         	var id = "";
@@ -90,14 +89,12 @@
         	}
         	
             $resource(AppConfig.SQL_SERVER_URL+"/"+entity.entityType+id, {}, {'store':{method:method, headers:headers}}).store(entity, function(response, headers){
-            	$log.info("Entity of type ["+entity.entityType+"] created at ["+headers('Location')+"]!");
             	deferred.resolve({
             		success: true,
             		response: response,
             		id: entity.deleted ? entity.id : headers('Location').split('/').pop()
             	});
             }, function(response) {
-            	$log.warn("Entity of type ["+entity.entityType+"] could not be persisted with http-"+method+"!");
             	deferred.resolve({
             		success : false,
             		response: response

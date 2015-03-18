@@ -6,7 +6,6 @@
 
     function rootController($rootScope, $scope, $http, $location, $log, app) {
 
-        $log.info("RootController Initialized ...");
     	$rootScope.intent = "Loading...";
         
         function init() {

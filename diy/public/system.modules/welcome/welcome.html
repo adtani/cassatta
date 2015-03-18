@@ -1,6 +1,6 @@
-<div ng-controller="WelcomeController">
+<div class="container-fluid" ng-controller="WelcomeController">
 	
-	<div ng-if="module == null">
+	<div class="col-md-12" ng-if="module == null">
 	
 		<h3>Available Modules:</h3>
 		
@@ -8,7 +8,7 @@
 			ng-repeat="module in modules" 
 			href="javascript:launchModule(module.name);"
 			ng-click="launchModule(module.name);">
-			<img src="{{ module.icon!=null ? module.icon : '/images/gear.png' }}"/>
+			<img height="200px" width="200px" src="{{ module.icon!=null ? module.icon : '/images/gear.png' }}"/>
 			<h4><strong>{{module.title}}</strong></h4>
 			<br/>
 		</a>

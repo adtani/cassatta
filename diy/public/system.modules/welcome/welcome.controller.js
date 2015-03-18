@@ -16,9 +16,6 @@
     		$location.path("/welcome/"+$scope.module.name+"/"+actionName);
     	};
     	
-        app.log.info("welcome controller initialized...");
-        app.log.info("Initialized "+$rootScope.modules.length+" modules successfully.");
-        
         function init() {
         	//initialization code goes here...
         	if($routeParams.module != null && $routeParams.module.length > 0){
@@ -58,8 +55,6 @@
 	        		}
 	        		
 	        		$scope.htmlpath = htmlpath;
-	        		
-	        		app.log.info("Initialized module : "+$scope.module);
 	        		
         		}else{
         			app.alert.warning("Warning", "You are not authorized to launch this module!");
