@@ -18,12 +18,15 @@
     		if(cachedItems.length > 0){
     			deferred.resolve(cachedItems[0]);
     		}else{
-	    		var metaPath =  domainType.split('.').join('/');
-	    		$resource("/metadata/"+metaPath+".metadata.json").get().$promise.then(function(response){
-	    			response.domainType = domainType;
-	    			cache.push(response);
-	            	deferred.resolve(response);
-	            });
+    			require(["metadata/"+domainType.split('.').join('/')+".config"], function(meta) {
+    				if(meta!=null){
+		    			meta.domainType = domainType;
+		    			cache.push(meta);
+		            	deferred.resolve(meta);
+    				}else{
+    					console.warn("Failed to load metadata for "+domainType);
+    				}
+    			});
     		}
     		return deferred.promise;
     	}

@@ -51,7 +51,6 @@
 			$scope.editorDomainType = domainType;
 			$scope.entity = null;
 	   	  	app.meta.getMeta($scope.domainType.domainType).then(function(meta){
-//	    		$scope.meta = meta;
 	    		$scope.editorMeta = meta;
 	    		setEditorPanel();
 	    	}, function(response){
@@ -119,7 +118,6 @@
 					   	  		$scope.domainType = domainType;
 						  		$scope.entity = response.entity;
 						  		$scope.entity.domainType = $scope.domainType;
-//						  		$scope.meta = meta;
 						  		$scope.editorMeta = meta;
 								setEditorPanel();		   	  			
 				   	  		}else{

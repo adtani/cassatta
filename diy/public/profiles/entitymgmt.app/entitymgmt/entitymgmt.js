@@ -50,17 +50,13 @@
    	  		$scope.domainType = domainType;
 			$scope.editorDomainType = domainType;
 			$scope.entity = null;
-			
-			require(["metadata/"+domainType.domainType.split('.').join('/')+".logic"], function(customLogic) {
-				var actions = customLogic.getActions();
+
+			app.meta.getMeta($scope.domainType.domainType).then(function(meta){
+	    		$scope.editorMeta = meta;
+				var actions = meta.actions;
 				angular.forEach(actions, function(action){
 					console.log("#loaded plugin: "+domainType.domainType+" => custom.logic.action :: "+action.name);
 				});
-			});
-	
-	   	  	app.meta.getMeta($scope.domainType.domainType).then(function(meta){
-//	    		$scope.meta = meta;
-	    		$scope.editorMeta = meta;
 	    		setEditorPanel();
 	    	}, function(response){
 	    		console.warn(response);
@@ -127,7 +123,6 @@
 					   	  		$scope.domainType = domainType;
 						  		$scope.entity = response.entity;
 						  		$scope.entity.domainType = $scope.domainType;
-//						  		$scope.meta = meta;
 						  		$scope.editorMeta = meta;
 								setEditorPanel();		   	  			
 				   	  		}else{
