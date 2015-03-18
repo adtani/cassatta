@@ -51,7 +51,7 @@
 			$scope.editorDomainType = domainType;
 			$scope.entity = null;
 	   	  	app.meta.getMeta($scope.domainType.domainType).then(function(meta){
-	    		$scope.editorMeta = meta;
+	    		$scope.meta = meta;
 	    		setEditorPanel();
 	    	}, function(response){
 	    		console.warn(response);
@@ -62,7 +62,7 @@
 			$scope.editorDomainType = domainType;
 			$scope.entity = null;
 	   	  	app.meta.getMeta(domainType.domainType).then(function(meta){
-	    		$scope.editorMeta = meta;
+	    		$scope.meta = meta;
 	    	}, function(response){
 	    		console.warn(response);
 	    	});                  		
@@ -84,7 +84,7 @@
 			var dlg = app.dialogs.confirm('Confirm Deletion',"Are you sure?",["Yeah","May Be!","No Way!"]);
 			dlg.result.then(function(btn){
 				$scope.entity.deleted = true;
-				app.entities.saveEntity($scope.entity, $scope.editorMeta.editor.entityType).then(function(){
+				app.entities.saveEntity($scope.entity, $scope.meta.editor.entityType).then(function(){
 	   	  			setPanelType();
 	   	  		});
 				app.alert.success(field.label+" Removed!");
@@ -94,7 +94,7 @@
 		}
 
    	  	$scope.saveEntity = function(){
-   	  		app.entities.saveEntity($scope.entity, $scope.editorMeta.editor.entityType).then(function(){
+   	  		app.entities.saveEntity($scope.entity, $scope.meta.editor.entityType).then(function(){
    				setEditorPanel();
    	  		});
    	  	} 
@@ -118,7 +118,7 @@
 					   	  		$scope.domainType = domainType;
 						  		$scope.entity = response.entity;
 						  		$scope.entity.domainType = $scope.domainType;
-						  		$scope.editorMeta = meta;
+						  		$scope.meta = meta;
 								setEditorPanel();		   	  			
 				   	  		}else{
 				   	  			app.alert.warning("Entity Load Failure!");
