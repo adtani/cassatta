@@ -32,7 +32,7 @@ public class Role {
 	@Column(nullable = false, name = "USER_ID", updatable=false, insertable=false)
 	private long userId;
 
-	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=User.class)
+	@ManyToOne(cascade = CascadeType.REMOVE, targetEntity=User.class)
 	@JsonBackReference
 	private User user;
 	

@@ -2,37 +2,88 @@ package org.cassatta.appbuilder.controllers;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import org.apache.tomcat.util.http.fileupload.FileUploadBase;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.cassatta.appbuilder.config.AppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
  
 /**
  * Handles requests for the application file upload requests
  */
 @Controller
-public class FileUploadController {
+public class FileTransferController {
 	
 	@Autowired
 	private AppConfig config;
  
     private static final Logger logger = LoggerFactory
-            .getLogger(FileUploadController.class);
+            .getLogger(FileTransferController.class);
+    
+    private static final int BUFFER_SIZE = 4096;
+    
+    @RequestMapping(value = "/uploaded.files/**", method = RequestMethod.GET)
+    public void downloadFile(HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+ 
+        // get absolute path of the application
+        ServletContext context = request.getServletContext();
+		File fileVaultRoot = new File(config.getProperty("filevault.root"));
+ 
+        // construct the complete absolute path of the file
+		String decodedURL = URLDecoder.decode(request.getRequestURL().toString(), "UTF-8");
+        String fullPath = decodedURL.substring(decodedURL.indexOf("uploaded.files"));      
+        File downloadFile = new File(fileVaultRoot, fullPath);
+        FileInputStream inputStream = new FileInputStream(downloadFile);
+         
+        // get MIME type of the file
+        String mimeType = context.getMimeType(fullPath);
+        if (mimeType == null) {
+            // set to binary type if MIME mapping not found
+            mimeType = "application/octet-stream";
+        }
+ 
+        // set content attributes for the response
+        response.setContentType(mimeType);
+        response.setContentLength((int) downloadFile.length());
+ 
+        // set headers for the response
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"",
+                downloadFile.getName());
+        response.setHeader(headerKey, headerValue);
+ 
+        // get output stream of the response
+        OutputStream outStream = response.getOutputStream();
+ 
+        byte[] buffer = new byte[BUFFER_SIZE];
+        int bytesRead = -1;
+ 
+        // write bytes read from the input stream into the output stream
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outStream.write(buffer, 0, bytesRead);
+        }
+ 
+        inputStream.close();
+        outStream.close();
+    }
  
     /**
      * Upload single file using Spring Controller
