@@ -9,9 +9,9 @@
 		<tabset> 
 			<tab heading="{{tab.label}}" ng-repeat="tab in meta.editor.tabs track by $index">
 				<ng-form name="entityform">
-					<fieldSet>
+					<fieldSet ng-disabled="entity==null">
 					<br/>
-					<div ng-repeat="field in tab.fields track by $index">
+					<div ng-repeat="field in tab.fields">
 						<div class="form-group" ng-if="field.validvalues != null && field.display != false">
 							<label for="{{field.name}}">{{field.label}}:</label> 
 							<select class="form-control selectpicker" name="{{field.name}}"
@@ -71,7 +71,7 @@
 								<ui-select ng-required="{{field.required}}" ng-model="entity[field.name]" theme="bootstrap"
 									reset-search-input="false" style="width: 100%;"> <ui-select-match
 									placeholder="Search ...">{{$select.selected.display}}</ui-select-match>
-								<ui-select-choices repeat="result in results[field.name] track by $index"
+								<ui-select-choices repeat="result in results[field.name]"
 									refresh="searchEntities(field.name, field.domainType, $select.search)" refresh-delay="1000">
 								<div ng-bind-html="result.display | highlight: $select.search"></div>
 								</ui-select-choices> </ui-select>
