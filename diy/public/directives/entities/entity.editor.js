@@ -3,21 +3,32 @@
     var myApp = angular.module('angularApp');
     myApp.directive('entitymgmtEntityEditor', ['app', entityMgmtEntityEditor]);
     
-	myApp.controller('entitySearchDialog',['$scope', '$modalInstance', 'data', function($scope,$modalInstance,data){
+	myApp.controller('entitySearchDialog',['$scope', '$modalInstance', 'data', 'app', function($scope,$modalInstance,data, app){
 		$scope.data = data;
+		$scope.data.newentity = app.entities.newEntity($scope.data.domainType);
+
+		$scope.saveEntity = function(){
+   	  		app.entities.saveEntity($scope.data.newentity, $scope.data.meta.editor.entityType).then(function(){
+   	  			$modalInstance.close($scope.data.newentity);
+   	  		});
+		}
 		
    	  	$scope.selectEntity = function(entities){
-   	  		var entity = entities[entities.length-1];
-   	  		$scope.data.entity = entity;
+   	  		if(entities.length > 0){
+	   	  		var entity = entities[entities.length-1];
+	   	  		$scope.data.entity = entity;
+   	  		}else{
+   	  			$scope.data.entity = null;
+   	  		}
    	  	};
 
 		$scope.cancel = function(){
 			$modalInstance.dismiss(null);
-		}; // end cancel
+		}; 
 		
 		$scope.save = function(){
 			$modalInstance.close($scope.data.entity);
-		}; // end save
+		}; 
 		
 	}]) 
 

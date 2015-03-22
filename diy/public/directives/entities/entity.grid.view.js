@@ -14,7 +14,8 @@
             	entities: "=?",
             	onNew: "&",
             	gridOptions:"=?",
-            	onSelect: "&"
+            	onSelect: "&",
+            	showButtonPanel:"@"
             },
             templateUrl: '/directives/entities/templates/entity.grid.view.html',
             controller: function($scope){
@@ -81,6 +82,8 @@
         	   	    	if(row.isSelected){
         		   	    	var task = row.entity;
         		   	    	$scope.onSelect({entities: [task]});
+        	   	    	}else{
+        	   	    		$scope.onSelect({entities: []});
         	   	    	}
         	   	    });
         	  
@@ -95,6 +98,8 @@
         	   	    	});
         	   	    	if(selectedEntities.length > 0){
         	   	    		$scope.onSelect({entities: selectedEntities});
+        	   	    	}else{
+        	   	    		$scope.onSelect({entities: []});
         	   	    	}
         	   	    });	  
 

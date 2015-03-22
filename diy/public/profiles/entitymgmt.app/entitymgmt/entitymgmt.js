@@ -21,25 +21,27 @@
 		}
    	  	
    	  	$scope.selectEntity = function(entities){
-   	  		var entity = entities[entities.length-1];
-	  		selectEditorDomainType(entity.domainType);
-	   	  	app.meta.getMeta(entity.domainType.domainType).then(function(meta){
-	   	  		if(entity.id!=null){
-			   	  	app.sqlserver.loadEntity(meta.editor.entityType, entity.id).then(function(response){
-			   	  		if(response.success){
-				   	  		app.entities.loadReferences(entity, meta);
-					  		$scope.entity = entity;
-							setEditorPanel();		   	  			
-			   	  		}else{
-			   	  			app.alert.warning($scope.mainEntity+" Load Failure!");
-			   	  		}
-			   	  	});   	  		
-	   	  		}else{
-	   	  			$scope.entity = entity;
-	   	  		}
-	    	}, function(response){
-	    		console.warn(response);
-	    	});                  		
+   	  		if(entities.length > 0){
+	   	  		var entity = entities[entities.length-1];
+		  		selectEditorDomainType(entity.domainType);
+		   	  	app.meta.getMeta(entity.domainType.domainType).then(function(meta){
+		   	  		if(entity.id!=null){
+				   	  	app.sqlserver.loadEntity(meta.editor.entityType, entity.id).then(function(response){
+				   	  		if(response.success){
+					   	  		app.entities.loadReferences(entity, meta);
+						  		$scope.entity = entity;
+								setEditorPanel();		   	  			
+				   	  		}else{
+				   	  			app.alert.warning($scope.mainEntity+" Load Failure!");
+				   	  		}
+				   	  	});   	  		
+		   	  		}else{
+		   	  			$scope.entity = entity;
+		   	  		}
+		    	}, function(response){
+		    		console.warn(response);
+		    	});                  		
+   	  		}
    	  	}
    	  	
    	  	$scope.domainTypeSelected = function(domainType){

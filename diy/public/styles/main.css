@@ -88,10 +88,9 @@ body {
 .listgrid
 {
 	border: 1px solid rgb(212,212,212);
-	width: 100%;
+	width: 900px;
 	height: 500px;
 }
-
 
 .tasksgrid
 {
@@ -114,6 +113,6 @@ button.btn.btn-default.btn-block.ui-select-toggle {
 .overlayContent {  border: 2px solid;  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5); position:absolute; background-color:#364f78; border:1px solid #43679c; color:#fff; font-size:20px; font-style: italic; font-family:“Abel”, Arial Narrow, Arial, sans serif; padding-left: 20px; margin-top:5px; height: 70px;width: 300px;z-index:1000;text-align:left;}
 
 .search-modal-window .modal-dialog {
-  width: 1400px;
+  width: 1000px;
   height: 600px;
 }
