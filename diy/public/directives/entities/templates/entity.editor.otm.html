@@ -18,10 +18,10 @@
 						<div ng-repeat="subEntityField in tab.fields" ng-if="subEntityField.display!=false">
 							<label for="{{subEntityField.label}}">{{subEntityField.label}}:</label>
 							<div>
-								<div class="form-group" ng-if="subEntityField.type != 'file' && subEntityField.type != 'OTO'">
+								<div class="form-group" ng-if="subEntityField.type != 'file' && subEntityField.type != 'OTO' && subEntityField.type != 'owner'">
 									<span>{{subEntity[subEntityField.name]}}</span>
 								</div>
-								<div class="form-group" ng-if="subEntityField.type == 'OTO'">
+								<div class="form-group" ng-if="subEntityField.type == 'OTO' || subEntityField.type == 'owner'">
 									<span>{{subEntity[subEntityField.name].display}}</span>
 								</div>
 								<div class="form-group" ng-if="subEntityField.type == 'file'">
