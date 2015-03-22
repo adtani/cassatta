@@ -8,8 +8,8 @@
 		</div>
 		<tabset> 
 			<tab heading="{{tab.label}}" ng-repeat="tab in meta.editor.tabs track by $index">
-					<ng-form name="entityform" ng-disabled="'true'">
-					<fieldSet ng-disabled="entity == null">
+				<ng-form name="entityform">
+					<fieldSet>
 					<br/>
 					<div ng-repeat="field in tab.fields track by $index">
 						<div class="form-group" ng-if="field.validvalues != null && field.display != false">
@@ -111,7 +111,9 @@
 						<div class="form-group" ng-if="field.type == 'OTM'  && field.display != false">
 							<div entitymgmt-entity-editor-otm app="app" entity="entity" field="field"></div>
 						</div>
-					</div>		
+						
+					</div>
+					</fieldSet>
 					
 					<!-- Save Button -->
 					<div class="form-group col-md-12" ng-if="$index==0">
@@ -122,7 +124,6 @@
 						<button ng-if="entity.id != null" type="submit"
 							class="btn btn-primary" ng-click="deleteEntity()" ng-if="showDelete">Delete</button>
 					</div>				
-				</fieldSet>
 				</ng-form>								
 			</tab>
 		</tabset>

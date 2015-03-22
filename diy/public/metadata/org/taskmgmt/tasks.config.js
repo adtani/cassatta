@@ -103,7 +103,7 @@
     						    	required:false
     					        }
     						]	
-    					},
+    					},    					
     					{
     						name: "Tab 3",
     						label: "Comments",
@@ -117,7 +117,8 @@
     						    	required:false
     					        }
     						]	
-    					}											
+    					}										
+
     				]
     			},
     			
