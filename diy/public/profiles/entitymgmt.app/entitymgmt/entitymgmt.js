@@ -20,12 +20,8 @@
 			});
 		}
    	  	
-   	  	$scope.$on('entitymgmt.entity.selected', function(event, entities){
+   	  	$scope.selectEntity = function(entities){
    	  		var entity = entities[entities.length-1];
-   	  		selectEntity(entity);
-   	  	});
-   	  	
-   	  	function selectEntity(entity){
 	  		selectEditorDomainType(entity.domainType);
 	   	  	app.meta.getMeta(entity.domainType.domainType).then(function(meta){
 	   	  		if(entity.id!=null){
@@ -73,7 +69,7 @@
 		//START-EVENT-HANDLING
    	  	$scope.newEntity = function(domainType){
    	  		var entity = app.entities.newEntity(domainType);
-			selectEntity(entity);
+			$scope.selectEntity([entity]);
 		}
    	  	
    	  	function setEditorPanel(){

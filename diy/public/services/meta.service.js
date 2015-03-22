@@ -9,6 +9,7 @@
     	
         return {
         	getMeta : getMeta,
+        	getRegisteredDomainType: getRegisteredDomainType,
         	getRegisteredDomainTypes : getRegisteredDomainTypes
         };
 
@@ -29,6 +30,14 @@
     			});
     		}
     		return deferred.promise;
+    	}
+    	
+    	function getRegisteredDomainType(domainType){
+    		return getRegisteredDomainTypes().then(function(domainTypes){
+    			return $.grep(domainTypes, function(registeredDomainType){
+    				return registeredDomainType.domainType == domainType;
+    			})[0];
+    		});
     	}
     	
     	function getRegisteredDomainTypes(){

@@ -10,9 +10,11 @@
             	domainType: "=?",
             	app: "=",
             	meta: "=?",
+            	multiSelect: "@",
             	entities: "=?",
             	onNew: "&",
-            	gridOptions:"=?"
+            	gridOptions:"=?",
+            	onSelect: "&"
             },
             templateUrl: '/directives/entities/templates/entity.grid.view.html',
             controller: function($scope){
@@ -23,7 +25,7 @@
            	  		enableSelectAll: true,
            	    	rowHeight: 35,
            	    	showGridFooter:true,
-           	    	multiSelect:true,
+           	    	multiSelect:$scope.multiSelect!=null? $scope.multiSelect : true,
            	    	enableColumnResizing: true,
            	    	enablePagination : true,
            	    	enableGridMenu :true,
@@ -78,7 +80,7 @@
         	   	    	app.log.log(msg);
         	   	    	if(row.isSelected){
         		   	    	var task = row.entity;
-        		   	    	app.root.$broadcast('entitymgmt.entity.selected',[task]);
+        		   	    	$scope.onSelect({entities: [task]});
         	   	    	}
         	   	    });
         	  
@@ -92,7 +94,7 @@
         	   	    		}
         	   	    	});
         	   	    	if(selectedEntities.length > 0){
-        	   	    		app.root.$broadcast('entitymgmt.entity.selected',selectedEntities);
+        	   	    		$scope.onSelect({entities: selectedEntities});
         	   	    	}
         	   	    });	  
 
@@ -199,6 +201,7 @@
            	  	});   	  	
            	  	
     			$scope.restoreState();
+    			$scope.refresh();
            	  	//GRID-MANAGEMENT-END
             }
         };

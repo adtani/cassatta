@@ -2,6 +2,24 @@
 
     var myApp = angular.module('angularApp');
     myApp.directive('entitymgmtEntityEditor', ['app', entityMgmtEntityEditor]);
+    
+	myApp.controller('entitySearchDialog',['$scope', '$modalInstance', 'data', function($scope,$modalInstance,data){
+		$scope.data = data;
+		
+   	  	$scope.selectEntity = function(entities){
+   	  		var entity = entities[entities.length-1];
+   	  		$scope.data.entity = entity;
+   	  	};
+
+		$scope.cancel = function(){
+			$modalInstance.dismiss(null);
+		}; // end cancel
+		
+		$scope.save = function(){
+			$modalInstance.close($scope.data.entity);
+		}; // end save
+		
+	}]) 
 
     function entityMgmtEntityEditor(app) {
         return {
@@ -32,7 +50,6 @@
 	    		$scope.open = function($event) {
 	    			$event.preventDefault();
 	    			$event.stopPropagation();
-	
 	    			$scope.opened = true;
 	    		};
 	    		
@@ -51,6 +68,26 @@
 	        	
 	        	//START-LOOKUP-MANAGEMENT
 	       	  	$scope.results = [{id:1,name:"result1",displaytext:"result1text"},{id:2,name:"result2",displaytext:"result2text"}];
+	       	  	
+	       	  	$scope.showEntitySearchDialog = function(field){
+	       	  		app.meta.getRegisteredDomainType(field.domainType).then(function(domainType){
+			       	  	var dlg = app.dialogs.create('/directives/entities/templates/entity.search.html','entitySearchDialog',{domainType:domainType, field:field, meta:field.meta}, {windowClass:'search-modal-window'});
+						dlg.result.then(function(entity){
+							if(entity!=null){
+			       	  			app.meta.getMeta(field.domainType).then(function(entityMeta){
+    		   		    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
+    			   		   	  			return field.searchable == true;
+    			   		   	  		});
+    		   		    			entity.display = "["+entity.id+"]: "+entity[searchableFields[0].name];
+			       	  			});	       	  			
+								$scope.entity[field.name] = entity;
+							}
+						},function(){
+							if(angular.equals($scope.name,''))
+								$scope.name = 'You did not enter in your name!';
+						});
+	       	  		});
+	       	  	};
 	       	  	
 	       	  	$scope.searchEntities = function(fieldName, domainType, pattern){
 	       	  		if(pattern.length > 2){

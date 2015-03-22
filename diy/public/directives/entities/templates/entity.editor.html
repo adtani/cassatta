@@ -45,9 +45,9 @@
 							<textarea ng-model="entity[field.name]" class="form-control" rows="5"
 								ng-required="{{field.required}}"></textarea>
 						</div>
+						
 						<div class="form-group" style="margin:0px"  ng-if="field.type == 'date' && field.display != false">
 							<label for="{{field.name}}">{{field.label}}:</label>
-							
 							<p class="input-group">
 								<input type="text" 
 								       class="form-control" 
@@ -67,13 +67,19 @@
 						
 						<div class="form-group" ng-if="field.type == 'OTO'  && field.display != false">
 							<label for="{{field.name}}">{{field.label}}:</label>
-							<ui-select ng-required="{{field.required}}" ng-model="entity[field.name]" theme="bootstrap"
-								reset-search-input="false" style="width: 100%;"> <ui-select-match
-								placeholder="Search ...">{{$select.selected.display}}</ui-select-match>
-							<ui-select-choices repeat="result in results[field.name] track by $index"
-								refresh="searchEntities(field.name, field.domainType, $select.search)" refresh-delay="1000">
-							<div ng-bind-html="result.display | highlight: $select.search"></div>
-							</ui-select-choices> </ui-select>
+							<div class="input-group">
+								<ui-select ng-required="{{field.required}}" ng-model="entity[field.name]" theme="bootstrap"
+									reset-search-input="false" style="width: 100%;"> <ui-select-match
+									placeholder="Search ...">{{$select.selected.display}}</ui-select-match>
+								<ui-select-choices repeat="result in results[field.name] track by $index"
+									refresh="searchEntities(field.name, field.domainType, $select.search)" refresh-delay="1000">
+								<div ng-bind-html="result.display | highlight: $select.search"></div>
+								</ui-select-choices> </ui-select>
+							    <span class="input-group-btn">
+									<button type="submit"
+									class="btn btn-primary" ng-click="showEntitySearchDialog(field)">Search</button>
+								</span>
+							</div>
 						</div>	
 						
 						<div class="form-group" ng-if="field.type == 'file' && field.display != false">

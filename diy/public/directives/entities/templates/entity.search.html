@@ -1,0 +1,19 @@
+<div class="modal-header">
+	<h4 class="modal-title">
+		<span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;Select {{data.field.label}}
+	</h4>
+</div>
+<div class="modal-body">
+	<div class="panel {{panelType!=null?panelType:'panel-success'}}">
+		<div class="panel-heading">Entity Search</div>
+		<div class="panel-body">
+			<div entitymgmt-entity-grid-view domain-type="data.domainType" multi-select="false"
+				on-new="newEntity(data.domainType)" on-select="selectEntity(entities)" entities="entities" meta="data.meta" />
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+	<button type="button" class="btn btn-primary" ng-click="save()"
+		ng-disabled="data.entity==null">Save</button>
+</div>
