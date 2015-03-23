@@ -16,6 +16,9 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Data
 @Entity 
 @Table (name = "user")
@@ -47,7 +50,7 @@ public class User {
 	@Column(nullable = false, name = "ENTITY_TYPE")
 	private String entityType = "org.users";
 	
-    @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY, mappedBy = "user",  orphanRemoval = true)
     private List<Role> roles;
 
 }

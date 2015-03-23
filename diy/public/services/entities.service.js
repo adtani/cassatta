@@ -160,17 +160,19 @@
 	    			entity.id = response.id;
 	    	   	 	
 	    			var promises = [];
-	    			//save nested entities with this id now...
-	    			angular.forEach(allfields, function(field){
-		   	  			if(field.type == 'OTM' && field.embedded != true){
-		   	  				if(entity[field.name]!=null){
-			   	  				angular.forEach(entity[field.name], function(subEntity){
-			   	  					subEntity[field.reverseReference] = {id: entity.id};
-			   	  					promises.push(saveEntityBasedOnMeta(subEntity, field.meta, null));
-			   	  				});
-		   	  				}
-		   	  			}
-		   	  		});
+	    			if(entityToBeSaved.deleted != true){
+		    			//save nested entities with this id now...
+		    			angular.forEach(allfields, function(field){
+			   	  			if(field.type == 'OTM' && field.embedded != true){
+			   	  				if(entity[field.name]!=null){
+				   	  				angular.forEach(entity[field.name], function(subEntity){
+				   	  					subEntity[field.reverseReference] = {id: entity.id};
+				   	  					promises.push(saveEntityBasedOnMeta(subEntity, field.meta, null));
+				   	  				});
+			   	  				}
+			   	  			}
+			   	  		});
+	    			}
 	    			
 	    			if(promises.length > 0){
 		    			app.q.all(promises).then(function(responses){

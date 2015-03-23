@@ -70,13 +70,13 @@ public class Task {
 	@Column(nullable = true, name = "PARENTAGE")
 	private String parentage;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent", orphanRemoval=true)
     private List<Task> subTasks;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "task")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "task", orphanRemoval=true)
     private List<TaskFile> files;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "task")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "task", orphanRemoval=true)
     private List<TaskComment> comments;
 
 }
