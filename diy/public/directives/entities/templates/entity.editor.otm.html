@@ -15,7 +15,7 @@
 					class="btn btn-primary pull-right" ng-click="deleteSubEntity(field, subEntity)">Remove</button>
 				<div>
 					<div ng-repeat="tab in field.meta.editor.tabs">
-						<div ng-repeat="subEntityField in tab.fields" ng-if="subEntityField.display!=false">
+						<div ng-repeat="subEntityField in field.meta.editor.fields" ng-if="subEntityField.display!=false">
 							<label for="{{subEntityField.label}}">{{subEntityField.label}}:</label>
 							<div>
 								<div class="form-group" ng-if="subEntityField.type != 'file' && subEntityField.type != 'OTO' && subEntityField.type != 'owner'">

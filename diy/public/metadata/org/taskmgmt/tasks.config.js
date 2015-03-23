@@ -9,123 +9,133 @@
     			entityType: "org.taskmgmt.tasks",
     			tabs : [
     				{
-    					name: "Tab 1",
-    					label: "General",
-    					fields: [
-    						    {
-    							    name:"id",
-    							    type:"id",
-    							    label:"ID",
-    							    required:true 
-    						    },
-    						    {
-    							    name:"entityType",
-    							    type:"entityType",
-    							    required:true
-    						    },
-    					        {
-    					        	name:"owner",
-    					        	label: "Owner",
-    					            type:"owner",
-    					            domainType:"org.users",
-    						    	required:true
-    					        },
-    					        {
-    					        	name:"parent",
-    					        	label: "Parent Task",
-    					            type:"OTO",
-    					            domainType:"org.taskmgmt.tasks",
-    						    	required:false
-    					        },
-    						    {
-    							    name:"title",
-    							    label:"Title",
-    							    type:"text",
-    							    required:true,
-    							    "searchable":true
-    						    },
-    					        {
-    				        		name:"assignee",
-    				        		"label" : "Assignee",
-    				            	type:"OTO",
-    				            	domainType:"org.users",
-    						    	required:true
-    					        },			    
-    						    {
-    							    name:"summary",
-    							    label:"Summary",
-    							    type:"textarea",
-    							    required:true
-    							},
-    						    {
-    							    name:"status",
-    							    label:"Status",
-    							    type:"text",
-    							    required:true,
-    							    validvalues:['OPEN','ASSIGNED','CLOSED', 'RE-OPENED']
-    						    },
-    						    {
-    						    	name:"priority",
-    						    	label:"Priority",
-    						    	type:"int",
-    							    required:true,
-    							    "validvalues":[
-    							    	{"id":1, "value":"High"},
-    							    	{"id":2, "value":"Medium"},
-    							    	{"id":3, "value":"Low"}
-    							    ]
-    						    },
-    						    {
-    						    	name:"dueDate",
-    						    	label:"Due Date",
-    						    	type:"date",
-    							    required:false
-    						    },
-    						    { 	
-    						    	name:"parentage",
-    						    	label:"Parentage",
-    						    	display: false,
-    						    	type:"text",
-    							    required:true
-    						    }
-    						]
-    					},
-    					{
-    						name: "Tab 2",
-    						label: "Files",
-    						fields: [
-    					        {
-    					        	name:"files",
-    					        	label:"File",
-    					            type:"OTM",
-    					            domainType:"org.taskmgmt.taskfiles",
-    					            reverseReference: "task",
-    						    	required:false
-    					        }
-    						]	
-    					},    					
-    					{
-    						name: "Tab 3",
-    						label: "Comments",
-    						fields: [
-    					        {
-    					        	name:"comments",
-    					        	label:"Comments",
-    					            type:"OTM",
-    					            domainType:"org.taskmgmt.taskcomments",
-    					            reverseReference: "task",
-    						    	required:false
-    					        }
-    						]	
-    					}										
-
-    				]
-    			},
+    					name: "default",
+    					label: "default"
+   					},
+					{
+						name: "files",
+						label: "Files"
+					},    					
+					{
+						name: "comments",
+						label: "Comments"
+					}										
+				],
+				fields: [
+				    {
+					    name:"id",
+					    type:"id",
+					    label:"ID",
+					    required:true,
+					    placement:"default"
+				    },
+				    {
+					    name:"entityType",
+					    type:"entityType",
+					    required:true,
+					    placement:"default"
+				    },
+			        {
+			        	name:"owner",
+			        	label: "Owner",
+			            type:"owner",
+			            domainType:"org.users",
+				    	required:true,
+					    placement:"default"
+			        },
+			        {
+			        	name:"parent",
+			        	label: "Parent Task",
+			            type:"OTO",
+			            domainType:"org.taskmgmt.tasks",
+				    	required:false,
+					    placement:"default"
+			        },
+				    {
+					    name:"title",
+					    label:"Title",
+					    type:"text",
+					    required:true,
+					    "searchable":true,
+					    placement:"default"
+				    },
+			        {
+		        		name:"assignee",
+		        		"label" : "Assignee",
+		            	type:"OTO",
+		            	domainType:"org.users",
+				    	required:true,
+					    placement:"default"
+			        },			    
+				    {
+					    name:"summary",
+					    label:"Summary",
+					    type:"textarea",
+					    required:true,
+					    placement:"default"
+					},
+				    {
+					    name:"status",
+					    label:"Status",
+					    type:"text",
+					    required:true,
+					    validvalues:['OPEN','ASSIGNED','CLOSED', 'RE-OPENED'],
+					    placement:"default"
+				    },
+				    {
+				    	name:"priority",
+				    	label:"Priority",
+				    	type:"int",
+					    required:true,
+					    "validvalues":[
+					    	{"id":1, "value":"High"},
+					    	{"id":2, "value":"Medium"},
+					    	{"id":3, "value":"Low"}
+					    ],
+					    placement:"default"
+				    },
+				    {
+				    	name:"dueDate",
+				    	label:"Due Date",
+				    	type:"date",
+					    required:false,
+					    placement:"default"
+				    },
+				    { 	
+				    	name:"parentage",
+				    	label:"Parentage",
+				    	display: false,
+				    	type:"text",
+					    required:true,
+					    placement:"default"
+				    },
+			        {
+			        	name:"files",
+			        	label:"File",
+			            type:"OTM",
+			            domainType:"org.taskmgmt.taskfiles",
+			            reverseReference: "task",
+				    	required:false,
+					    placement:"files"
+			        },
+			        {
+			        	name:"comments",
+			        	label:"Comments",
+			            type:"OTM",
+			            domainType:"org.taskmgmt.taskcomments",
+			            reverseReference: "task",
+				    	required:false,
+					    placement:"comments"
+			        }
+				]
+			},
     			
-    		listView: {
-    			entityType: "org.taskmgmt.tasksview",
-    			urlFilter:  "findByAssigneeIdAndStatusNot?assigneeId=:SESSION_USER_ID&status=CLOSED",
-    			fields: [
+    		listViews: [
+    		      {
+    		    	name:"default",
+	    			entityType: "org.taskmgmt.tasksview",
+	    			urlFilter:  "findByAssigneeIdAndStatusNot?assigneeId=:SESSION_USER_ID&status=CLOSED",
+	    			fields: [
     		   	    	    { 	name: "parentage", 
     		   	    	    	displayName: "Parents", 
     		   	    	    	enableCellEdit: false, 
@@ -168,7 +178,8 @@
     			            	allowCellFocus: false
     			            }
     			   	    ]
-    			},	
+    		      	}
+    		    ],
 	    	
 	        	actions : [
 	                 {
@@ -191,7 +202,6 @@
            	   		          });
 	              		   }
 	              	   }
-	                 
 	                 }
 	            ]
         };

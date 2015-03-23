@@ -11,8 +11,8 @@
 				<ng-form name="entityform">
 					<fieldSet ng-disabled="entity==null">
 					<br/>
-					<div ng-repeat="field in tab.fields">
-						<div class="form-group" ng-if="field.validvalues != null && field.display != false">
+					<div ng-repeat="field in meta.editor.fields">
+						<div class="form-group" ng-if="tab.name == field.placement && field.validvalues != null && field.display != false">
 							<label for="{{field.name}}">{{field.label}}:</label> 
 							<select class="form-control selectpicker" name="{{field.name}}"
 								ng-model="entity[field.name]" type="select" 
@@ -20,33 +20,33 @@
 								<option ng-repeat="value in field.validvalues" value="{{value.id!=null? value.id : value}}" {{entity[field.name]==value.id? 'selected':''}}>{{value.value!=null? value.id+' : '+value.value : value}}</option>
 							</select>
 						</div>
-						<div class="form-group" ng-if="field.type == 'text' && field.display != false && field.validvalues == null">
+						<div class="form-group" ng-if="tab.name == field.placement && field.type == 'text' && field.display != false && field.validvalues == null">
 							<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
 								ng-model="entity[field.name]" type="text" class="form-control"
 								ng-required="{{field.required}}"></input>
 						</div>
-						<div class="form-group" ng-if="field.type == 'boolean' && field.display != false && field.validvalues == null">
+						<div class="form-group" ng-if="tab.name == field.placement && field.type == 'boolean' && field.display != false && field.validvalues == null">
 							<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
 								ng-model="entity[field.name]" type="checkbox" class="form-control"
 								ng-required="{{field.required}}"></input>
 						</div>
-						<div class="form-group" ng-if="field.type == 'password' && field.display != false && field.validvalues == null">
+						<div class="form-group" ng-if="tab.name == field.placement && field.type == 'password' && field.display != false && field.validvalues == null">
 							<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
 								ng-model="entity[field.name]" type="password" class="form-control"
 								ng-required="{{field.required}}"></input>
 						</div>
-						<div class="form-group" ng-if="field.type == 'int' && field.display != false && field.validvalues == null">
+						<div class="form-group" ng-if="tab.name == field.placement && field.type == 'int' && field.display != false && field.validvalues == null">
 							<label for="{{field.name}}">{{field.label}}:</label> <input name="{{field.name}}"
 								ng-model="entity[field.name]" type="text" class="form-control"
 								ng-required="{{field.required}}"></input>
 						</div>
-						<div class="form-group" ng-if="field.type == 'textarea' && field.display != false">
+						<div class="form-group" ng-if="tab.name == field.placement && field.type == 'textarea' && field.display != false">
 							<label for="{{field.name}}">{{field.label}}:</label>
 							<textarea ng-model="entity[field.name]" class="form-control" rows="5"
 								ng-required="{{field.required}}"></textarea>
 						</div>
 						
-						<div class="form-group" style="margin:0px"  ng-if="field.type == 'date' && field.display != false">
+						<div class="form-group" style="margin:0px"  ng-if="tab.name == field.placement && field.type == 'date' && field.display != false">
 							<label for="{{field.name}}">{{field.label}}:</label>
 							<p class="input-group">
 								<input type="text" 
@@ -65,7 +65,7 @@
 							</p>
 						</div>
 						
-						<div class="form-group" ng-if="field.type == 'OTO'  && field.display != false">
+						<div class="form-group" ng-if="tab.name == field.placement && field.type == 'OTO'  && field.display != false">
 							<label for="{{field.name}}">{{field.label}}:</label>
 							<div class="input-group">
 								<ui-select ng-required="{{field.required}}" ng-model="entity[field.name]" theme="bootstrap"
@@ -82,7 +82,7 @@
 							</div>
 						</div>	
 						
-						<div class="form-group" ng-if="field.type == 'file' && field.display != false">
+						<div class="form-group" ng-if="tab.name == field.placement && field.type == 'file' && field.display != false">
 							<label for="{{field.name}}">{{field.label}}:</label>
 							<input name="{{field.name}}"
 									ng-model="entity[field.name]" type="hidden" class="form-control"
@@ -108,7 +108,7 @@
 							</div>
 						</div>
 						
-						<div class="form-group" ng-if="field.type == 'OTM'  && field.display != false">
+						<div class="form-group" ng-if="tab.name == field.placement && field.type == 'OTM'  && field.display != false">
 							<div entitymgmt-entity-editor-otm app="app" entity="entity" field="field"></div>
 						</div>
 						

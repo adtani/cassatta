@@ -9,66 +9,73 @@
 				entityType: "org.users",
 				tabs : [
 					{
-						name: "Tab 1",
-						label: "General",
-						fields: [
-				            { 
-				            	name: "id", 
-				            	label:"ID",
-				            	type:"id"
-				            },
-				            { 
-				            	name: "login", 
-				            	label: "Login",
-				            	searchable: true,
-				            	type:"text"
-				            },
-				            { 
-				            	name: "name", 
-				            	label: "Name",
-				            	searchable: true,
-				            	type:"text"
-				            },
-				            { 
-				            	name: "password", 
-				            	label: "Password",
-				            	searchable: true,
-				            	type:"password"
-				            },
-				            { 
-				            	name: "isAdmin", 
-				            	label: "Is Admin",
-				            	searchable: false,
-				            	type:"boolean"
-				            },
-				            { 
-				            	name: "access", 
-				            	label: "Access Level",
-				            	type:"int" 
-				            }
-						 ]
+						name: "default",
+						label: "General"
 					},
 					{
-						name: "Tab 2",
+						name: "roles",
 						label: "Privileges",
-						fields: [
-					        {
-					        	name:"roles",
-					        	label:"Role",
-					            type:"OTM",
-					            domainType:"org.roles",
-					            reverseReference: "user",
-						    	required:false
-					        }
-						]
-					}
-					
-				]	 
+					}					
+				],
+				
+				fields: [
+		            { 
+		            	name: "id", 
+		            	label:"ID",
+		            	type:"id",
+		            	placement:"default"
+		            },
+		            { 
+		            	name: "login", 
+		            	label: "Login",
+		            	searchable: true,
+		            	type:"text",
+		            	placement:"default"
+		            },
+		            { 
+		            	name: "name", 
+		            	label: "Name",
+		            	searchable: true,
+		            	type:"text",
+		            	placement:"default"
+		            },
+		            { 
+		            	name: "password", 
+		            	label: "Password",
+		            	searchable: true,
+		            	type:"password",
+		            	placement:"default"
+		            },
+		            { 
+		            	name: "isAdmin", 
+		            	label: "Is Admin",
+		            	searchable: false,
+		            	type:"boolean",
+		            	placement:"default"
+		            },
+		            { 
+		            	name: "access", 
+		            	label: "Access Level",
+		            	type:"int",
+		            	placement:"default"
+		            },
+			        {
+			        	name:"roles",
+			        	label:"Role",
+			            type:"OTM",
+			            domainType:"org.roles",
+			            reverseReference: "user",
+				    	required:false,
+				    	placement:"roles"
+			        }
+				 ]
 			},
 				
-			listView : {
-				entityType: "org.users",
-				fields: [
+			listViews : [
+			    {
+			    	name: "default",
+			    	entityType: "org.users",
+			    	fields: [
 			            { 
 			            	name: "id", 
 			            	displayName:"ID", 
@@ -99,7 +106,8 @@
 			            	displayName: "Access Level" 
 			            }
 			   	    ]
-			},
+			    }
+			],
 			
         	actions : [
                  

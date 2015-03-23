@@ -7,6 +7,7 @@
         return {
             restrict: 'EA',
             scope: {
+            	listView:"=",
             	domainType: "=?",
             	app: "=",
             	meta: "=?",
@@ -139,15 +140,16 @@
         		}
            	 
            	  	$scope.refresh = function(){
-           	  		if($scope.domainType!=null){
+    				if($scope.domainType!=null){
 	           	  		app.entities.clearCache();
 	           	  		app.meta.getMeta($scope.domainType.domainType).then(function(meta){
-	           	  			$scope.meta = meta;
+           	  	  			$scope.meta = meta;
+	           	  			$scope.myListView = initListView(meta);
 	                		$scope.gridOptions.columnDefs = [];
-	                		angular.forEach(meta.listView.fields, function(field){
+	                		angular.forEach($scope.myListView.fields, function(field){
 	                			$scope.gridOptions.columnDefs.push(field);
 	                		});
-	            	   	  	app.entities.loadEntities(meta.listView.entityType, meta.listView.urlFilter).then(function(entities){
+	            	   	  	app.entities.loadEntities($scope.myListView.entityType, $scope.myListView.urlFilter).then(function(entities){
 			       	  			angular.forEach(entities, function(entity){
 			       	  				entity.domainType = $scope.domainType;
 			       	  			});
@@ -173,19 +175,31 @@
         				$scope.gridApi.saveState.restore( $scope, $scope.state );
         			}
         		};
-        		
+
+        		$scope.$watch('listView', function(newValue, oldValue){
+        			if(newValue != oldValue){
+                    	$scope.refresh();
+        			}
+        		});
+
         		$scope.$watch('domainType', function(newValue, oldValue){
         			if(newValue != oldValue){
         				$scope.refresh();
         			}
         		});
+        		
+        		function initListView(meta){
+        			return $.grep(meta.listViews, function(listView){
+                		return listView.name == $scope.listView;
+                	})[0];        			
+        		}
 
            	  	$scope.$on('entitymgmt.entity.saved', function(event, entities){
            	  		var entitiesMatchingEntityType = $.grep($scope.gridOptions.data, function(entity){return entities[0].domainType.name == $scope.domainType.name});
            	  		if(entitiesMatchingEntityType.length > 0){
 	   	   	  			var matchingEntities = $.grep($scope.gridOptions.data, function(entity){return entity.id==entities[0].id && entities[0].domainType.name == entity.domainType.name});
 	           	  		if(!entities[0].deleted){
-		           	   	  	app.sqlserver.loadEntity($scope.meta.listView.entityType, entities[0].id).then(function(response){
+		           	   	  	app.sqlserver.loadEntity($scope.myListView.entityType, entities[0].id).then(function(response){
 		           	   	  		if(response.success){
 			       	  				response.entity.domainType = $scope.domainType;
 		           	   	  			if(matchingEntities.length > 0){

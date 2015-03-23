@@ -30,14 +30,15 @@
 				   	  		if(response.success){
 					   	  		app.entities.loadReferences(entity, meta);
 						  		$scope.entity = entity;
-								setEditorPanel();		   	  			
 				   	  		}else{
 				   	  			app.alert.warning($scope.mainEntity+" Load Failure!");
 				   	  		}
 				   	  	});   	  		
 		   	  		}else{
+		   	  			app.entities.loadReferences(entity, meta);
 		   	  			$scope.entity = entity;
 		   	  		}
+					setEditorPanel();		   	  			
 		    	}, function(response){
 		    		console.warn(response);
 		    	});                  		

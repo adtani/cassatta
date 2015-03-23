@@ -46,7 +46,7 @@
         function loadReferences(entity, meta){
         	var allfields = getAllFields(meta);
    	  		angular.forEach(allfields, function(field){
-   	  			if((field.type == 'OTO' || field.type == 'owner')){
+   	  			if(entity.id!=null && (field.type == 'OTO' || field.type == 'owner')){
    	  				loadOTAReference(entity,field);
    	  			}
 	   	  		if(field.type == 'OTM'){
@@ -74,7 +74,7 @@
 	   	    				entity[field.name] = response.entity;
 	   	    				//set display on it, since it may not be already set by the server..
 	   	    				app.meta.getMeta(response.entity.entityType).then(function(entityMeta){
-				    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
+				    			var searchableFields = $.grep(entityMeta.editor.fields, function(field){
 		   		   	  				return field.searchable == true;
 		   		   	  			});
 				    			response.entity.display = "["+response.entity.id+"]: "+ response.entity[searchableFields[0].name];
@@ -90,7 +90,7 @@
   			app.meta.getMeta(field.domainType).then(function(fieldMeta){
   				field.meta = fieldMeta;
    				entity['_new_'+field.name] = {};
-   				if(field.embedded != true){
+   				if(field.embedded != true && entity.id != null){
 	  				app.sqlserver.loadNestedEntities(entity, field.name, field.meta.editor.entityType).then(function(response){
 	   	    			if(response.success){
 	   	    				entity[field.name] = response.entities;
@@ -104,7 +104,7 @@
         }
         
         function setDisplayOnNestedEntities(entity, field, meta){
-			var searchableFields = $.grep(meta.editor.tabs[0].fields, function(field){
+			var searchableFields = $.grep(meta.editor.fields, function(field){
   	  				return field.searchable == true;
   	  			});
 			angular.forEach(entity[field.name], function(nestedEntity){
@@ -142,18 +142,9 @@
    	  	
    	  	function getAllFields(entityMeta){
    	  		var allfields = [];
-	   	  	if(entityMeta.editor.tabs!=null){
-	   	  		angular.forEach(entityMeta.editor.tabs, function(tab){
-			  		angular.forEach(tab.fields, function(field){
-			  			allfields.push(field);
-			  		});
-			  	});
-	   	  	}
-	   	  	if(entityMeta.editor.fields!=null){
-		   	  	angular.forEach(entityMeta.editor.fields, function(field){
-		   	  		allfields.push(field);
-		  		});
-	   	  	}   
+	  		angular.forEach(entityMeta.editor.fields, function(field){
+	  			allfields.push(field);
+	  		});
 	   	  	return allfields;
    	  	}
    	  	
@@ -214,20 +205,10 @@
    	  	}
 
    	  	function populateFieldsBasedOnMeta(entityToBeSaved, entity, entityMeta, allfields){
-	   	  	if(entityMeta.editor.tabs!=null){
-	   	  		angular.forEach(entityMeta.editor.tabs, function(tab){
-			  		angular.forEach(tab.fields, function(field){
-			  			allfields.push(field);
-			  			populateField(entityToBeSaved, entity, field, entityMeta);
-			  		});
-			  	});
-	   	  	}
-	   	  	if(entityMeta.editor.fields!=null){
-		   	  	angular.forEach(entityMeta.editor.fields, function(field){
-		   	  		allfields.push(field);
-		  			populateField(entityToBeSaved, entity, field, entityMeta);
-		  		});
-	   	  	}   
+	  		angular.forEach(entityMeta.editor.fields, function(field){
+	  			allfields.push(field);
+	  			populateField(entityToBeSaved, entity, field, entityMeta);
+	  		});
 	   	  	populateImplicitFields(entityToBeSaved, entity, entityMeta);
    	  	}
    	  	
