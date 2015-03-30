@@ -1,8 +1,12 @@
-package org.cassatta.appbuilder.apps.system;
+package org.cassatta.appbuilder.apps.system.repositories;
 
 import java.net.URI;
 
-import org.cassatta.appbuilder.apps.taskmgmt.TaskMgmtRepositoryConfiguration;
+import org.cassatta.appbuilder.apps.system.BaseEntity;
+import org.cassatta.appbuilder.apps.system.Persistable;
+import org.cassatta.appbuilder.apps.system.Role;
+import org.cassatta.appbuilder.apps.system.User;
+import org.cassatta.appbuilder.apps.taskmgmt.repositories.TaskMgmtRepositoryConfiguration;
 import org.cassatta.appbuilder.filters.AuthenticationInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;

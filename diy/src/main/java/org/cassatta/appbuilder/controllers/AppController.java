@@ -7,7 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.cassatta.appbuilder.apps.system.User;
-import org.cassatta.appbuilder.apps.system.UserRepository;
+import org.cassatta.appbuilder.apps.system.repositories.UserRepository;
 import org.cassatta.appbuilder.config.AppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

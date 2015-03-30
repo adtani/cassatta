@@ -2,7 +2,7 @@ package org.cassatta.appbuilder;
 
 import java.io.File;
 
-import org.cassatta.appbuilder.apps.system.RepositoryConfiguration;
+import org.cassatta.appbuilder.apps.system.repositories.RepositoryConfiguration;
 import org.cassatta.appbuilder.config.AppConfig;
 import org.cassatta.appbuilder.config.AppJpaRepository;
 import org.cassatta.appbuilder.config.AppMongoRepository;

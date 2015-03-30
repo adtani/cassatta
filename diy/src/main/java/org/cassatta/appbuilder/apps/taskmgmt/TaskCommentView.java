@@ -36,13 +36,13 @@ public class TaskCommentView  extends BaseEntity{
 	private long assigneeId;
 
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=User.class)
+	@JsonBackReference(value="task-comment-assignee")
 	private User assignee;
 
 	@Column(nullable = true, name = "TASK_ID", updatable=false, insertable=false)
 	private Long taskId;
 
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=Task.class)
-	@JsonBackReference
 	private Task task;
 
 	//Extra Fields ...

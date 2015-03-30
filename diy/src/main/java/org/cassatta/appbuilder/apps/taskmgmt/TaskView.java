@@ -6,18 +6,14 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 import org.cassatta.appbuilder.apps.system.BaseEntity;
 import org.cassatta.appbuilder.apps.system.User;
-
-import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -58,13 +54,13 @@ public class TaskView  extends BaseEntity{
 	@Column(nullable = true, name = "PARENTAGE")
 	private String parentage;
 	
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+    @OneToMany(mappedBy = "parent")
     private List<TaskView> subTasks;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "task")
+    @OneToMany(cascade=CascadeType.REMOVE, mappedBy = "task")
     private List<TaskFile> files;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "task")
+    @OneToMany(cascade=CascadeType.REMOVE, mappedBy = "task")
     private List<TaskComment> comments;
     
     //Extra fields ...

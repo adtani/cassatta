@@ -1,8 +1,10 @@
-package org.cassatta.appbuilder.apps.taskmgmt;
+package org.cassatta.appbuilder.apps.taskmgmt.repositories;
 
 import java.util.List;
 
 import org.cassatta.appbuilder.apps.system.User;
+import org.cassatta.appbuilder.apps.taskmgmt.Task;
+import org.cassatta.appbuilder.apps.taskmgmt.TaskView;
 import org.cassatta.appbuilder.config.AppJpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;

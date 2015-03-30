@@ -247,6 +247,7 @@
 			}else{
 				entityToBeSaved['updateTimestamp'] = moment().format('YYYY-MM-DD');
 				entityToBeSaved['createTimestamp'] = moment().format('YYYY-MM-DD');
+				entity['createTimestamp'] = entityToBeSaved['createTimestamp'];
 			}
    	  	}
     }

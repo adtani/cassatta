@@ -42,7 +42,7 @@ public class TaskComment  extends BaseEntity{
 	private Long taskId;
 
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=Task.class)
-	@JsonBackReference
+	@JsonBackReference(value="task")
 	private Task task;
 
 }

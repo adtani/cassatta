@@ -31,7 +31,6 @@ public class TaskFileView  extends BaseEntity {
 	private Long taskId;
 
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=Task.class)
-	@JsonBackReference
 	private Task task;
 	
 	//Extra Fields ...

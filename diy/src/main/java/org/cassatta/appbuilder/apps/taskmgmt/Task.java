@@ -17,6 +17,7 @@ import org.cassatta.appbuilder.apps.system.BaseEntity;
 import org.cassatta.appbuilder.apps.system.User;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Data
 @Entity 
@@ -48,7 +49,7 @@ public class Task extends BaseEntity {
 	private Long parentId;
 
 	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=Task.class)
-	@JsonBackReference
+	@JsonBackReference(value="parent")
 	private Task parent;
 
 	@Column(nullable = true, name = "PARENTAGE")

@@ -1,4 +1,4 @@
-package org.cassatta.appbuilder.apps.system;
+package org.cassatta.appbuilder.apps.system.repositories;
 
 import org.cassatta.appbuilder.apps.system.Role;
 import org.cassatta.appbuilder.config.AppJpaRepository;

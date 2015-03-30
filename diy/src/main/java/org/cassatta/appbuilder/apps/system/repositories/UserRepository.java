@@ -1,4 +1,4 @@
-package org.cassatta.appbuilder.apps.system;
+package org.cassatta.appbuilder.apps.system.repositories;
 
 import java.util.List;
 
