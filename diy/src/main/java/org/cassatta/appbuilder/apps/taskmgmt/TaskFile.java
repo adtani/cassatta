@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.cassatta.appbuilder.apps.system.BaseEntity;
 import org.cassatta.appbuilder.apps.system.User;
 
 import lombok.Data;
@@ -18,27 +19,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Data
 @Entity 
 @Table (name = "taskmgmt_taskfiles")
-public class TaskFile {
+public class TaskFile  extends BaseEntity{
 
-	@Id
-	@Column(nullable = false, name = "ID")	
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-
-	@Column(nullable = true, name = "ENTITY_TYPE")
-	private String entityType;
-	
 	@Column(nullable = false, name = "NAME")
 	private String name;
 
 	@Column(nullable = false, name = "PATH")
 	private String path;
-	
-	@Column(nullable = false, name = "OWNER_ID", updatable=false, insertable=false)
-	private long ownerId;
-	
-	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=User.class)
-	private User owner;
 	
 	@Column(nullable = true, name = "TASK_ID", updatable=false, insertable=false)
 	private Long taskId;

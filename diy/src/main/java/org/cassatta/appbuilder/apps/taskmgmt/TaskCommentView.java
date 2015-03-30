@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.cassatta.appbuilder.apps.system.BaseEntity;
 import org.cassatta.appbuilder.apps.system.User;
 
 import lombok.Data;
@@ -20,16 +21,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Data
 @Entity 
 @Table (name = "taskmgmt_taskcommentsview")
-public class TaskCommentView {
+public class TaskCommentView  extends BaseEntity{
 
-	@Id
-	@Column(nullable = false, name = "ID")	
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-
-	@Column(nullable = true, name = "ENTITY_TYPE")
-	private String entityType;
-	
 	@Column(nullable = false, name = "TITLE")
 	private String title;
 
@@ -38,19 +31,7 @@ public class TaskCommentView {
 	
 	@Column(nullable = false, name = "STATUS")
 	private String status;
-	
-	@Column(name = "CREATE_DATE")
-	private Date createDate;
-	
-	@Column(name = "UPDATE_DATE")
-	private Date updateDate;
 
-	@Column(nullable = false, name = "OWNER_ID", updatable=false, insertable=false)
-	private long ownerId;
-	
-	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=User.class)
-	private User owner;
-	
 	@Column(nullable = false, name = "ASSIGNEE_ID", updatable=false, insertable=false)
 	private long assigneeId;
 

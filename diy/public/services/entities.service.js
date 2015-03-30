@@ -134,9 +134,11 @@
 
    	  	function saveEntity(entity, domainType){
    	  		var deferred = app.q.defer();
-	   	  	app.meta.getMeta(domainType).then(function(entityMeta){
-	   	  		saveEntityBasedOnMeta(entity, entityMeta, deferred);
-	   	  	});
+			require(["bower_components/moment/moment"], function(meta) {
+		   	  	app.meta.getMeta(domainType).then(function(entityMeta){
+		   	  		saveEntityBasedOnMeta(entity, entityMeta, deferred);
+		   	  	});
+			});
 	   	  	return deferred.promise;
    	  	}
    	  	
@@ -239,12 +241,14 @@
 			entityToBeSaved['entityType'] = entityMeta.editor.entityType;
 			entityToBeSaved['owner'] = "/org.users/"+$rootScope.session.user.id;
 			entityToBeSaved['deleted'] = entity['deleted'];
-			entityToBeSaved['updatedOn'] = new Date();
-			if(entityToBeSaved.id==null){
-				entityToBeSaved['createOn'] = new Date();
+			if(entity.id!=null){
+				entityToBeSaved['updateTimestamp'] = moment().format('YYYY-MM-DD');
+				entityToBeSaved['createTimestamp'] = entity['createTimestamp'];
+			}else{
+				entityToBeSaved['updateTimestamp'] = moment().format('YYYY-MM-DD');
+				entityToBeSaved['createTimestamp'] = moment().format('YYYY-MM-DD');
 			}
    	  	}
-
     }
 
 })();

@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.cassatta.appbuilder.apps.system.BaseEntity;
 import org.cassatta.appbuilder.apps.system.User;
 
 import lombok.Data;
@@ -23,15 +24,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Data
 @Entity 
 @Table (name = "taskmgmt_tasksview")
-public class TaskView {
-
-	@Id
-	@Column(nullable = false, name = "ID")	
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-
-	@Column(nullable = true, name = "ENTITY_TYPE")
-	private String entityType;
+public class TaskView  extends BaseEntity{
 	
 	@Column(nullable = false, name = "TITLE")
 	private String title;
@@ -47,13 +40,6 @@ public class TaskView {
 
 	@Column(name = "DUE_DATE")
 	private Date dueDate;
-
-	@Column(nullable = false, name = "OWNER_ID", updatable=false, insertable=false)
-	private long ownerId;
-
-
-	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=User.class)
-	private User owner;
 
 	@Column(nullable = false, name = "ASSIGNEE_ID", updatable=false, insertable=false)
 	private long assigneeId;

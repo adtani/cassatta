@@ -9,26 +9,18 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import lombok.Data;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Data
 @Entity 
 @Table (name = "user_roles")
-public class Role {
+public class Role extends Persistable{
 
-	@Id
-	@Column(nullable = false, name = "ID")	
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-	
 	@Column(nullable = false, name = "ROLE_NAME")
 	private String roleName;
 	
-	@Column(nullable = false, name = "ENTITY_TYPE")
-	private String entityType;
-
 	@Column(nullable = false, name = "USER_ID", updatable=false, insertable=false)
 	private long userId;
 

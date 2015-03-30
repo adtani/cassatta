@@ -25,9 +25,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration	
 @ComponentScan
+@Import(RepositoryConfiguration.class)
 @EnableJpaRepositories(basePackages="org.cassatta.appbuilder", includeFilters=@Filter(AppJpaRepository.class))
 @EnableMongoRepositories(basePackages="org.cassatta.appbuilder", includeFilters=@Filter(AppMongoRepository.class))
-@Import(RepositoryConfiguration.class)
 @EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
 public class Application {
 

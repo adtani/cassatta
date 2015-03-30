@@ -22,14 +22,8 @@ import org.hibernate.annotations.OnDeleteAction;
 @Data
 @Entity 
 @Table (name = "user")
-@Inheritance(strategy = InheritanceType.JOINED)
-public class User {
+public class User extends Persistable {
 
-	@Column(nullable = false, name = "ID")	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-	
 	private String authorization;
 	
 	@Column(nullable = false, name = "LOGIN")
@@ -47,10 +41,7 @@ public class User {
 	@Column(nullable = false, name = "ACCESS_LEVEL")
 	private int access;
 
-	@Column(nullable = false, name = "ENTITY_TYPE")
-	private String entityType = "org.users";
-	
-    @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY, mappedBy = "user",  orphanRemoval = true)
+   @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")
     private List<Role> roles;
 
 }

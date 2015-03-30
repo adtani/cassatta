@@ -7,31 +7,21 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.cassatta.appbuilder.apps.system.User;
-
 import lombok.Data;
+
+import org.cassatta.appbuilder.apps.system.BaseEntity;
+import org.cassatta.appbuilder.apps.system.User;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Data
 @Entity 
 @Table (name = "taskmgmt_tasks")
-public class Task {
-
-	@Id
-	@Column(nullable = false, name = "ID")	
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
-
-	@Column(nullable = true, name = "ENTITY_TYPE")
-	private String entityType;
+public class Task extends BaseEntity {
 	
 	@Column(nullable = false, name = "TITLE")
 	private String title;
@@ -47,12 +37,6 @@ public class Task {
 
 	@Column(name = "DUE_DATE")
 	private Date dueDate;
-
-	@Column(nullable = false, name = "OWNER_ID", updatable=false, insertable=false)
-	private long ownerId;
-	
-	@ManyToOne(cascade = CascadeType.DETACH, targetEntity=User.class)
-	private User owner;
 
 	@Column(nullable = false, name = "ASSIGNEE_ID", updatable=false, insertable=false)
 	private long assigneeId;
@@ -70,13 +54,13 @@ public class Task {
 	@Column(nullable = true, name = "PARENTAGE")
 	private String parentage;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent", orphanRemoval=true)
+    @OneToMany(mappedBy = "parent",  cascade=CascadeType.REMOVE)
     private List<Task> subTasks;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "task", orphanRemoval=true)
+    @OneToMany(mappedBy = "task",  cascade=CascadeType.REMOVE)
     private List<TaskFile> files;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "task", orphanRemoval=true)
+    @OneToMany(mappedBy = "task", cascade=CascadeType.REMOVE)
     private List<TaskComment> comments;
 
 }

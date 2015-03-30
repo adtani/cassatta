@@ -86,7 +86,7 @@
 						dlg.result.then(function(entity){
 							if(entity!=null){
 			       	  			app.meta.getMeta(field.domainType).then(function(entityMeta){
-    		   		    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
+    		   		    			var searchableFields = $.grep(entityMeta.editor.fields, function(field){
     			   		   	  			return field.searchable == true;
     			   		   	  		});
     		   		    			entity.display = "["+entity.id+"]: "+entity[searchableFields[0].name];
@@ -106,13 +106,13 @@
 		    		   	 	app.sqlserver.loadEntities(entityMeta.editor.entityType).then(function(response){
 		    		    		if(response.success){
 	    		   		    		$scope.results[fieldName] = $.grep(response.entities, function(entity){
-	    			   		   	  		var matchedFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
+	    			   		   	  		var matchedFields = $.grep(entityMeta.editor.fields, function(field){
 	    			   		   	  			return field.searchable == true && entity[field.name].indexOf(pattern) >= 0;
 	    			   		   	  		});
 	    			   		   	  		return matchedFields.length > 0;
 	    			    			});		   
 	    		   		    		angular.forEach($scope.results[fieldName], function(result){
-	    		   		    			var searchableFields = $.grep(entityMeta.editor.tabs[0].fields, function(field){
+	    		   		    			var searchableFields = $.grep(entityMeta.editor.fields, function(field){
 	    			   		   	  			return field.searchable == true;
 	    			   		   	  		});
 	    		   		    			result.display = "["+result.id+"]: "+result[searchableFields[0].name];
