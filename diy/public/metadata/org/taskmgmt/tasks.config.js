@@ -10,7 +10,7 @@
     			tabs : [
     				{
     					name: "default",
-    					label: "default"
+    					label: "General"
    					},
 					{
 						name: "files",

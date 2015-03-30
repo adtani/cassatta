@@ -11,7 +11,8 @@
 		<div class="panel-heading">Entity Search</div>
 		<div class="panel-body">
 			<div entitymgmt-entity-grid-view domain-type="data.domainType"
-				show-button-panel="false" multi-select="false"
+				show-button-panel="false" multi-select="false",
+				list-view="'default'"
 				on-new="newEntity(data.domainType)"
 				on-select="selectEntity(entities)" entities="entities"
 				meta="data.meta" />
