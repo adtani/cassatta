@@ -9,6 +9,7 @@
     	$rootScope.intent = "Loading...";
         
         function init() {
+        	
         	//first things first, retrieve session state into root scope
         	app.session.init();
 //        	app.restheart.init();
@@ -18,6 +19,9 @@
         	if($rootScope.session.user == null){
         		$location.path("/login");
         	}
+
+        	//Load async dependencies via require.js
+        	require(["bower_components/moment/moment"], function(meta) {});
         }
 
         init();

@@ -2,19 +2,21 @@
 	<div class="col-md-9">
 		<div class="panel panel-primary">
 			<!-- Default panel contents -->
-			<div class="panel-heading">Document Management (powered by Generic EntityMgmt)</div>
+			<div class="panel-heading">Document Management (powered by
+				Generic EntityMgmt)</div>
 			<div class="panel-body">
-				<div entitymgmt-entity-grid-view domain-type="domainType"
-					on-new="newEntity(domainType)" entities="documents" />
+				<div entitymgmt-entity-grid-view list-view="'default'"
+					on-select="selectEntity(entities)" entities="entities" meta="meta"
+					domain-type="domainType" on-new="newEntity(domainType)" />
 			</div>
 		</div>
 	</div>
 	<div class="col-md-3">
-		<div class="col-md-12" entitymgmt-entity-editor action="Save"
-			domain-type="editorDomainType" show-delete="true" app="app"
-			entity="entity" meta="meta" panel-type="panelType"
-			title="title" on-save="saveEntity()" on-reset="resetEntity()"
-			on-delete="deleteEntity()"></div>
-	</div>
-	<br />
-</div>
+					<div class="col-md-12" entitymgmt-entity-editor action="Save"
+						domain-type="editorDomainType" show-delete="true" app="app"
+						entity="entity" meta="meta" panel-type="panelType" title="title"
+						on-save="saveEntity()" on-reset="resetEntity()"
+						on-delete="deleteEntity()"></div>
+				</div>
+				<br />
+			</div>

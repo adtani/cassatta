@@ -20,30 +20,28 @@
 			});
 		}
    	  	
-   	  	$scope.$on('entitymgmt.entity.selected', function(event, entities){
-   	  		var entity = entities[entities.length-1];
-   	  		selectEntity(entity);
-   	  	});
-   	  	
-   	  	function selectEntity(entity){
-	  		selectEditorDomainType(entity.domainType);
-	   	  	app.meta.getMeta(entity.domainType.domainType).then(function(meta){
-	   	  		if(entity.id!=null){
-			   	  	app.sqlserver.loadEntity(meta.editor.entityType, entity.id).then(function(response){
-			   	  		if(response.success){
-				   	  		app.entities.loadReferences(entity, meta);
-					  		$scope.entity = entity;
-							setEditorPanel();		   	  			
-			   	  		}else{
-			   	  			app.alert.warning($scope.mainEntity+" Load Failure!");
-			   	  		}
-			   	  	});   	  		
-	   	  		}else{
-	   	  			$scope.entity = entity;
-	   	  		}
-	    	}, function(response){
-	    		console.warn(response);
-	    	});                  		
+   	  	$scope.selectEntity = function(entities){
+			if(entities.length > 0){
+	   	  		var entity = entities[entities.length-1];    	  	
+	  			selectEditorDomainType(entity.domainType);
+		   	  	app.meta.getMeta(entity.domainType.domainType).then(function(meta){
+		   	  		if(entity.id!=null){
+			   		  	app.sqlserver.loadEntity(meta.editor.entityType, entity.id).then(function(response){
+				   	  		if(response.success){
+					   	  		app.entities.loadReferences(entity, meta);
+						  		$scope.entity = entity;
+								setEditorPanel();		   	  			
+			   	  			}else{
+			   	  				app.alert.warning($scope.mainEntity+" Load Failure!");
+			   	  			}
+			   		  	});   	  		
+	   	  			}else{
+	   		  			$scope.entity = entity;
+		   	  		}
+		    	}, function(response){
+	    			console.warn(response);
+	    		});  
+	    	}                		
    	  	}
    	  	
    	  	$scope.domainTypeSelected = function(domainType){
@@ -73,7 +71,7 @@
 		//START-EVENT-HANDLING
    	  	$scope.newEntity = function(domainType){
    	  		var entity = app.entities.newEntity(domainType);
-			selectEntity(entity);
+			$scope.selectEntity(entity);
 		}
    	  	
    	  	function setEditorPanel(){

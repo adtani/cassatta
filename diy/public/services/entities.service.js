@@ -134,11 +134,9 @@
 
    	  	function saveEntity(entity, domainType){
    	  		var deferred = app.q.defer();
-			require(["bower_components/moment/moment"], function(meta) {
-		   	  	app.meta.getMeta(domainType).then(function(entityMeta){
-		   	  		saveEntityBasedOnMeta(entity, entityMeta, deferred);
-		   	  	});
-			});
+		  	app.meta.getMeta(domainType).then(function(entityMeta){
+	   	  		saveEntityBasedOnMeta(entity, entityMeta, deferred);
+	   	  	});
 	   	  	return deferred.promise;
    	  	}
    	  	

@@ -130,6 +130,11 @@
    	  		if(taskToBeSaved.status == null){
    	  			taskToBeSaved.status = "NEW";
    	  		}
+   	  		
+   	  		//implicit fields ...
+			taskToBeSaved['updateTimestamp'] = moment().format('YYYY-MM-DD');
+			taskToBeSaved['createTimestamp'] = moment().format('YYYY-MM-DD');
+   	  		
    	  		taskToBeSaved.files = null;
    	  		return taskToBeSaved;
    	  	}
