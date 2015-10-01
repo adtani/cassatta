@@ -9,7 +9,7 @@
     		SQL_SERVER_URL: '/rest',
     		UPLOAD_SERVER_URL: '/upload',
 
-    		apptitle : "My Angular App V1.0 - Beta (Default Profile)",
+    		apptitle : "Cassatta V1.0 - Model Driven Application Development Platform",
     		
     		modules : [
     				{
